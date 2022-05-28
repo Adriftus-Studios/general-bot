@@ -267,7 +267,7 @@ async def message_sender(payload, serialize_data, payload_guild_id):
             *** Message Log Entry - {current_time} ***
             - {serialize_data["author_full_name"]} had their message deleted -
               **__Deleted By__**: {deleter.name}#{deleter.discriminator}
-              **__Message Author__**: {serialize_data["author_name"]}
+              **__Message Author__**: {serialize_data["author_full_name"]}
               **__Author ID__**: {serialize_data["author_id"]}
               **__Channel Info__**: <#{serialize_data["channel_id"]}> / {serialize_data["channel_id"]}
               **__Server Name__**: {serialize_data["server_name"]}
