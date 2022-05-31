@@ -1,3 +1,8 @@
+
+
+# TODO: This is not written correctly. I had started it, and then quit in lue of making more important features.
+#  We need to get this working. I think it's a great project for Indestructoyed.  - Drew
+
 import discord
 import config
 import secrets
@@ -5,8 +10,6 @@ from datetime import datetime
 from discord import app_commands
 from discord.ui import Select, View
 from discord.ext import commands, tasks
-from discord.app_commands import Choice
-from pymongo import MongoClient
 
 ref_rate = 5
 
