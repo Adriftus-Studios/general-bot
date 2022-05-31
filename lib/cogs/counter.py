@@ -3,7 +3,6 @@ import config
 import json
 import asyncio
 
-from discord import app_commands
 from discord.ext import commands
 
 
@@ -33,9 +32,12 @@ class Counter(commands.Cog, name="counter"):
                         await message.channel.send(f"{message.author.mention} has just helped reach a milestone!")
                         await message.pin(reason="Milestone Reached")
                 else:
-                    await asyncio.wait(1)
-                    await message.delete()
-                    print(f"Message deleted")
+                    try:
+                        await asyncio.sleep(0.2)
+                        await asyncio.wait_for(message.delete(), timeout=3)
+                        print(f"Message deleted")
+                    except asyncio.TimeoutError:
+                        print(f"Message delete failed. Time-out")
 
             except Exception as err:
                 await message.delete()
