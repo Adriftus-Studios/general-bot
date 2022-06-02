@@ -144,9 +144,10 @@ class ReloadView(View):
                 color=config.error
             )
             for file in os.listdir("lib/cogs"):
-                if file.endswith(".py"):
-                    c = file[:-3]
-                    embed.add_field(name=f"Cog:", value=f"{c}", inline=True)
+                if not file.endswith(".py"):
+                    return
+                c = file[:-3]
+                embed.add_field(name=f"Cog:", value=f"{c}", inline=True)
             await itx.followup.send(embed=embed)
         await itx.edit_original_message(view=None)
 
