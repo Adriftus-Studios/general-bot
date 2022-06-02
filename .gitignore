@@ -22,13 +22,16 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
-secrets.py
 nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
 cover/
+
+# Specific Files
+banned_reply.txt
+secrets.py
 
 # Translations
 *.mo
