@@ -42,9 +42,11 @@ Please see our [Contributing Guide](CONTRIBUTING.md) for a basic grounds on gett
 ### FAQ's
 
 > **Q:** *How can I assign myself a role in your discord?*
+> 
 > **A:** __You can assign a role by running the command `/roles` in any channel! You can select any role from the list.__
 
 > **Q:** *How can I open a ticket for in game related issues?*
+> 
 > **A:** __If you type the command `/ticket`, you will be asked to input information about your issue.__
 >        __After you have submitted your issue, a channel will be created for you and moderation to discuss the issue.__
 
