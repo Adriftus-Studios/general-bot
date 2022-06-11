@@ -11,6 +11,17 @@ class LevelUp(commands.Cog, name="levelup"):
         self.db_client = secrets.MONGO_CLIENT
         self.db = self.db_client.Stats
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        author_id = message.user.id
+
+        user_id = {"_id": author_id}
+
+        if message.author.bot:
+            return
+
+
+
 # Level-up Check Command
     @app_commands.command(name="level",
                           description="See your server level, and other information!")
