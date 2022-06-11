@@ -112,7 +112,7 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
             itx.user.guild.me: discord.PermissionOverwrite(read_messages=True)
         }
 
-        channel = await itx.user.channel(985201287488499752).create_text_channel(f'Ticket - {itx.user}', overwrites=overwrites)
+        channel = await itx.user.guild.get_channel(985201287488499752).create_text_channel(f'Ticket - {itx.user}', overwrites=overwrites)
 
         await itx.response.send_message(f"Your ticket has been created at {channel.mention}!", ephemeral=True)
         await channel.send(content=itx.user.mention, embed=embed, view=ButtonView())
