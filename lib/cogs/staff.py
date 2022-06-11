@@ -92,7 +92,7 @@ class Staff(commands.Cog, name="staff"):
                 color=config.success
             )
             for s in synced_guilds:
-                embed.add_field(name=f"Guild:", value=f"{s.name}", inline=True)
+                embed.add_field(name=f"Guild:", value=f"{s}", inline=True)
 
             await itx.response.defer()
             await itx.followup.send(embed=embed)
