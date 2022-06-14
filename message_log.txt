@@ -1,0 +1,138 @@
+
+            *** Message Log Entry - Sat Jun 11 16:21:33 2022 ***
+            - Mutim#0001 had their message deleted -
+              **__Deleted By__**: Mutim#0001
+              **__Message Author__**: Mutim#0001
+              **__Author ID__**: 191440627802570752
+              **__Channel Info__**: <#970208822754963486> / 970208822754963486
+              **__Server Name__**: Adriftus Studios
+
+              **__Message:__**
+581
+            ----------------------------------------------------------------
+
+            
+            *** Message Log Entry - Sat Jun 11 16:21:57 2022 ***
+            - Mutim#0001 had their message deleted -
+              **__Deleted By__**: Mutim#0001
+              **__Message Author__**: Mutim#0001
+              **__Author ID__**: 191440627802570752
+              **__Channel Info__**: <#970208822754963486> / 970208822754963486
+              **__Server Name__**: Adriftus Studios
+
+              **__Message:__**
+579
+            ----------------------------------------------------------------
+
+            
+        - Executed **ticket** command in Adriftus Studios (ID: 601677205445279744) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+            *** Message Log Entry - Sat Jun 11 16:28:54 2022 ***
+            - Reds#8489 had their message deleted -
+              **__Deleted By__**: Reds#8489
+              **__Message Author__**: Reds#8489
+              **__Author ID__**: 391759011156066304
+              **__Channel Info__**: <#970208822754963486> / 970208822754963486
+              **__Server Name__**: Adriftus Studios
+
+              **__Message:__**
+583
+            ----------------------------------------------------------------
+
+            
+        - Executed **ticket** command in Adriftus Studios (ID: 601677205445279744) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **creload** command in Adriftus Studios (ID: 601677205445279744) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **ticket** command in Adriftus Studios (ID: 601677205445279744) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **gsync** command in Adriftus Studios (ID: 601677205445279744) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **creload** command in Adriftus Studios (ID: 601677205445279744) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **gsync** command in Adriftus Studios (ID: 601677205445279744) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **ticket** command in Adriftus Studios (ID: 601677205445279744) by Sian#1179 (ID: 409171992139399181)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **gsync** command in Adriftus Staff (ID: 626078288556851230) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **gsync** command in Adriftus Staff (ID: 626078288556851230) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **creload** command in Adriftus Staff (ID: 626078288556851230) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **gsync** command in Adriftus Staff (ID: 626078288556851230) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+            *** Message Log Entry - Tue Jun 14 02:28:37 2022 ***
+            - Mutim#0001 had their message deleted -
+              **__Deleted By__**: Mutim#0001
+              **__Message Author__**: Mutim#0001
+              **__Author ID__**: 191440627802570752
+              **__Channel Info__**: <#651870920599928862> / 651870920599928862
+              **__Server Name__**: Adriftus Staff
+
+              **__Message:__**
+\<@&731288239780134924>
+            ----------------------------------------------------------------
+
+            
+        - Executed **gsync** command in Adriftus Staff (ID: 626078288556851230) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **creload** command in Adriftus Staff (ID: 626078288556851230) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **gsync** command in Adriftus Staff (ID: 626078288556851230) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **gsync** command in Adriftus Staff (ID: 626078288556851230) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **creload** command in Adriftus Staff (ID: 626078288556851230) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        

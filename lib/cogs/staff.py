@@ -74,12 +74,12 @@ class Staff(commands.Cog, name="staff"):
         """
         Guild Sync Command
         """
-        guilds = [discord.Object(id=626078288556851230), discord.Object(id=601677205445279744)]
+        guilds = [626078288556851230, 601677205445279744]
         synced_guilds = []
         try:
             for g in guilds:
                 try:
-                    await itx.client.tree.sync(guild=g)
+                    await itx.client.tree.sync(guild=discord.Object(id=g))
                     print(f"{g} was synced....")
                     synced_guilds.append(g)
                     await asyncio.wait(5)
@@ -92,7 +92,7 @@ class Staff(commands.Cog, name="staff"):
                 color=config.success
             )
             for s in synced_guilds:
-                embed.add_field(name=f"Guild:", value=f"{s.name}", inline=True)
+                embed.add_field(name=f"Guild:", value=f"{s}", inline=True)
 
             await itx.response.defer()
             await itx.followup.send(embed=embed)
