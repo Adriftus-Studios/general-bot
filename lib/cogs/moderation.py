@@ -38,6 +38,9 @@ class Moderation(commands.Cog, name="moderation"):
     banned from the discord.
 
     """
+    # TODO: Add moderation actions to the database. This will help to determine if the person who has committed the
+    #   offence is a repeat offender, or first time. This might be best done through a decorator. 
+
     def __init__(self, bot):
         self.bot = bot
 
