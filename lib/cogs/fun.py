@@ -1,6 +1,5 @@
 import aiohttp
 import json
-import time
 import requests
 import discord
 import config
