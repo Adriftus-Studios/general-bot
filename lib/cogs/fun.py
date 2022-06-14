@@ -1,18 +1,12 @@
-import asyncio
 import aiohttp
 import json
-import os
 import time
-import random
 import requests
 import discord
 import config
 
 from discord import app_commands
 from discord.ext import commands
-from twitchAPI.twitch import Twitch
-
-from googleapiclient import discovery
 
 
 def get_quote():
@@ -93,24 +87,6 @@ class Fun(commands.Cog, name="fun"):
         except Exception as err:
             await itx.response.send_message(f'An error has occured: {err}')
 
-    # Vote command
-    @app_commands.command(
-        name="role",
-        description="Add role for testing")
-    @app_commands.checks.has_any_role(601677268477149184, 938604804501037078)
-    async def role(
-            self,
-            itx: discord.Interaction,
-            role: discord.Role):
-        """
-        Assign a role
-        """
-        try:
-            await itx.user.remove_roles(role)
-            await itx.response.send_message(f"Role {role.name} removed successfully!", ephemeral=True)
-        except Exception as err:
-            await itx.response.send_message(f'An error has occured: {err}')
-
     @app_commands.command(
         name="bitcoin",
         description="Returns the spot price of bitcoin")
@@ -149,52 +125,6 @@ class Fun(commands.Cog, name="fun"):
 
         try:
             await itx.response.send_message(embed=embed)
-        except Exception as err:
-            await itx.response.send_message(f'An error has occurred: {err}')
-
-    @app_commands.command(
-        name="xlist",
-        description="It really never ends Xeane")
-    async def _xlist(
-            self,
-            itx: discord.Interaction,
-            *,
-            note: str):
-        """
-        One day, we'll make our own game, and this madness might end.
-        """
-        embed = discord.Embed(title="Your Note:", color=config.success)
-        embed.add_field(name=": ", value=note, inline=True)
-        embed.set_footer(text=f"{itx.user.display_name} - {time.ctime(time.time())}")
-
-        try:
-            channel = itx.client.get_guild(626078288556851230).get_channel(626906799269871666)
-
-            await itx.response.send_message(f"Your life is over....")
-            await channel.send(embed=embed)
-        except Exception as err:
-            await itx.response.send_message(f'An error has occurred: {err}')
-
-    @app_commands.command(
-        name="dlist",
-        description="It really never ends Devin")
-    async def _dlist(
-            self,
-            itx: discord.Interaction,
-            *,
-            note: str):
-        """
-        One day, we'll make our own game, and this madness might end.
-        """
-        embed = discord.Embed(title="Your Note:", color=config.success)
-        embed.add_field(name=": ", value=note, inline=True)
-        embed.set_footer(text=f"{itx.user.display_name} - {time.ctime(time.time())}")
-
-        try:
-            channel = itx.client.get_guild(626078288556851230).get_channel(969401285445050388)
-
-            await itx.response.send_message(f"Lore is being saved....")
-            await channel.send(embed=embed)
         except Exception as err:
             await itx.response.send_message(f'An error has occurred: {err}')
 

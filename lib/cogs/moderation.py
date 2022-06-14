@@ -1,13 +1,11 @@
 import os
 import sys
-import asyncio
 import datetime
 
 import discord
 import config
 from discord import app_commands
 from discord.ext import commands
-from discord.app_commands import Choice
 
 if not os.path.isfile("config.py"):
     sys.exit("'config.py' not found! Please add it and try again.")
@@ -38,10 +36,13 @@ class Moderation(commands.Cog, name="moderation"):
     banned from the discord.
 
     """
+    # TODO: Add moderation actions to the database. This will help to determine if the person who has committed the
+    #   offence is a repeat offender, or first time. This might be best done through a decorator.
+
     def __init__(self, bot):
         self.bot = bot
 
-    @app_commands.checks.has_any_role(715674936395694091, 625686951382745089)
+    @app_commands.checks.has_any_role(976324993229139999, 976324625678082068, 605950680850628629)
     @app_commands.command(
         name="jail",
         description="Jail a user")
@@ -84,7 +85,7 @@ class Moderation(commands.Cog, name="moderation"):
             except Exception as err:
                 await itx.response.send_message(f"Error: {err}")
 
-    # TODO: Remove boilerplate error handling, and move into main.py
+    #  TODO: Remove boilerplate error handling, and move into main.py
     @jail.error
     async def jail_error_handler(self, itx: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
@@ -108,39 +109,6 @@ class Moderation(commands.Cog, name="moderation"):
                         value=f"User **{user.name}#{user.discriminator}** was kicked for\n- `{reason}`\n\nTimestamp: <t:{datetime.datetime.now().strftime('%s')}:F>")
         await itx.response.send_message(embed=embed)
         await user.kick(reason=reason)
-    #
-    # # Nick Command
-    # @commands.command(name="nick")
-    # async def nick(self, itx: discord.Interaction, member: discord.Member.id, *, name: str):
-    #     """
-    #     Change the nickname of a user on a server.
-    #     """
-    #     if itx.message.author.guild_permissions.administrator:
-    #         try:
-    #             if name.lower() == "!reset":
-    #                 name = None
-    #             await member.change_nickname(name)
-    #             embed = discord.Embed(
-    #                 title="Changed Nickname!",
-    #                 description=f"**{member}'s** new nickname is **{name}**!",
-    #                 color=config.success
-    #             )
-    #             await itx.response.send_message(embed=embed)
-    #             print(f"**{member}'s** new nickname is **{name}**!")
-    #         except:
-    #             embed = discord.Embed(
-    #                 title="Error!",
-    #                 description=f"An error occurred while trying to change **{member}'s** Nickname.",
-    #                 color=config.error
-    #             )
-    #             await context.message.channel.send(embed=embed)
-    #     else:
-    #         embed = discord.Embed(
-    #             title="Error!",
-    #             description="You don't have the permission to use this command.",
-    #             color=config.error
-    #         )
-    #         await itx.response.send_message(embed=embed)
 
     # Ban Command
     @app_commands.command(name='ban',
