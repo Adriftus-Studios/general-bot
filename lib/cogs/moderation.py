@@ -1,13 +1,11 @@
 import os
 import sys
-import asyncio
 import datetime
 
 import discord
 import config
 from discord import app_commands
 from discord.ext import commands
-from discord.app_commands import Choice
 
 if not os.path.isfile("config.py"):
     sys.exit("'config.py' not found! Please add it and try again.")
@@ -39,12 +37,12 @@ class Moderation(commands.Cog, name="moderation"):
 
     """
     # TODO: Add moderation actions to the database. This will help to determine if the person who has committed the
-    #   offence is a repeat offender, or first time. This might be best done through a decorator. 
+    #   offence is a repeat offender, or first time. This might be best done through a decorator.
 
     def __init__(self, bot):
         self.bot = bot
 
-    @app_commands.checks.has_any_role(715674936395694091, 625686951382745089)
+    @app_commands.checks.has_any_role(976324993229139999, 976324625678082068, 605950680850628629)
     @app_commands.command(
         name="jail",
         description="Jail a user")
