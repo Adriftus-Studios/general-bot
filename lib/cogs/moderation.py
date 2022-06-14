@@ -84,7 +84,7 @@ class Moderation(commands.Cog, name="moderation"):
             except Exception as err:
                 await itx.response.send_message(f"Error: {err}")
 
-    # TODO: Remove boilerplate error handling, and move into main.py
+    #  TODO: Remove boilerplate error handling, and move into main.py
     @jail.error
     async def jail_error_handler(self, itx: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
@@ -108,39 +108,6 @@ class Moderation(commands.Cog, name="moderation"):
                         value=f"User **{user.name}#{user.discriminator}** was kicked for\n- `{reason}`\n\nTimestamp: <t:{datetime.datetime.now().strftime('%s')}:F>")
         await itx.response.send_message(embed=embed)
         await user.kick(reason=reason)
-    #
-    # # Nick Command
-    # @commands.command(name="nick")
-    # async def nick(self, itx: discord.Interaction, member: discord.Member.id, *, name: str):
-    #     """
-    #     Change the nickname of a user on a server.
-    #     """
-    #     if itx.message.author.guild_permissions.administrator:
-    #         try:
-    #             if name.lower() == "!reset":
-    #                 name = None
-    #             await member.change_nickname(name)
-    #             embed = discord.Embed(
-    #                 title="Changed Nickname!",
-    #                 description=f"**{member}'s** new nickname is **{name}**!",
-    #                 color=config.success
-    #             )
-    #             await itx.response.send_message(embed=embed)
-    #             print(f"**{member}'s** new nickname is **{name}**!")
-    #         except:
-    #             embed = discord.Embed(
-    #                 title="Error!",
-    #                 description=f"An error occurred while trying to change **{member}'s** Nickname.",
-    #                 color=config.error
-    #             )
-    #             await context.message.channel.send(embed=embed)
-    #     else:
-    #         embed = discord.Embed(
-    #             title="Error!",
-    #             description="You don't have the permission to use this command.",
-    #             color=config.error
-    #         )
-    #         await itx.response.send_message(embed=embed)
 
     # Ban Command
     @app_commands.command(name='ban',
