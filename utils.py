@@ -12,16 +12,16 @@ class Logger:
 
     def __call__(self, *args, **kwargs):
         try:
-            if isinstance(args, discord.Object):
-                message = args.content
-                data = {
-                    'message': message
-                }
-                with open('data.json', 'w+', encoding='utf-8') as file:
-                    json.dump(data, file, ensure_ascii=False, indent=4)
-                print(f"Arguments of the func: {args}")
+            message = args.content
+            data = {
+                'message': message
+            }
+            with open('data.json', 'w+', encoding='utf-8') as file:
+                json.dump(data, file, ensure_ascii=False, indent=4)
+            print(f"Arguments of the func: {args}")
             print(f"Result to be logged: {self.func(*args)}")
             print(f"Send to discord to emulate console: \n{self.func(*args)} was successfully logged")
+
         except Exception as err:
             print(err)
 
