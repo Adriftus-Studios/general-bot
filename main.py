@@ -12,7 +12,6 @@ import aiofiles
 import zipfile
 import json
 from discord import app_commands
-from utils import Logger
 
 # Does not allow bot to start without config file
 if not os.path.isfile("config.py"):
