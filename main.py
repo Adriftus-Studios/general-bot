@@ -171,7 +171,6 @@ async def on_raw_message_delete(payload):
         print(f'An error has occurred: {err}')
 
 
-@Logger
 @bot.event
 async def on_message(message):
 
@@ -183,7 +182,7 @@ async def on_message(message):
 
         slash_command_channels = [677175985174478869]
         if message.channel.id in slash_command_channels:
-            if not isInstance(message, discord.MessageType.chat_input_command) and not message.author.bot:
+            if not isinstance(message, discord.MessageType.chat_input_command) and not message.author.bot:
                 await bot.get_channel(965027742154358814).send("You are only allowed to send commands here.")
                 await message.delete()
     except Exception as err:
