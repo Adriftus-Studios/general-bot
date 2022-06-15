@@ -12,7 +12,7 @@ import aiofiles
 import zipfile
 import json
 from discord import app_commands
-import logging
+from utils import Logger
 
 # Does not allow bot to start without config file
 if not os.path.isfile("config.py"):
@@ -171,7 +171,7 @@ async def on_raw_message_delete(payload):
         print(f'An error has occurred: {err}')
 
 
-# @logging.log_event
+@Logger
 @bot.event
 async def on_message(message):
 
