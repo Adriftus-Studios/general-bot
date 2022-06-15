@@ -17,7 +17,7 @@ class Logger:
                 data = {
                     'message': message
                 }
-                with open('data.json', 'w', encoding='utf-8') as file:
+                with open('data.json', 'w+', encoding='utf-8') as file:
                     json.dump(data, file, ensure_ascii=False, indent=4)
                 print(f"Arguments of the func: {args}")
             print(f"Result to be logged: {self.func(*args)}")
