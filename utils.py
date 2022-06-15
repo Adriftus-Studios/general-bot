@@ -22,4 +22,6 @@ class Logger:
                 print(f"Arguments of the func: {args}")
             print(f"Result to be logged: {self.func(*args)}")
             print(f"Send to discord to emulate console: \n{self.func(*args)} was successfully logged")
+        except Exception as err:
+            print(err)
 
