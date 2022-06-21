@@ -14,13 +14,13 @@ class Counter(commands.Cog, name="counter"):
     async def on_message(self, message):
         if message.channel.id == 970208822754963486 and not message.author.bot:
             try:
-                with open('./counter.json', 'r') as file:
+                with open('./ignored/counter.json', 'r') as file:
                     data = json.load(file)
 
                 current_number = data['count']
 
                 if int(message.content) == int(current_number)+1 and message.author.id != data['last_member']:
-                    with open('./counter.json', 'r+') as file:
+                    with open('./ignored/counter.json', 'r+') as file:
                         data = json.load(file)
                         data['count'] = int(current_number)+1
                         data['last_member'] = message.author.id
