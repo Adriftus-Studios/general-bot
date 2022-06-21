@@ -270,3 +270,88 @@ If anyone would like to follow us over to our new home, Adriftus, you can come o
             ----------------------------------------------------------------
 
             
+        - Executed **bitcoin** command in Adriftus Studios (ID: 601677205445279744) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+            *** Message Log Entry - Mon Jun 20 22:16:02 2022 ***
+            - Axperifin#0001 had their message deleted -
+              **__Deleted By__**: Axperifin#0001
+              **__Message Author__**: Axperifin#0001
+              **__Author ID__**: 696877567151570954
+              **__Channel Info__**: <#970208822754963486> / 970208822754963486
+              **__Server Name__**: Adriftus Studios
+
+              **__Message:__**
+1 <:trollege:852689646479343616>
+            ----------------------------------------------------------------
+
+            
+        - Executed **bitcoin** command in Adriftus Studios (ID: 601677205445279744) by Axperifin#0001 (ID: 696877567151570954)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **joke** command in Adriftus Studios (ID: 601677205445279744) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+        - Executed **joke** command in Adriftus Studios (ID: 601677205445279744) by Mutim#0001 (ID: 191440627802570752)
+
+        ----------------------------------------------------------------
+
+        
+            *** Message Log Entry - Mon Jun 20 23:00:38 2022 ***
+            - Xeane#0001 had their message deleted -
+              **__Deleted By__**: Xeane#0001
+              **__Message Author__**: Xeane#0001
+              **__Author ID__**: 565536267161567232
+              **__Channel Info__**: <#970208822754963486> / 970208822754963486
+              **__Server Name__**: Adriftus Studios
+
+              **__Message:__**
+637
+            ----------------------------------------------------------------
+
+            
+            *** Message Log Entry - Mon Jun 20 23:03:55 2022 ***
+            - Mutim#0001 had their message deleted -
+              **__Deleted By__**: Mutim#0001
+              **__Message Author__**: Mutim#0001
+              **__Author ID__**: 191440627802570752
+              **__Channel Info__**: <#970208822754963486> / 970208822754963486
+              **__Server Name__**: Adriftus Studios
+
+              **__Message:__**
+637
+            ----------------------------------------------------------------
+
+            
+            *** Message Log Entry - Mon Jun 20 23:06:38 2022 ***
+            - Reds#8489 had their message deleted -
+              **__Deleted By__**: Reds#8489
+              **__Message Author__**: Reds#8489
+              **__Author ID__**: 391759011156066304
+              **__Channel Info__**: <#970208822754963486> / 970208822754963486
+              **__Server Name__**: Adriftus Studios
+
+              **__Message:__**
+637
+            ----------------------------------------------------------------
+
+            
+            *** Message Log Entry - Tue Jun 21 15:13:34 2022 ***
+            - Flaming#1906 had their message deleted -
+              **__Deleted By__**: Flaming#1906
+              **__Message Author__**: Flaming#1906
+              **__Author ID__**: 429946311991623691
+              **__Channel Info__**: <#970208822754963486> / 970208822754963486
+              **__Server Name__**: Adriftus Studios
+
+              **__Message:__**
+637
+            ----------------------------------------------------------------
+
+            
