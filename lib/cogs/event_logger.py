@@ -66,7 +66,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
     @commands.Cog.listener()
     async def on_raw_message_delete(self, payload):
         """
-        channel_id¶ [int]
+        channel_id [int]
         The channel ID where the deletion took place.
 
         guild_id [int]
@@ -81,12 +81,12 @@ class EventLogger(commands.Cog, name="Event Logger"):
         admin_channels = [626086306606350366, 651870920599928862]
         blacklist_channels = []
         # Send full db.Messages collection info to logging channel
+        message_col = message_db[f"A_{payload.message_id}"]
         try:
-            # message_data = self.serialize_to_db(payload)
-            message_data = message_db.find_one({"_id": f"{payload.id}"})
+            message_data = message_col.find_one({"_id": f"{payload.message_id}"})
             if payload.cached_message is not None:
                 message_data = message_data
-            elif message_db.find({'_id': f'{payload.message_id}'}).count() > 0:
+            elif message_col.find({'_id': f'{payload.message_id}'}).count():
                 message_data = await self.deserialize_from_db(payload)
 
             if payload.channel_id in admin_channels:
@@ -139,7 +139,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         """
         Parameters
         ----------
-            payload : channel_id [int], guild_id [Otional[int]], message_id [int], cached_message [Optional[Message]]
+            payload : channel_id [int], guild_id [Optional[int]], message_id [int], cached_message [Optional[Message]]
                 The channel ID where the deletion took place.
 
             message_data : returned from EventLogger.serialize_to_db(message) [str]
@@ -230,21 +230,31 @@ class EventLogger(commands.Cog, name="Event Logger"):
             print(err)
             await self.bot.get_channel(989509544218611753).send(err)
 
-        message_sent = message_db.insert_one(message_data)
+        message_sent = message_col.insert_one(message_data)
         print(f"Message logged - Message ID: {message_sent.inserted_id}")
         return message_data
 
     @staticmethod
-    async def deserialize_from_db(message):
+    async def deserialize_from_db(payload):
         """
         Parameters
         ----------
-            message : https://discordpy.readthedocs.io/en/latest/api.html?highlight=message#discord.Message
+            payload : https://discordpy.readthedocs.io/en/latest/api.html?highlight=message#discord.Message
                 The message object being passed to deserialize_from_db().
-                    author [Member, abc.User]
-                    id [int]
+                    channel_id [int]
+                    The channel ID where the deletion took place.
+
+                    guild_id [int]
+                    The guild ID where the deletion took place, if applicable.
+
+                    message_id [int]
+                    The message ID that got deleted.
+
+                    cached_message Optional[Message]
+                    The cached message, if found in the internal message cache.
         """
-        x = message_db.find({"_id": f"{message.message_id}"})
+        message_col = message_db[f"A_{payload.message_id}"]
+        x = message_col.find({"_id": f"{payload.message_id}"})
 
         return x
 
@@ -262,8 +272,9 @@ class EventLogger(commands.Cog, name="Event Logger"):
             "message_ids": [],
             "joined_date": f"{datetime.datetime.utcnow()}"
         }
+        user_col = user_db[f"A_{member.id}"]
         try:
-            user_db.insert_one(user_data, upsert=True)
+            user_col.insert_one(user_data, upsert=True)
 
         except pymongo.errors.WriteError:
             print(f"User {member.name} already exists in the database with _id: {member.id}")
