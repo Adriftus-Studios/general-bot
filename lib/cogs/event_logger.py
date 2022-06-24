@@ -22,12 +22,6 @@ class EventLogger(commands.Cog, name="Event Logger"):
     A class cog that holds the EventLogger object.
 
     ...
-
-    Attributes
-    ----------
-    name : str
-        name of the cog, used in reporting
-
     Methods
     -------
     message_to_discord(payload, message_data, payload_guild_id):
@@ -86,7 +80,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
             message_data = message_col.find_one({"_id": f"{payload.message_id}"})
             if payload.cached_message is not None:
                 message_data = message_data
-            elif message_col.find({'_id': f'{payload.message_id}'}).count():
+            elif message_col.find({'_id': f'{payload.message_id}'}):
                 message_data = await self.deserialize_from_db(payload)
 
             if payload.channel_id in admin_channels:
@@ -95,6 +89,8 @@ class EventLogger(commands.Cog, name="Event Logger"):
                 pass
             else:
                 await self.message_to_discord(payload, message_data, 989509544218611753)
+                await message_col.drop()
+            
         except Exception as err:
             print(f'An error has occurred: {err}')
 
@@ -224,11 +220,14 @@ class EventLogger(commands.Cog, name="Event Logger"):
         message_col = message_db[f"A_{message.id}"]
 
         try:
-            user_col.update_one({"_id": f"{message.author.id}"}, {'$push': {"message_ids": f"{message.id}"}}, upsert=True)
+            user_col.update_one({
+                "_id": f"{message.author.id}"},
+                {'$push': {"message_ids": f"{message.id}"}},
+                upsert=True)
             message_col.insert_one(message_data)
         except Exception as err:
             print(err)
-            await self.bot.get_channel(989509544218611753).send(err)
+            await self.bot.get_channel(989509544218611753).send(f"{err}")
 
         message_sent = message_col.insert_one(message_data)
         print(f"Message logged - Message ID: {message_sent.inserted_id}")
