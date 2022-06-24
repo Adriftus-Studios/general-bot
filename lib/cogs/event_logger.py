@@ -52,7 +52,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
 
     # Log Events --
     @commands.Cog.listener()
-    async def on_message(self, message) -> None:
+    async def on_message(self, message):
         print(message.content)
         # Reporting channel (Avoid circular logs)
         if message.channel.id == 989509544218611753:
@@ -65,7 +65,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
             print(f"An error has occurred: {err}")
 
     @commands.Cog.listener()
-    async def on_raw_message_delete(self, payload) -> None:
+    async def on_raw_message_delete(self, payload):
         """
         channel_id¶ [int]
         The channel ID where the deletion took place.
@@ -100,7 +100,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
             print(f'An error has occurred: {err}')
 
     @commands.Cog.listener()
-    async def on_guild_channel_delete(self, channel) -> None:
+    async def on_guild_channel_delete(self, channel):
         print(f"Channel Deleted - {channel}")
 
     @commands.Cog.listener()
