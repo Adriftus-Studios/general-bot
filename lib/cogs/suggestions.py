@@ -1,11 +1,19 @@
-import traceback
+import aiohttp
+import json
+import os
+import platform
+import random
+import sys
 
+import requests
 import discord
 import config
 import time
 import datetime
 from discord import app_commands, ui
+from discord.ui import Button, View
 from discord.ext import commands
+from discord.app_commands import Choice
 
 
 class SuggestionForm(ui.Modal, title="Suggestions Form"):
@@ -62,7 +70,6 @@ class Suggest(commands.Cog, name="suggest"):
         try:
             await itx.response.send_modal(SuggestionForm())
         except Exception as err:
-            traceback.format_exc(err)
             await itx.response.send_message(f'An error has occurred: {err}')
 
     # TODO: Remove boilerplate error handling, and move into main.py

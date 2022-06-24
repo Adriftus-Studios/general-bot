@@ -44,7 +44,7 @@ class Counter(commands.Cog, name="counter"):
             except Exception as err:
                 await message.delete()
                 print(f"An error has occurred in counter: {err}")
-                traceback.format_exc(err)
+                traceback.format_exc()
 
 
 async def setup(bot: commands.Bot):

@@ -2,8 +2,6 @@
 
 # TODO: This is not written correctly. I had started it, and then quit in lue of making more important features.
 #  We need to get this working. I think it's a great project for Indestructoyed.  - Drew
-import time
-import traceback
 
 import discord
 import config
@@ -72,8 +70,13 @@ class Reminder(commands.Cog, name="reminder"):
             await itx.response.send_message(f"Sure! I'll remind you in {dur}")
 
         except Exception as err:
-            traceback.format_exc(err)
             await itx.response.send_message(f"An error has occurred: {err}")
+            # await itx.response.send_message(f'It seems you have made an error. '
+            #                                 f'\nYour `time` should be formatted as such:'
+            #                                 f'\n```1.5h``` This will equate to 1 and 1/2 hours.'
+            #                                 f'\n\nOr, you have designated an incorrect time multiplier. '
+            #                                 f'\n```s -> Seconds, m -> Minutes, h -> Hours, d -> Days, or w -> Weeks```'
+            #                                 f'\n')
 
     @tasks.loop(seconds=1 / ref_rate)
     async def check_loop(self):
@@ -106,10 +109,8 @@ class Reminder(commands.Cog, name="reminder"):
                 try:
                     await c.send(f"{u.mention}, Here is your reminder\n```{note}```")
                 except Exception as err:
-                    traceback.format_exc(err)
                     await discord.send(f'An error has occurred: {err}')
             except Exception as err:
-                traceback.format_exc(err)
                 exception = f"{type(err).__name__}: {err}"
                 print(f"Error: {exception}")
                 await itx.response.send_message(f'An error has occurred: {err}')
