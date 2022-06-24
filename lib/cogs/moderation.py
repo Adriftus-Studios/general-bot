@@ -1,6 +1,7 @@
 import os
 import sys
 import datetime
+import traceback
 
 import discord
 import config
@@ -81,8 +82,10 @@ class Moderation(commands.Cog, name="moderation"):
                         f"You were jailed by **{itx.message.user}**!\nReason: {reason}"
                     )
                 except Exception as err:
+                    traceback.format_exc()
                     print(f'Error: {err}')
             except Exception as err:
+                traceback.format_exc()
                 await itx.response.send_message(f"Error: {err}")
 
     #  TODO: Remove boilerplate error handling, and move into main.py

@@ -1,3 +1,5 @@
+import traceback
+
 import aiohttp
 import json
 import requests
@@ -63,6 +65,7 @@ class Fun(commands.Cog, name="fun"):
         try:
             await itx.response.send_message(embed=embed)
         except Exception as err:
+            traceback.format_exc()
             await itx.response.send_message(f'An error has occured: {err}')
 
     # Vote command
@@ -84,6 +87,7 @@ class Fun(commands.Cog, name="fun"):
         try:
             await itx.response.send_message(embed=embed)
         except Exception as err:
+            traceback.format_exc()
             await itx.response.send_message(f'An error has occured: {err}')
 
     @app_commands.command(
@@ -125,6 +129,7 @@ class Fun(commands.Cog, name="fun"):
         try:
             await itx.response.send_message(embed=embed)
         except Exception as err:
+            traceback.format_exc()
             await itx.response.send_message(f'An error has occurred: {err}')
 
 
