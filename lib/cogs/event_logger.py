@@ -220,7 +220,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
             "contents": f"{message.content}"
         }
 
-        user_data = {"_id": f"{message.author.id}"}, {'$push': {"message_ids": f"{message.id}"}}, {'upsert': True}
+        user_data = {{"_id": f"{message.author.id}"}, {'$push': {"message_ids": f"{message.id}"}}, {'upsert': True}}
 
         try:
             user_col = user_db[f"{message.author.id}"]
