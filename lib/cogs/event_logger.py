@@ -194,9 +194,8 @@ class EventLogger(commands.Cog, name="Event Logger"):
         except Exception as err:
             print(f'An error has occurred: {err}')
 
-    @staticmethod
     # DB serializer/deserializer
-    async def serialize_to_db(message):
+    async def serialize_to_db(self, message):
         """
         Parameters
         ----------
@@ -223,8 +222,13 @@ class EventLogger(commands.Cog, name="Event Logger"):
 
         user_data = {"_id": f"{message.author.id}"}, {'$push': {"message_ids": f"{message.id}"}}, {'upsert': True}
 
+        try:
+            user_db.update_one(user_data)
+        except Exception as err:
+            print(err)
+            await self.bot.get_channel(989509544218611753).send(err)
+
         message_sent = message_db.insert_one(message_data)
-        user_db.update_one(user_data)
         print(f"Message logged - Message ID: {message_sent.inserted_id}")
         return message_data
 
