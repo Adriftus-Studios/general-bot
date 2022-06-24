@@ -36,7 +36,7 @@ class GeneralBot(commands.Bot):
                 try:
                     self.initial_extensions.append(f"lib.cogs.{extension}")
                     print(f"Added extension: '{extension}'")
-                    print(bot.get_cog(f"lib.cogs.{extension}").get_listeners())
+                    print(self.get_cog(f"lib.cogs.{extension}").get_listeners())
                 except Exception as e:
                     exception = f"{type(e).__name__}: {e}"
                     print(f"Failed to load extension {extension}\n{exception}")
