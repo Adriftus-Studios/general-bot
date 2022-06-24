@@ -1,3 +1,5 @@
+import traceback
+
 import aiohttp
 import json
 import os
@@ -34,6 +36,7 @@ class RoleView(View):
                 await ctx.user.remove_roles(role_object, reason="Self removed Role", atomic=True)
                 await ctx.response.send_message(f"Removed role(s) {role_object}", ephemeral=True)
         except Exception as err:
+            traceback.format_exc(err)
             await ctx.response.send_message(f"Role ID: {roles_id}\nRole Object: {role_object}\nError: {err}", ephemeral=True)
 
 
@@ -81,6 +84,7 @@ class Roles(commands.Cog, name="roles"):
                 "Select your roles! You will be able to remove the role by selecting the role again.",
                 ephemeral=True, view=view)
         except Exception as err:
+            traceback.format_exc(err)
             await ctx.response.send_message(f'An error has occurred: {err}')
 
     @roles.error

@@ -177,7 +177,7 @@ class Tickets(commands.Cog, name="ticket"):
                 "Select the proper category for your ticket. If you're unsure, select 'Other'",
                 ephemeral=True, view=view)
         except Exception as err:
-            traceback.format_exc()
+            traceback.format_exc(err)
             await itx.response.send_message(f'An error has occurred: {err}')
 
     # TODO: Remove boilerplate error handling, and move into main.py

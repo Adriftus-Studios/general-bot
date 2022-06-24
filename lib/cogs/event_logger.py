@@ -1,3 +1,4 @@
+import traceback
 
 import discord
 import pymongo.errors
@@ -52,7 +53,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
 
     # Log Events --
     @commands.Cog.listener()
-    async def on_message(self, message) -> None:
+    async def on_message(self, message):
         print(message.content)
         # Reporting channel (Avoid circular logs)
         if message.channel.id == 989509544218611753:
@@ -62,10 +63,11 @@ class EventLogger(commands.Cog, name="Event Logger"):
             await self.serialize_to_db(message)
 
         except Exception as err:
+            traceback.format_exc(err)
             print(f"An error has occurred: {err}")
 
     @commands.Cog.listener()
-    async def on_raw_message_delete(self, payload) -> None:
+    async def on_raw_message_delete(self, payload):
         """
         channel_id¶ [int]
         The channel ID where the deletion took place.
@@ -97,10 +99,11 @@ class EventLogger(commands.Cog, name="Event Logger"):
             else:
                 await self.message_to_discord(payload, message_data, 989509544218611753)
         except Exception as err:
+            traceback.format_exc(err)
             print(f'An error has occurred: {err}')
 
     @commands.Cog.listener()
-    async def on_guild_channel_delete(self, channel) -> None:
+    async def on_guild_channel_delete(self, channel):
         print(f"Channel Deleted - {channel}")
 
     @commands.Cog.listener()
@@ -129,11 +132,13 @@ class EventLogger(commands.Cog, name="Event Logger"):
                 # Sends to discord-logs channel
                 await self.bot.get_channel(989509544218611753).send(embed=embed)
             except Exception as err:
+                traceback.format_exc(err)
                 print(f'An error has occurred: {err}')
             print(
                 f"Executed {executed_command} command in {ctx.guild}"
                 f"(ID: {ctx.guild.id}) by {ctx.user} (ID: {ctx.user.id})")
         except Exception as err:
+            traceback.format_exc(err)
             print(err)
 
     async def message_to_discord(self, payload, message_data, send_channel):
@@ -192,6 +197,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         try:
             await self.bot.get_channel(send_channel).send(embed=embed)
         except Exception as err:
+            traceback.format_exc(err)
             print(f'An error has occurred: {err}')
 
     # DB serializer/deserializer
@@ -225,6 +231,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         try:
             user_db.update_one(user_data)
         except Exception as err:
+            traceback.format_exc(err)
             print(err)
             await self.bot.get_channel(989509544218611753).send(err)
 
@@ -266,6 +273,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         except pymongo.errors.WriteError:
             print(f"User {member.name} already exists in the database with _id: {member.id}")
         except Exception as err:
+            traceback.format_exc(err)
             print(err)
 
         welcome_messages = [
@@ -294,6 +302,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
                     await self.bot.get_channel(c).send(embed=embed)
 
             except Exception as err:
+                traceback.format_exc(err)
                 print(f'An error has occurred: {err}')
             print(f'{member} joined {member.guild.name} ( Current Members: {member.guild.member_count} )')
 
@@ -314,6 +323,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         try:
             await self.bot.get_channel(743476824763269150).send(embed=embed)
         except Exception as err:
+            traceback.format_exc(err)
             print(f'An error has occurred: {err}')
         print(f'{member} left {member.guild.name} ( Current Members: {member.guild.member_count} )')
 

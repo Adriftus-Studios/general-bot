@@ -82,10 +82,10 @@ class Moderation(commands.Cog, name="moderation"):
                         f"You were jailed by **{itx.message.user}**!\nReason: {reason}"
                     )
                 except Exception as err:
-                    traceback.format_exc()
+                    traceback.format_exc(err)
                     print(f'Error: {err}')
             except Exception as err:
-                traceback.format_exc()
+                traceback.format_exc(err)
                 await itx.response.send_message(f"Error: {err}")
 
     #  TODO: Remove boilerplate error handling, and move into main.py
