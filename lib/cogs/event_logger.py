@@ -220,10 +220,10 @@ class EventLogger(commands.Cog, name="Event Logger"):
             "contents": f"{message.content}"
         }
 
-        user_data = {"_id": f"{message.author.id}"}, {'$push': {"message_ids": f"{message.id}"}}, {'upsert': True}
+        # user_data = {"_id": f"{message.author.id}"}, {'$push': {"message_ids": f"{message.id}"}}, {'upsert': True}
 
         try:
-            user_db.update_one(user_data)
+            user_db.update_one({"_id": f"{message.author.id}"}, {'$push': {"message_ids": f"{message.id}"}}, {'upsert': True})
         except Exception as err:
             print(err)
             await self.bot.get_channel(989509544218611753).send(err)
