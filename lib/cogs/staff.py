@@ -130,6 +130,7 @@ class ReloadView(View):
         await itx.response.defer()
         try:
             await itx.client.reload_extension(f"lib.cogs.{ext}")
+            print(itx.client.get_cog(f"lib.cogs.{ext}").get_listeners())
             embed = discord.Embed(
                 title=f"Success!  -",
                 description=f"{ext.title()} cog was reloaded successfully.",
