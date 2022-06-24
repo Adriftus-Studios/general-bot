@@ -39,7 +39,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
     deserialize_from_db(message):
         Returns full message from the messages_db
     """
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self, bot: commands.Bot):
         """
         Constructs all the necessary attributes for the EventLogger object.
 
@@ -214,7 +214,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
             "time": current_time,
             "author_id": f"{message.author.id}",
             "author_name": f"{message.author.name}",
-            "author_full_name": f"{message.author.name}#{message.author.discriminator}",
+            "author_full_name": f"{message.author}",
             "channel_id": f"{message.channel.id}",
             "server_name": f"{message.guild.name}",
             "contents": f"{message.content}"
