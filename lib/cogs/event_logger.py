@@ -222,7 +222,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         # user_data = {"_id": f"{message.author.id}"}, {'$push': {"message_ids": f"{message.id}"}}, {'upsert': True}
 
         try:
-            user_db.update_one({"_id": f"{message.author.id}"}, {'$push': {"message_ids": f"{message.id}"}}, upsert=True)
+            user_db[f"{message.author.id}"].update_one({"_id": f"{message.author.id}"}, {'$push': {"message_ids": f"{message.id}"}}, upsert=True)
             message_db[f"{message.id}"].insert_one(message_data)
         except Exception as err:
             print(err)
