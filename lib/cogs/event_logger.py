@@ -53,7 +53,6 @@ class EventLogger(commands.Cog, name="Event Logger"):
     # Log Events --
     @commands.Cog.listener()
     async def on_message(self, message):
-        print(message.content)
         # Reporting channel (Avoid circular logs)
         if message.channel.id == 989509544218611753:
             return
