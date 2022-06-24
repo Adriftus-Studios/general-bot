@@ -12,8 +12,8 @@ from secrets import MONGO_CLIENT
 from discord.ext import commands
 
 db_client = MONGO_CLIENT
-message_db = db_client.Messages
-user_db = db_client.Users
+message_db = db_client.Messages["Messages"]
+user_db = db_client.Users["Users"]
 minecraft_db = db_client.Minecraft
 
 
