@@ -1,4 +1,6 @@
 import os
+import traceback
+
 import discord
 from discord import app_commands, ui
 from discord.ui import Select, View
@@ -49,7 +51,8 @@ class Staff(commands.Cog, name="staff"):
             await itx.response.send_message(
                 "Select the cog you wish to reload",
                 ephemeral=True, view=view)
-        except Exception as err:
+        except Exception:
+            err = traceback.print_exception
             await itx.response.send_message(f'An error has occurred: {err}')
 
     # TODO: Remove boilerplate error handling, and move into main.py
@@ -96,7 +99,8 @@ class Staff(commands.Cog, name="staff"):
 
             await itx.response.defer()
             await itx.followup.send(embed=embed)
-        except Exception as err:
+        except Exception:
+            err = traceback.print_exception
             await itx.response.send_message(f'An error has occurred: {err}')
 
     # TODO: Remove boilerplate error handling, and move into main.py
