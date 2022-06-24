@@ -53,7 +53,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
     # Log Events --
     @commands.Cog.listener()
     async def on_message(self, message) -> None:
-
+        print(message)
         # Reporting channel (Avoid circular logs)
         if message.channel.id == 989509544218611753:
             return
@@ -322,8 +322,7 @@ async def setup(bot: commands.Bot):
     await bot.add_cog(
         EventLogger(bot),
         guilds=[
-            discord.Object(id=626078288556851230)
+            discord.Object(id=626078288556851230),
+            discord.Object(id=601677205445279744)
         ]
     )
-
-
