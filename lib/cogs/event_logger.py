@@ -170,7 +170,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
                   **__Channel Info__**: <#{message_data["channel_id"]}> / {message_data["channel_id"]}
                   **__Server Name__**: {message_data["server_name"]}
 
-                  **__Message:__**\n{message_data["contents"]}
+                  **__Message:__**\n```{message_data["contents"]}```
                 ----------------------------------------------------------------\n
                 """
 

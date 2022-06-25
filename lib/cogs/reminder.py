@@ -1,29 +1,26 @@
-
-
-# TODO: This is not written correctly. I had started it, and then quit in lue of making more important features.
-#  We need to get this working. I think it's a great project for Indestructoyed.  - Drew
+import time
 
 import discord
 import config
-import secrets
 import asyncio
-from datetime import datetime
+
 from discord import app_commands
 from discord.ui import Select, View
 from discord.ext import commands, tasks
-
+from secrets import MONGO_CLIENT
 ref_rate = 5
+
+db_client = MONGO_CLIENT
+reminders_db = db_client.Reminders
 
 
 class Reminder(commands.Cog, name="reminder"):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
-        self.db_client = secrets.MONGO_CLIENT
-        self.db = self.db_client.Reminders
         # self._check_loop.start()
 
     # def cog_unload(self):
-        # self._check_loop.cancel()
+    #     self._check_loop.cancel()
 
 # Remind Me - Reminder
     @app_commands.command(name="remindme",
@@ -47,7 +44,7 @@ class Reminder(commands.Cog, name="reminder"):
             dur = int(duration[-1])
 
             # Check if user has a table in the DB
-            self.db.users.update_one({
+            reminders_db.users.update_one({
                 "_id": f"{itx.user.id}"
             }, {
                 "_id": f"{itx.user.id}",
@@ -89,17 +86,7 @@ class Reminder(commands.Cog, name="reminder"):
 
             await g["author"].send(embed=embed)
             del self.data[g["id"]]
-    #     ##########################################################################################################
-    #
-    #     #     db.Users.update_many({
-    #     #         "poke_info.poke_hunger":
-    #     #             {
-    #     #                 "$gt": 0
-    #     #             }
-    #     #     }, {
-    #     #         "$inc": {"poke_info.$[].poke_hunger": -1}
-    #     #     }
-    #     #     )
+
 
             try:
 
