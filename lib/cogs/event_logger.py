@@ -90,7 +90,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
             else:
                 await self.message_to_discord(payload, message_data, 989509544218611753)
                 await message_col.drop()
-            
+
         except Exception as err:
             print(f'An error has occurred: {err}')
 
@@ -164,7 +164,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         message_content = f"""
                 *** Message Log Entry - {current_time} ***
                 - {message_data["author_full_name"]} had their message deleted -
-                  **__Deleted By__**: {deleter}#{deleter.discriminator}
+                  **__Deleted By__**: {deleter}
                   **__Message Author__**: {message_data["author_full_name"]}
                   **__Author ID__**: {message_data["author_id"]}
                   **__Channel Info__**: <#{message_data["channel_id"]}> / {message_data["channel_id"]}
