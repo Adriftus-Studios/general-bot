@@ -80,7 +80,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
             message_data = message_col.find_one({"_id": f"{payload.message_id}"})
             if payload.cached_message is not None:
                 message_data = message_data
-            elif message_col.find({'_id': f'{payload.message_id}'}):
+            elif message_col.find_one({'_id': f'{payload.message_id}'}):
                 message_data = await self.deserialize_from_db(payload)
 
             if payload.channel_id in admin_channels:
@@ -229,8 +229,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
             print(err)
             await self.bot.get_channel(989509544218611753).send(f"{err}")
 
-        message_sent = message_col.insert_one(message_data)
-        print(f"Message logged - Message ID: {message_sent.inserted_id}")
+        print(f"Message logged - Message ID: {message.id}")
         return message_data
 
     @staticmethod
