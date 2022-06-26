@@ -73,7 +73,8 @@ class EventLogger(commands.Cog, name="Event Logger"):
         The cached message, if found in the internal message cache.
         """
         admin_channels = [626086306606350366, 651870920599928862]
-        blacklist_channels = []
+        #  ignorelist Stonks channel
+        ignorelist_channels = [970208822754963486]
         # Send full db.Messages collection info to logging channel
         message_col = message_db[f"A_{payload.message_id}"]
         try:
@@ -85,7 +86,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
 
             if payload.channel_id in admin_channels:
                 await self.message_to_discord(payload, message_data, 712309385019523155)
-            elif payload.channel_id in blacklist_channels:
+            elif payload.channel_id in ignorelist_channels:
                 pass
             else:
                 await self.message_to_discord(payload, message_data, 989509544218611753)
