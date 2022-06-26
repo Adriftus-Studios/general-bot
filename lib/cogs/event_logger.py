@@ -164,6 +164,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         message_content = f"""
                 *** Message Log Entry - {current_time} ***
                 - {message_data["author_full_name"]} had their message deleted -
+
                   **__Deleted By__**: {deleter}
                   **__Message Author__**: {message_data["author_full_name"]}
                   **__Author ID__**: {message_data["author_id"]}
