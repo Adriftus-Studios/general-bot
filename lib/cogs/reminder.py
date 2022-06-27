@@ -5,10 +5,8 @@ import config
 import asyncio
 
 from discord import app_commands
-from discord.ui import Select, View
 from discord.ext import commands, tasks
 from secrets import MONGO_CLIENT
-ref_rate = 5
 
 db_client = MONGO_CLIENT
 reminders_db = db_client.Reminders
