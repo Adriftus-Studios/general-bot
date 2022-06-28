@@ -306,6 +306,12 @@ class EventLogger(commands.Cog, name="Event Logger"):
             await channel.edit(name=f'👦 Member Count: {member.guild.member_count}')
 
             try:
+                await member.add_roles(732771947338793030)
+                print(f"{member} was assigned Minecraft Explorer role in Public Discord")
+            except Exception as err:
+                print(f"An error has occurred: {err}")
+
+            try:
                 channels = [743476824763269150, 601677205445279746]
                 for c in channels:
                     await self.bot.get_channel(c).send(embed=embed)
