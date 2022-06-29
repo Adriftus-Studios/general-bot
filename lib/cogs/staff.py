@@ -25,7 +25,7 @@ class Staff(commands.Cog, name="staff"):
         not know the changes until then.
     """
 
-    @app_commands.checks.has_any_role(976324993229139999, 976325044139610142)  # Role IDs for Administrator in Staff Discord
+    @app_commands.checks.has_any_role(976324993229139999, 976325044139610142, 601677268477149184)  # Role IDs for Administrator in Staff Discord
     @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
     @app_commands.command(
         name="creload",
@@ -66,7 +66,7 @@ class Staff(commands.Cog, name="staff"):
         if isinstance(error, app_commands.MissingRole):
             await itx.response.send_message("You do not have permission to run this command!", ephemeral=True)
 
-    @app_commands.checks.has_any_role(976324993229139999, 976325044139610142)  # Role IDs for Administrator in Staff Discord
+    @app_commands.checks.has_any_role(976324993229139999, 976325044139610142, 601677268477149184)  # Role IDs for Administrator in Staff Discord
     @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
     @app_commands.command(
         name="gsync",
