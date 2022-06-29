@@ -68,32 +68,32 @@ class Reminder(commands.Cog, name="reminder"):
         except Exception as err:
             await itx.response.send_message(f"An error has occurred: {err}")
 
-    @tasks.loop(seconds=0.2)
-    async def check_loop(self):
-
-        for g in [r for r in reminders_col.find_one({"time": {"$in": "reminders"}}) if time.time() >= float(r["time"])]:
-            embed = discord.Embed(description=f'**Reminder:**\r\r`{g["note"]}`', colour=self.bot.main_color)
-            embed.add_field(name='Message:', value=f'[Click here]({g["reminders"]})')
-
-            embed.set_footer(text=f"Reminder ID: {reminders_col.find()}")
-
-            await g["author"].send(embed=embed)
-            del self.data[g["id"]]
-
-
-            try:
-
-                await asyncio.sleep(dur)
-                u = itx.user
-                c = itx.channel
-                try:
-                    await c.send(f"{u.mention}, Here is your reminder\n```{note}```")
-                except Exception as err:
-                    await discord.send(f'An error has occurred: {err}')
-            except Exception as err:
-                exception = f"{type(err).__name__}: {err}"
-                print(f"Error: {exception}")
-                await itx.response.send_message(f'An error has occurred: {err}')
+    # @tasks.loop(seconds=0.2)
+    # async def check_loop(self):
+    #
+    #     for g in [r for r in reminders_col.find_one({"time": {"$in": "reminders"}}) if time.time() >= float(r["time"])]:
+    #         embed = discord.Embed(description=f'**Reminder:**\r\r`{g["note"]}`', colour=self.bot.main_color)
+    #         embed.add_field(name='Message:', value=f'[Click here]({g["reminders"]})')
+    #
+    #         embed.set_footer(text=f"Reminder ID: {reminders_col.find()}")
+    #
+    #         await g["author"].send(embed=embed)
+    #         del self.data[g["id"]]
+    #
+    #
+    #         try:
+    #
+    #             await asyncio.sleep(dur)
+    #             u = itx.user
+    #             c = itx.channel
+    #             try:
+    #                 await c.send(f"{u.mention}, Here is your reminder\n```{note}```")
+    #             except Exception as err:
+    #                 await discord.send(f'An error has occurred: {err}')
+    #         except Exception as err:
+    #             exception = f"{type(err).__name__}: {err}"
+    #             print(f"Error: {exception}")
+    #             await itx.response.send_message(f'An error has occurred: {err}')
 
 
 async def setup(bot: commands.Bot):
