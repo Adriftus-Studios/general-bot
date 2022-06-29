@@ -112,8 +112,8 @@ class EventLogger(commands.Cog, name="Event Logger"):
             - (ID: {ctx.guild.id}) by {ctx.user} (ID: {ctx.user.id})\n
             ----------------------------------------------------------------\n
             """
-            async with aiofiles.open("message_log.txt", "a") as f:
-                await f.writelines(message_content)
+            # async with aiofiles.open("message_log.txt", "a") as f:
+            #     await f.writelines(message_content)
 
             if len(message_content) > 1000:
                 message_content = f"{message_content[:1000]}...[Continued]"
