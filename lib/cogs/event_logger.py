@@ -9,7 +9,7 @@ import aiofiles
 import random
 from secrets import MONGO_CLIENT
 
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 db_client = MONGO_CLIENT
 message_db = db_client.Messages
@@ -263,9 +263,14 @@ class EventLogger(commands.Cog, name="Event Logger"):
         return x
 
     # Member counter ###################################################################################################
+    @tasks.loop(seconds=600.0)
+    async def update_member_count(self):
+        channel = self.guild.get_channel(619175785772875808)
+        await channel.edit(name=f'👦 Member Count: {self.guild.member_count}')
+        print(f"Member count channel updated to: {self.guild.member_count}")
+
     @commands.Cog.listener()
     async def on_member_join(self, member):
-
         user_data = {
             "_id": f"{member.id}",
             "linked_accounts": {
@@ -302,11 +307,9 @@ class EventLogger(commands.Cog, name="Event Logger"):
         embed.add_field(name=f"Account Created:", value=f"<t:{member.created_at.strftime('%s')}:R>", inline=False)
 
         if member.guild.id == 601677205445279744:
-            channel = member.guild.get_channel(619175785772875808)
-            await channel.edit(name=f'👦 Member Count: {member.guild.member_count}')
-
             try:
-                await member.add_roles(732771947338793030)
+                role = member.guild.get_role(732771947338793030)
+                await member.add_roles(role, reason=f"Initial Role")
                 print(f"{member} was assigned Minecraft Explorer role in Public Discord")
             except Exception as err:
                 print(f"An error has occurred: {err}")
@@ -325,9 +328,6 @@ class EventLogger(commands.Cog, name="Event Logger"):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-        channel = member.guild.get_channel(619175785772875808)
-        await channel.edit(name=f'👦 Member Count: {member.guild.member_count}')
-
         embed = discord.Embed(
             title=f"{member} Has left!",
             description=f"The door hit {member} on the ass on the way out!",

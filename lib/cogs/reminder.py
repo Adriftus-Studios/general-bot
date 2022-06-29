@@ -10,6 +10,7 @@ from secrets import MONGO_CLIENT
 
 db_client = MONGO_CLIENT
 reminders_db = db_client.Reminders
+reminders_col = db_client.Reminders["reminders"]
 
 
 class Reminder(commands.Cog, name="reminder"):
@@ -41,8 +42,8 @@ class Reminder(commands.Cog, name="reminder"):
             #                          for dur in duration])
             dur = int(duration[-1])
 
-            # Check if user has a table in the DB
-            reminders_db.users.update_one({
+            # Insert the reminder information into the db, creates user collection if none exist
+            reminders_col.update_one({
                 "_id": f"{itx.user.id}"
             }, {
                 "_id": f"{itx.user.id}",
@@ -66,21 +67,15 @@ class Reminder(commands.Cog, name="reminder"):
 
         except Exception as err:
             await itx.response.send_message(f"An error has occurred: {err}")
-            # await itx.response.send_message(f'It seems you have made an error. '
-            #                                 f'\nYour `time` should be formatted as such:'
-            #                                 f'\n```1.5h``` This will equate to 1 and 1/2 hours.'
-            #                                 f'\n\nOr, you have designated an incorrect time multiplier. '
-            #                                 f'\n```s -> Seconds, m -> Minutes, h -> Hours, d -> Days, or w -> Weeks```'
-            #                                 f'\n')
 
-    @tasks.loop(seconds=1 / ref_rate)
+    @tasks.loop(seconds=0.2)
     async def check_loop(self):
 
-        for g in [r for r in db.users.find({"time": {"$in": "reminders"}}) if time.time() >= float(r["time"])]:
+        for g in [r for r in reminders_col.find_one({"time": {"$in": "reminders"}}) if time.time() >= float(r["time"])]:
             embed = discord.Embed(description=f'**Reminder:**\r\r`{g["note"]}`', colour=self.bot.main_color)
             embed.add_field(name='Message:', value=f'[Click here]({g["reminders"]})')
 
-            embed.set_footer(text=f"Reminder ID: {db.users.find()}")
+            embed.set_footer(text=f"Reminder ID: {reminders_col.find()}")
 
             await g["author"].send(embed=embed)
             del self.data[g["id"]]
@@ -88,7 +83,7 @@ class Reminder(commands.Cog, name="reminder"):
 
             try:
 
-                await asyncio.sleep(duration)
+                await asyncio.sleep(dur)
                 u = itx.user
                 c = itx.channel
                 try:

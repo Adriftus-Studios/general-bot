@@ -15,10 +15,9 @@ class Counter(commands.Cog, name="counter"):
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.channel.id == 970208822754963486 and not message.author.bot:
+            with open('./ignored/counter.json', 'r') as file:
+                data = json.load(file)
             try:
-                with open('./ignored/counter.json', 'r') as file:
-                    data = json.load(file)
-
                 current_number = data['count']
 
                 if int(message.content) == int(current_number)+1 and message.author.id != data['last_member']:
@@ -29,7 +28,7 @@ class Counter(commands.Cog, name="counter"):
                         file.seek(0)
                         file.write(json.dumps(data))
                         file.truncate()
-                    await message.channel.edit(name=f'📈stonks-{current_number+1}')
+                        # Removed for API call reliability
                     if int(message.content) % 100 == 0:
                         await message.channel.send(f"{message.author.mention} has just helped reach a milestone!")
                         await message.pin(reason="Milestone Reached")
@@ -43,8 +42,14 @@ class Counter(commands.Cog, name="counter"):
 
             except Exception as err:
                 await message.delete()
+                embed = discord.Embed(
+                    title=f"",
+                    description=f"Current Stonks 📈\n-{data['count']+1}",
+                    color=config.error
+                )
+                await message.channel.send(embed=embed)
+
                 print(f"An error has occurred in counter: {err}")
-                traceback.format_exc()
 
 
 async def setup(bot: commands.Bot):
