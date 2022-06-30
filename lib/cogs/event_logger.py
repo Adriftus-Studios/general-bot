@@ -283,7 +283,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         }
         user_col = user_db[f"A_{member.id}"]
         try:
-            user_col.insert_one(user_data, upsert=True)
+            user_col.insert_one(user_data)
 
         except pymongo.errors.WriteError:
             print(f"User {member.name} already exists in the database with _id: {member.id}")

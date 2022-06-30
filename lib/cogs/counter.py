@@ -44,7 +44,7 @@ class Counter(commands.Cog, name="counter"):
                 await message.delete()
                 embed = discord.Embed(
                     title=f"",
-                    description=f"Current Stonks 📈\n-{data['count']+1}",
+                    description=f"Current Stonks 📈\n{data['count']+1}",
                     color=config.error
                 )
                 await message.channel.send(embed=embed)
