@@ -1,11 +1,3 @@
-import aiohttp
-import json
-import os
-import platform
-import random
-import sys
-
-import requests
 import discord
 import config
 import time
@@ -44,6 +36,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         await itx.response.send_message(f"Thank you {itx.user.mention} for your suggestion! Your suggestion has been sent to <#939225790481047683>")
 
         message = await channel.send(embed=embed)
+        await message.create_thread(name="Submission Discussion", slowmode_delay=None, reason="Suggestion Created")
         await message.add_reaction("<:knightup:548680151882399745>")
         await message.add_reaction("<:knightdown:550025111235985410>")
 
