@@ -265,9 +265,9 @@ class EventLogger(commands.Cog, name="Event Logger"):
     # Member counter ###################################################################################################
     @tasks.loop(seconds=600.0)
     async def update_member_count(self):
-        channel = self.guild.get_channel(619175785772875808)
-        await channel.edit(name=f'👦 Member Count: {self.guild.member_count}')
-        print(f"Member count channel updated to: {self.guild.member_count}")
+        channel = self.bot.get_channel(619175785772875808)
+        await channel.edit(name=f'👦 Member Count: {self.bot.get_guild(601677205445279744).member_count}')
+        print(f"Member count channel updated to: {self.bot.get_guild(601677205445279744).member_count}")
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
