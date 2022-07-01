@@ -33,10 +33,14 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         embed.set_footer(text=f"User ID: {itx.user.id} | sID: /suggest to make your own • \n{time.ctime(time.time())}")
 
         channel = itx.client.get_guild(601677205445279744).get_channel(939225790481047683)
-        await itx.response.send_message(f"Thank you {itx.user.mention} for your suggestion! Your suggestion has been sent to <#939225790481047683>")
+        await itx.response.send_message(
+            f"Thank you {itx.user.mention} for your suggestion! Your suggestion has been sent to <#939225790481047683>")
 
         message = await channel.send(embed=embed)
-        await message.create_thread(name="Submission Discussion", slowmode_delay=None, reason="Suggestion Created")
+        try:
+            await message.create_thread(name="Submission Discussion", slowmode_delay=None, reason="Suggestion Created")
+        except Exception as err:
+            print(err)
         await message.add_reaction("<:knightup:548680151882399745>")
         await message.add_reaction("<:knightdown:550025111235985410>")
 
