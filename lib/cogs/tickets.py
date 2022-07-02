@@ -26,7 +26,7 @@ class ButtonView(View):
         button.emoji = "✅"
         button.label = f"Claimed by {itx.user}"
 
-        moderator_roles = []
+        moderator_roles = [992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912, ]
         if itx.user.has_roles(role for role in moderator_roles):
             overwrites = {
                 itx.user: discord.PermissionOverwrite(
@@ -34,7 +34,9 @@ class ButtonView(View):
                     read_messages=True,
                     add_reactions=True,
                     read_message_history=True,
-                    send_messages=True)
+                    send_messages=True,
+                    use_application_commands=False,
+                    attach_files=True)
             }
             await itx.channel.set_permissions(itx.user, overwrite=overwrites)
             await itx.response.edit_message(view=self)
@@ -58,7 +60,7 @@ class ButtonView(View):
         style=discord.ButtonStyle.danger,
         emoji="<:open_lock:965662978588413972>",
         custom_id="2")
-    async def lock_callback(self, itx: discord.Interaction, button):
+    async def lock_callback(self, itx: discord.Interaction):
 
         await itx.response.send_modal(TicketReason(ticket_name=itx.channel.name, admin_name=itx.user))
         await itx.channel.delete()
@@ -140,7 +142,9 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
                 read_messages=True,
                 add_reactions=True,
                 read_message_history=True,
-                send_messages=True)
+                send_messages=True,
+                use_application_commands=False,
+                attach_files=True)
         }
 
         channel = await itx.user.guild.get_channel(985201287488499752).create_text_channel(f'Ticket - {itx.user.name}', overwrites=overwrites)
