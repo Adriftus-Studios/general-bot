@@ -21,7 +21,6 @@ class ButtonView(View):
         style=discord.ButtonStyle.danger,
         emoji="✅",
         custom_id="0")
-    @app_commands.checks.has_any_role(992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912)
     async def claim_callback(self, itx: discord.Interaction, button):
         button.disabled = True
         button.emoji = "✅"
@@ -35,8 +34,18 @@ class ButtonView(View):
                 send_messages=True,
                 use_application_commands=False,
                 attach_files=True)
-        await itx.channel.set_permissions(itx.user, overwrite=overwrites)
-        await itx.response.edit_message(view=self)
+        role_ids = [992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912]
+        member = itx.user
+        for role_id in role_ids:
+            if member.get_role(role_id):
+                await itx.channel.set_permissions(itx.user, overwrite=overwrites)
+                await itx.response.edit_message(view=self)
+            else:
+                itx.channel.send("Only a member of staff may claim a ticket.")
+
+    async def interaction_check(self, interaction: claim_callback):
+        # return True to allow the interaction to call the related ui.Item
+        return True
 
     @discord.ui.button(
         label="Close Ticket [User]",
@@ -52,7 +61,6 @@ class ButtonView(View):
             itx.user: discord.PermissionOverwrite(send_messages=True)}
         await itx.channel.set_permissions(itx.user, overwrite=overwrites)
 
-    @app_commands.checks.has_any_role(992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912)
     @discord.ui.button(
         label="Lock Ticket [Staff]",
         style=discord.ButtonStyle.danger,
@@ -60,8 +68,14 @@ class ButtonView(View):
         custom_id="2")
     async def lock_callback(self, itx: discord.Interaction, button):
 
-        await itx.response.send_modal(TicketReason(ticket_name=itx.channel.name, admin_name=itx.user))
-        await itx.channel.delete()
+        role_ids = [992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912]
+        member = itx.user
+        for role_id in role_ids:
+            if member.get_role(role_id):
+                await itx.response.send_modal(TicketReason(ticket_name=itx.channel.name, admin_name=itx.user))
+                await itx.channel.delete()
+            else:
+                itx.channel.send("Only a member of staff may lock a ticket.")
 
 
 class TicketView(View):
