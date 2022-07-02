@@ -21,25 +21,24 @@ class ButtonView(View):
         style=discord.ButtonStyle.danger,
         emoji="✅",
         custom_id="0")
+    @app_commands.checks.has_any_role(992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912)
     async def claim_callback(self, itx: discord.Interaction, button):
         button.disabled = True
         button.emoji = "✅"
         button.label = f"Claimed by {itx.user}"
 
-        moderator_roles = [992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912, ]
-        if itx.user.has_roles(role for role in moderator_roles):
-            overwrites = {
-                itx.user: discord.PermissionOverwrite(
-                    manage_messages=True,
-                    read_messages=True,
-                    add_reactions=True,
-                    read_message_history=True,
-                    send_messages=True,
-                    use_application_commands=False,
-                    attach_files=True)
-            }
-            await itx.channel.set_permissions(itx.user, overwrite=overwrites)
-            await itx.response.edit_message(view=self)
+        overwrites = {
+            itx.user: discord.PermissionOverwrite(
+                manage_messages=True,
+                read_messages=True,
+                add_reactions=True,
+                read_message_history=True,
+                send_messages=True,
+                use_application_commands=False,
+                attach_files=True)
+        }
+        await itx.channel.set_permissions(itx.user, overwrite=overwrites)
+        await itx.response.edit_message(view=self)
 
     @discord.ui.button(
         label="Close Ticket [User]",
