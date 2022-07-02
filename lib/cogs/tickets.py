@@ -17,26 +17,48 @@ class ButtonView(View):
         super().__init__(timeout=None)
 
     @discord.ui.button(
-        label="Close Ticket",
+        label="Claim Ticket [Staff]",
+        style=discord.ButtonStyle.danger,
+        emoji="✅",
+        custom_id="0")
+    async def claim_callback(self, itx: discord.Interaction, button):
+        button.disabled = True
+        button.emoji = "✅"
+        button.label = f"Claimed by {itx.user}"
+
+        moderator_roles = []
+        if itx.user.has_roles(role for role in moderator_roles):
+            overwrites = {
+                itx.user: discord.PermissionOverwrite(
+                    manage_messages=True,
+                    read_messages=True,
+                    add_reactions=True,
+                    read_message_history=True,
+                    send_messages=True)
+            }
+            await itx.channel.set_permissions(itx.user, overwrite=overwrites)
+            await itx.response.edit_message(view=self)
+
+    @discord.ui.button(
+        label="Close Ticket [User]",
         style=discord.ButtonStyle.danger,
         emoji="<:open_lock:965662978588413972>",
         custom_id="1")
-    async def close_callback(self, ctx: discord.Interaction, button):
+    async def close_callback(self, itx: discord.Interaction, button):
         button.disabled = True
         button.emoji = "<:closed_lock:965662987790741535>"
-        await ctx.response.edit_message(view=self)
+        await itx.response.edit_message(view=self)
 
-        overwrite = discord.PermissionOverwrite()
-        overwrite.send_messages = False
-        overwrite.read_messages = True
-        await ctx.channel.set_permissions(ctx.user, overwrite=overwrite)
+        overwrites = {
+            itx.user: discord.PermissionOverwrite(send_messages=True)}
+        await itx.channel.set_permissions(itx.user, overwrite=overwrites)
 
     @discord.ui.button(
-        label="Lock Ticket [Admin]",
+        label="Lock Ticket [Staff]",
         style=discord.ButtonStyle.danger,
         emoji="<:open_lock:965662978588413972>",
         custom_id="2")
-    async def close_response_callback(self, itx: discord.Interaction, button):
+    async def lock_callback(self, itx: discord.Interaction, button):
 
         await itx.response.send_modal(TicketReason(ticket_name=itx.channel.name, admin_name=itx.user))
         await itx.channel.delete()
@@ -124,7 +146,8 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
         channel = await itx.user.guild.get_channel(985201287488499752).create_text_channel(f'Ticket - {itx.user.name}', overwrites=overwrites)
 
         await itx.response.send_message(f"Your ticket has been created at {channel.mention}!", ephemeral=True)
-        await channel.send(content=itx.user.mention, embed=embed, view=ButtonView())
+        message = await channel.send(content=itx.user.mention, embed=embed, view=ButtonView())
+        await message.pin(reason="User Created Ticket")
 
 
 class TicketReason(ui.Modal, title="Reason for Closing Ticket"):
