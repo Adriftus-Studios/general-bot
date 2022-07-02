@@ -4,6 +4,7 @@ import discord
 import config
 import time
 import datetime
+import uuid
 from discord import app_commands, ui
 from discord.ui import Select, View
 from discord.ext import commands
@@ -101,20 +102,26 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
         required=True)
 
     async def on_submit(self, itx: discord.Interaction):
+        ticket_number = uuid.uuid1()
         embed = discord.Embed(
             title=f"<:support_ticket:965647477548138566> Support Ticket - [{self.ticket_name}]",
             description=f"Thank you for opening a support ticket\nA member of <@&625686951382745089> will be available to help you shortly.",
             color=config.success)
         embed.add_field(name=f"Submitter ", value=f"Discord: {itx.user} | IGN: {self.ign}", inline=False)
         embed.add_field(name=f"Issue", value=f"{self.issue}", inline=False)
-        embed.set_footer(text=f"User ID: {itx.user.id} | iID:  • {time.ctime(time.time())}")
+        embed.set_footer(text=f"User ID: {itx.user.id} | Ticket Number • {ticket_number}")
 
         overwrites = {
             itx.user.guild.default_role: discord.PermissionOverwrite(read_messages=False),
-            itx.user.guild.me: discord.PermissionOverwrite(read_messages=True)
+            itx.user.guild.me: discord.PermissionOverwrite(read_messages=True),
+            itx.user: discord.PermissionOverwrite(
+                read_messages=True,
+                add_reactions=True,
+                read_message_history=True,
+                send_messages=True)
         }
 
-        channel = await itx.user.guild.get_channel(985201287488499752).create_text_channel(f'Ticket - {itx.user}', overwrites=overwrites)
+        channel = await itx.user.guild.get_channel(985201287488499752).create_text_channel(f'Ticket - {itx.user.name}', overwrites=overwrites)
 
         await itx.response.send_message(f"Your ticket has been created at {channel.mention}!", ephemeral=True)
         await channel.send(content=itx.user.mention, embed=embed, view=ButtonView())

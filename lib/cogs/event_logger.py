@@ -1,11 +1,9 @@
 
 import discord
 import pymongo.errors
-
 import config
 import time
 import datetime
-import aiofiles
 import random
 from secrets import MONGO_CLIENT
 
