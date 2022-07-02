@@ -52,12 +52,13 @@ class ButtonView(View):
             itx.user: discord.PermissionOverwrite(send_messages=True)}
         await itx.channel.set_permissions(itx.user, overwrite=overwrites)
 
+    @app_commands.checks.has_any_role(992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912)
     @discord.ui.button(
         label="Lock Ticket [Staff]",
         style=discord.ButtonStyle.danger,
         emoji="<:open_lock:965662978588413972>",
         custom_id="2")
-    async def lock_callback(self, itx: discord.Interaction):
+    async def lock_callback(self, itx: discord.Interaction, button):
 
         await itx.response.send_modal(TicketReason(ticket_name=itx.channel.name, admin_name=itx.user))
         await itx.channel.delete()
