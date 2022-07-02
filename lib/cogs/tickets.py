@@ -27,8 +27,7 @@ class ButtonView(View):
         button.emoji = "✅"
         button.label = f"Claimed by {itx.user}"
 
-        overwrites = {
-            itx.user: discord.PermissionOverwrite(
+        overwrites = discord.PermissionOverwrite(
                 manage_messages=True,
                 read_messages=True,
                 add_reactions=True,
@@ -36,7 +35,6 @@ class ButtonView(View):
                 send_messages=True,
                 use_application_commands=False,
                 attach_files=True)
-        }
         await itx.channel.set_permissions(itx.user, overwrite=overwrites)
         await itx.response.edit_message(view=self)
 
