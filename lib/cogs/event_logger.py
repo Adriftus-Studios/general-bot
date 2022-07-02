@@ -48,9 +48,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         # Reporting channel (Avoid circular logs)
         log_channels = [989509544218611753, 712309385019523155]
         ignore_channels = [970208822754963486]
-        if message.channel.id in log_channels:
-            return
-        if message.channel.id in ignore_channels:
+        if message.channel.id in log_channels or message.channel.id in ignore_channels:
             return
 
         try:
@@ -88,11 +86,14 @@ class EventLogger(commands.Cog, name="Event Logger"):
 
             if payload.channel_id in admin_channels:
                 await self.message_to_discord(payload, message_data, 712309385019523155)
+                await message_col.drop()
+                print("Message Collection removed from DB")
             elif payload.channel_id in ignorelist_channels:
                 pass
             else:
                 await self.message_to_discord(payload, message_data, 989509544218611753)
                 await message_col.drop()
+                print("Message Collection removed from DB")
 
         except Exception as err:
             print(f'An error has occurred: {err}')
@@ -261,11 +262,11 @@ class EventLogger(commands.Cog, name="Event Logger"):
         return x
 
     # Member counter ###################################################################################################
-    @tasks.loop(seconds=600.0)
-    async def update_member_count(self):
-        channel = self.bot.get_channel(619175785772875808)
-        await channel.edit(name=f'👦 Member Count: {self.bot.get_guild(601677205445279744).member_count}')
-        print(f"Member count channel updated to: {self.bot.get_guild(601677205445279744).member_count}")
+    # @tasks.loop(seconds=600.0)
+    # async def update_member_count(self):
+    #     channel = self.bot.get_channel(619175785772875808)
+    #     await channel.edit(name=f'👦 Member Count: {self.bot.get_guild(601677205445279744).member_count}')
+    #     print(f"Member count channel updated to: {self.bot.get_guild(601677205445279744).member_count}")
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -319,6 +320,10 @@ class EventLogger(commands.Cog, name="Event Logger"):
 
             except Exception as err:
                 print(f'An error has occurred: {err}')
+
+            channel = self.bot.get_channel(619175785772875808)
+            await channel.edit(name=f'👦 Member Count: {self.bot.get_guild(601677205445279744).member_count}')
+            print(f'{member} left {member.guild.name} ( Current Members: {member.guild.member_count} )')
             print(f'{member} joined {member.guild.name} ( Current Members: {member.guild.member_count} )')
 
         else:
@@ -336,11 +341,14 @@ class EventLogger(commands.Cog, name="Event Logger"):
             await self.bot.get_channel(743476824763269150).send(embed=embed)
         except Exception as err:
             print(f'An error has occurred: {err}')
+
+        channel = self.bot.get_channel(619175785772875808)
+        await channel.edit(name=f'👦 Member Count: {self.bot.get_guild(601677205445279744).member_count}')
         print(f'{member} left {member.guild.name} ( Current Members: {member.guild.member_count} )')
 
 
 # Starts the member count updater loop
-EventLogger.update_member_count.start()
+# EventLogger.update_member_count.start()
 
 
 async def setup(bot: commands.Bot):

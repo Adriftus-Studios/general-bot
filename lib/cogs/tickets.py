@@ -6,9 +6,13 @@ import time
 import datetime
 import uuid
 from discord import app_commands, ui
-from discord.ui import Select, View
+from discord.ui import View
 from discord.ext import commands
-from discord.app_commands import Choice
+from secrets import MONGO_CLIENT
+
+db_client = MONGO_CLIENT
+message_db = db_client.Messages
+user_db = db_client.Users
 
 
 class ButtonView(View):
