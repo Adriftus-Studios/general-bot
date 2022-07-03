@@ -223,12 +223,12 @@ class Tickets(commands.Cog, name="ticket"):
         Ticket
         """
 
-        async def interaction_check(interaction):
+        async def interaction_check(interaction) -> bool:
             member = interaction.user
             if not member.get_role(993282351637483621):
                 return True
             else:
-                interaction.user.channel.send(
+                interaction.response.send_message(
                     "You cannot open a ticket. If you believe this is in error, please contact a moderator.",
                     ephimeral=True)
                 return False
