@@ -309,7 +309,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
             try:
                 role = member.guild.get_role(732771947338793030)
                 await member.add_roles(role, reason=f"Initial Role")
-                print(f"{member} was assigned Minecraft Explorer role in Public Discord")
+                print(f"{member} was assigned Server Member role in Public Discord")
             except Exception as err:
                 print(f"An error has occurred: {err}")
 
@@ -322,8 +322,10 @@ class EventLogger(commands.Cog, name="Event Logger"):
                 print(f'An error has occurred: {err}')
 
             channel = self.bot.get_channel(619175785772875808)
-            await channel.edit(name=f'👦 Member Count: {self.bot.get_guild(601677205445279744).member_count}')
-            print(f'{member} left {member.guild.name} ( Current Members: {member.guild.member_count} )')
+            try:
+                await channel.edit(name=f'👦 Member Count: {self.bot.get_guild(601677205445279744).member_count}')
+            except Exception as err:
+                print(f"There was an error changing member count: {err}")
             print(f'{member} joined {member.guild.name} ( Current Members: {member.guild.member_count} )')
 
         else:
@@ -343,7 +345,10 @@ class EventLogger(commands.Cog, name="Event Logger"):
             print(f'An error has occurred: {err}')
 
         channel = self.bot.get_channel(619175785772875808)
-        await channel.edit(name=f'👦 Member Count: {self.bot.get_guild(601677205445279744).member_count}')
+        try:
+            await channel.edit(name=f'👦 Member Count: {self.bot.get_guild(601677205445279744).member_count}')
+        except Exception as err:
+            print(f"There was an error changing member count: {err}")
         print(f'{member} left {member.guild.name} ( Current Members: {member.guild.member_count} )')
 
 
