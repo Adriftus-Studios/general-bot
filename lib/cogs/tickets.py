@@ -222,14 +222,25 @@ class Tickets(commands.Cog, name="ticket"):
         """
         Ticket
         """
-        try:
-            view = TicketView()
-            await itx.response.send_message(
-                "Select the proper category for your ticket. If you're unsure, select 'Other'",
-                ephemeral=True, view=view)
-        except Exception as err:
-            traceback.format_exc()
-            await itx.response.send_message(f'An error has occurred: {err}')
+
+        async def interaction_check(interaction):
+            member = interaction.user
+            if not member.get_role(993282351637483621):
+                return True
+            else:
+                interaction.user.channel.send(
+                    "You cannot open a ticket. If you believe this is in error, please contact a moderator.",
+                    ephimeral=True)
+                return False
+        if interaction_check(itx):
+            try:
+                view = TicketView()
+                await itx.response.send_message(
+                    "Select the proper category for your ticket. If you're unsure, select 'Other'",
+                    ephemeral=True, view=view)
+            except Exception as err:
+                traceback.format_exc()
+                await itx.response.send_message(f'An error has occurred: {err}')
 
     # TODO: Remove boilerplate error handling, and move into main.py
     @ticket.error
