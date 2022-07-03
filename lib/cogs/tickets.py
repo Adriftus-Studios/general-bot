@@ -167,7 +167,7 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
         channel = await itx.user.guild.get_channel(985201287488499752).create_text_channel(f'Ticket - {itx.user.name}', overwrites=overwrites)
 
         await itx.response.send_message(f"Your ticket has been created at {channel.mention}!", ephemeral=True)
-        message = await channel.send(embed=embed, view=ButtonView())
+        message = await channel.send(content=f"The <@&992669949011165234> team has been notified, {itx.user}", embed=embed, view=ButtonView())
         await message.pin(reason="User Created Ticket")
 
 
