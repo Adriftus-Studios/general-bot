@@ -44,8 +44,8 @@ class ButtonView(View):
             if member.get_role(role_id):
                 await itx.channel.set_permissions(itx.user, overwrite=overwrites)
                 await itx.response.edit_message(view=self)
-            else:
-                itx.channel.send("Only a member of staff may claim a ticket.")
+            # else:
+            #     itx.response.send_message("Only a member of staff may claim a ticket.")
 
     async def interaction_check(self, interaction: claim_callback):
         # return True to allow the interaction to call the related ui.Item
@@ -78,8 +78,8 @@ class ButtonView(View):
             if member.get_role(role_id):
                 await itx.response.send_modal(TicketReason(ticket_name=itx.channel.name, admin_name=itx.user))
                 await itx.channel.delete()
-            else:
-                itx.channel.send("Only a member of staff may lock a ticket.")
+            # else:
+            #     itx.response.send_message("Only a member of staff may lock a ticket.")
 
 
 class TicketView(View):
@@ -107,7 +107,7 @@ class TicketView(View):
                     label='Staff',
                     value="Staff",
                     emoji='🧑‍💼',
-                    description='Staff related issues. (This will go to Admins, not Moderators)'),
+                    description='Staff related issues. (This will go to Admins, and Sr. Moderators)'),
                 discord.SelectOption(
                     label='Other',
                     value="Other",
@@ -145,7 +145,8 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
         ticket_number = uuid.uuid1()
         embed = discord.Embed(
             title=f"<:support_ticket:965647477548138566> Support Ticket - [{self.ticket_name}]",
-            description=f"Thank you for opening a support ticket\nA member of <@&625686951382745089> will be available to help you shortly.",
+            description=f"Thank you for opening a support ticket, {itx.user}\n"
+                        f"A member of <@&992669949011165234> will be available to help you shortly.",
             color=config.success)
         embed.add_field(name=f"Submitter ", value=f"Discord: {itx.user} | IGN: {self.ign}", inline=False)
         embed.add_field(name=f"Issue", value=f"{self.issue}", inline=False)
@@ -166,7 +167,7 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
         channel = await itx.user.guild.get_channel(985201287488499752).create_text_channel(f'Ticket - {itx.user.name}', overwrites=overwrites)
 
         await itx.response.send_message(f"Your ticket has been created at {channel.mention}!", ephemeral=True)
-        message = await channel.send(content=itx.user.mention, embed=embed, view=ButtonView())
+        message = await channel.send(embed=embed, view=ButtonView())
         await message.pin(reason="User Created Ticket")
 
 
