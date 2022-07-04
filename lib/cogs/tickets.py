@@ -104,6 +104,11 @@ class TicketView(View):
                     emoji='🏪',
                     description='Purchase related issues'),
                 discord.SelectOption(
+                    label='Appeal',
+                    value="Appeal",
+                    emoji='<:banhammer:934732958521241680>',
+                    description='Ban Appeal. Ban # is needed.'),
+                discord.SelectOption(
                     label='Staff',
                     value="Staff",
                     emoji='🧑‍💼',
@@ -143,31 +148,74 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
 
     async def on_submit(self, itx: discord.Interaction):
         ticket_number = uuid.uuid1()
+        # Support ticket-Helper+, Player reports-Mod+, Appeal- Sr Mod+
+        role_ping = {
+            "Bug": "992672222399434822",
+            "Player": "992671194186780732",
+            "Store": "992671194186780732",
+            "Appeal": "992671030143352912",
+            "Staff": "992670439644090428",
+            "Other": "992671391289704468"
+        }
+
+        dynamic_role = itx.user.guild.get_role(int(role_ping[self.ticket_name]))
+        # Staff roles in order:          Head Mod, Sr Mod, Mod, Helper, Dev
+        staff_roles = [992670439644090428, 992671030143352912, 992671194186780732, 992671391289704468, 992672222399434822]
+
+        new_overwrites = {}
+
+        view_roles = []
+        for role in staff_roles[:staff_roles.index(dynamic_role) + 1]:
+            view_roles.append(f"<@&{role}>")
+
         embed = discord.Embed(
             title=f"<:support_ticket:965647477548138566> Support Ticket - [{self.ticket_name}]",
             description=f"Thank you for opening a support ticket, {itx.user}\n"
-                        f"A member of staff will be available to help you shortly.",
+                        f"A member <@&{role_ping[self.ticket_name]}> will be available to help you shortly."
+                        f"These roles have access to view this ticket: {view_roles}",
             color=config.success)
         embed.add_field(name=f"Submitter ", value=f"Discord: {itx.user} | IGN: {self.ign}", inline=False)
         embed.add_field(name=f"Issue", value=f"{self.issue}", inline=False)
         embed.set_footer(text=f"User ID: {itx.user.id} | Ticket Number • {ticket_number}")
 
+        for role in staff_roles[:staff_roles.index(dynamic_role) + 1]:
+            appended_role = itx.user.guild.get_role(int(role))
+
+            new_overwrites.update({appended_role: discord.PermissionOverwrite(
+                read_messages=True,
+                add_reactions=True,
+                read_message_history=True,
+                send_messages=True,
+                use_application_commands=False,
+                attach_files=True,
+                )
+            })
+
         overwrites = {
             itx.user.guild.default_role: discord.PermissionOverwrite(read_messages=False),
             itx.user.guild.me: discord.PermissionOverwrite(read_messages=True),
+            # User roles
             itx.user: discord.PermissionOverwrite(
                 read_messages=True,
                 add_reactions=True,
                 read_message_history=True,
                 send_messages=True,
                 use_application_commands=False,
-                attach_files=True)
+                attach_files=True),
+            # Staff roles
+            dynamic_role: discord.PermissionOverwrite(
+                read_messages=True,
+                add_reactions=True,
+                read_message_history=True,
+                send_messages=True,
+                use_application_commands=False,
+                attach_files=True,
+                )
         }
-
         channel = await itx.user.guild.get_channel(985201287488499752).create_text_channel(f'Ticket - {itx.user.name}', overwrites=overwrites)
 
         await itx.response.send_message(f"Your ticket has been created at {channel.mention}!", ephemeral=True)
-        message = await channel.send(content=f"The <@&992669949011165234> team has been notified, {itx.user}", embed=embed, view=ButtonView())
+        message = await channel.send(content=f"The <@&{role_ping[self.ticket_name]}> team has been notified, {itx.user}.", embed=embed, view=ButtonView())
         await message.pin(reason="User Created Ticket")
 
 
