@@ -43,13 +43,13 @@ class Moderation(commands.Cog, name="moderation"):
     def __init__(self, bot):
         self.bot = bot
 
-    @app_commands.checks.has_any_role(976324993229139999, 976324625678082068, 605950680850628629)
     @app_commands.command(
         name="jail",
         description="Jail a user")
     @app_commands.describe(
         member='User you wish to jail.',
         reason='Reason given to jail the user.')
+    @app_commands.checks.has_permissions(ban_members=True)
     async def jail(self, itx: discord.Interaction, member: discord.Member, *, reason: str):
         """
         Jail a user. Gives the jailed role if within the main discord.
@@ -123,7 +123,7 @@ class Moderation(commands.Cog, name="moderation"):
     async def ban(self, itx: discord.Interaction, user: discord.Member, *, reason: str = None):
         embed = discord.Embed(title=f"{user.name}", color=0x7289da)
         embed.add_field(name=f'Ban Successful',
-                        value=f"**{user.name}#{user.discriminator}** has been banned for\n- `{reason}`\n\nTimestamp: <t:{datetime.datetime.now().strftime('%s')}:F>")
+                        value=f"**{user.name}** has been banned for\n- `{reason}`\n\nTimestamp: <t:{datetime.datetime.now().strftime('%s')}:F>")
         await itx.response.send_message(embed=embed)
         await user.ban(reason=reason)
 
@@ -133,7 +133,7 @@ class Moderation(commands.Cog, name="moderation"):
     @app_commands.describe(
         user="Who are you warning?",
         reason="Reason for the warning?")
-    @app_commands.checks.has_permissions(manage_roles=True)
+    @app_commands.checks.has_permissions(kick_members=True)
     async def warn(self, itx: discord.Interaction, user: discord.Member, *, reason: str = None):
 
         embed = discord.Embed(title="WARNED", color=0xB321AA)
@@ -150,7 +150,7 @@ class Moderation(commands.Cog, name="moderation"):
                           description="Clear a specified amount of messages.")
     @app_commands.describe(
         amount="How many messages should be deleted?")
-    @app_commands.checks.has_permissions(manage_messages=True, manage_channels=True)
+    @app_commands.checks.has_permissions(manage_messages=True)
     async def purge(self, itx: discord.Interaction, amount: int):
         """
         Delete X number of messages.

@@ -91,6 +91,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
             elif payload.channel_id in ignorelist_channels:
                 pass
             else:
+                await self.message_to_discord(payload, message_data, 965027742154358814)
                 await self.message_to_discord(payload, message_data, 989509544218611753)
                 await message_col.drop()
                 print("Message Collection removed from DB")

@@ -211,6 +211,7 @@ class TicketReason(ui.Modal, title="Reason for Closing Ticket"):
         super(TicketReason, self).__init__(timeout=None)
         self.ticket_name = ticket_name
         self.admin_name = admin_name
+        # self.user_name = user_name
 
     reason = ui.TextInput(
         label="Describe the Reason for Closure",
@@ -227,7 +228,7 @@ class TicketReason(ui.Modal, title="Reason for Closing Ticket"):
         embed.add_field(name=f"Reason", value=f"{self.reason}", inline=False)
         embed.set_footer(text=f"User ID: {itx.user.id} | iID:  • {time.ctime(time.time())}")
 
-        channel = itx.user.guild.get_channel(965027742154358814)
+        channel = itx.client.get_channel(965027742154358814)
         await itx.response.defer()
         await channel.send(embed=embed)
 
