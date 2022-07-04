@@ -140,13 +140,13 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
             "Player": "992671194186780732",
             "Store": "992671194186780732",
             "Appeal": "992671030143352912",
-            "Staff": "992670439644090428",
+            "Staff": "993412996527300649",
             "Other": "992671391289704468"
         }
 
         dynamic_role = itx.user.guild.get_role(int(role_ping[self.ticket_name]))
-        # Staff roles in order:          Head Mod, Sr Mod, Mod, Helper, Dev
-        staff_roles = [992670439644090428, 992671030143352912, 992671194186780732, 992671391289704468, 992672222399434822]
+        # Staff roles in order:          Mod Management, Sr Mod, Mod, Helper, Dev
+        staff_roles = [993412996527300649, 992671030143352912, 992671194186780732, 992671391289704468, 992672222399434822]
 
         new_overwrites = {}
 
