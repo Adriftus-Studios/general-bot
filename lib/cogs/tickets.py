@@ -178,7 +178,7 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
         embed.add_field(name=f"Issue", value=f"{self.issue}", inline=False)
         embed.set_footer(text=f"User ID: {itx.user.id} | Ticket Number • {ticket_number}")
 
-        for role in staff_roles[:staff_roles.index(dynamic_role) + 1]:
+        for role in staff_roles[:staff_roles.index(dynamic_role.id) + 1]:
             appended_role = itx.user.guild.get_role(int(role))
 
             new_overwrites.update({appended_role: discord.PermissionOverwrite(
