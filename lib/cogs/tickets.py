@@ -165,7 +165,7 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
         new_overwrites = {}
 
         view_roles = []
-        for role in staff_roles[:staff_roles.index(dynamic_role) + 1]:
+        for role in staff_roles[:staff_roles.index(dynamic_role.id) + 1]:
             view_roles.append(f"<@&{role}>")
 
         embed = discord.Embed(
@@ -280,7 +280,7 @@ class Tickets(commands.Cog, name="ticket"):
                     "You cannot open a ticket. If you believe this is in error, please contact a moderator.",
                     ephimeral=True)
                 return False
-        if interaction_check(itx):
+        if await interaction_check(itx):
             try:
                 view = TicketView()
                 await itx.response.send_message(
