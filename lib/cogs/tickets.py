@@ -22,12 +22,12 @@ class ButtonView(View):
 
     @discord.ui.button(
         label="Claim Ticket [Staff]",
-        style=discord.ButtonStyle.danger,
-        emoji="✅",
+        style=discord.ButtonStyle.green,
+        emoji="☑️",
         custom_id="0")
     async def claim_callback(self, itx: discord.Interaction, button):
         button.disabled = True
-        button.emoji = "✅"
+        button.emoji = "☑️"
         button.label = f"Claimed by {itx.user}"
 
         overwrites = discord.PermissionOverwrite(
@@ -52,25 +52,11 @@ class ButtonView(View):
         return True
 
     @discord.ui.button(
-        label="Close Ticket [User]",
+        label="Close Ticket [Staff]",
         style=discord.ButtonStyle.danger,
         emoji="<:open_lock:965662978588413972>",
         custom_id="1")
     async def close_callback(self, itx: discord.Interaction, button):
-        button.disabled = True
-        button.emoji = "<:closed_lock:965662987790741535>"
-        await itx.response.edit_message(view=self)
-
-        overwrites = {
-            itx.user: discord.PermissionOverwrite(send_messages=True)}
-        await itx.channel.set_permissions(itx.user, overwrite=overwrites)
-
-    @discord.ui.button(
-        label="Lock Ticket [Staff]",
-        style=discord.ButtonStyle.danger,
-        emoji="<:open_lock:965662978588413972>",
-        custom_id="2")
-    async def lock_callback(self, itx: discord.Interaction, button):
 
         role_ids = [992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912]
         member = itx.user
