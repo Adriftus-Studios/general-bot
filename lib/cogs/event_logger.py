@@ -48,9 +48,11 @@ class EventLogger(commands.Cog, name="Event Logger"):
         # Reporting channel (Avoid circular logs)
         log_channels = [989509544218611753, 712309385019523155]
         ignore_channels = [970208822754963486]
+        remove_channels = [992655402825162763]
         if message.channel.id in log_channels or message.channel.id in ignore_channels:
             return
-
+        if message.channel.id in remove_channels:
+            message.delete()
         try:
             await self.serialize_to_db(message)
 

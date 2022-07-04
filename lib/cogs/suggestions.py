@@ -40,6 +40,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
 
         await message.add_reaction("<:knightup:548680151882399745>")
         await message.add_reaction("<:knightdown:550025111235985410>")
+        # TODO: Change to private thread
         await message.create_thread(name="Submission Discussion", slowmode_delay=None, reason="Suggestion Created")
 
 
