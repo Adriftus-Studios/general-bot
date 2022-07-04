@@ -52,7 +52,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         if message.channel.id in log_channels or message.channel.id in ignore_channels:
             return
         if message.channel.id in remove_channels:
-            message.delete()
+            await message.delete()
         try:
             await self.serialize_to_db(message)
 
