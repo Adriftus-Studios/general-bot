@@ -84,15 +84,15 @@ Type "help", "copyright", "credits" or "license" for more information.
 
   If you get a warning message that tells you that you do not have the command on your PATH, follow these steps:
 	
-  	You need to add the following line to your ~/.bash_profile or ~/.bashrc file.
+   You need to add the following line to your ``~/.bash_profile`` or ``~/.bashrc file.``
 
  	`export PATH="/usr/local/bin:$PATH"`
 	
-	You will then need to profile the path, do this by either running the command:
+   You will then need to profile the path, do this by either running the command:
 
 	`source ~/.bash_profile`
 	
-	Or by simply closing your terminal and opening a new session. You should continue to check your PATH to make sure it includes the path.
+   Or by simply closing your terminal and opening a new session. You should continue to check your PATH to make sure it includes the path.
 
 	`echo $PATH`
  
