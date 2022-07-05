@@ -358,7 +358,6 @@ class EventLogger(commands.Cog, name="Event Logger"):
 # Starts the member count updater loop
 # EventLogger.update_member_count.start()
 
-
 async def setup(bot: commands.Bot):
     await bot.add_cog(
         EventLogger(bot),
