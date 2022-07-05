@@ -81,6 +81,20 @@ Type "help", "copyright", "credits" or "license" for more information.
    After you have installed python on your OS, check if you have pip (The package manager installed) 
  
  	If not, simply run: `curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10` in your terminal, ensuring that you change the python version after the last pipe.
+
+  If you get a warning message that tells you that you do not have the command on your PATH, follow these steps:
+	
+  	You need to add the following line to your ~/.bash_profile or ~/.bashrc file.
+
+ 	`export PATH="/usr/local/bin:$PATH"`
+	
+	You will then need to profile the path, do this by either running the command:
+
+	`source ~/.bash_profile`
+	
+	Or by simply closing your terminal and opening a new session. You should continue to check your PATH to make sure it includes the path.
+
+	`echo $PATH`
  
  ## Installing Github Desktop
  
