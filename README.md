@@ -76,6 +76,11 @@ Type "help", "copyright", "credits" or "license" for more information.
  - Trick question! Python comes pre-loaded on most linux distros. 
  
    You should still check that your version is 3.8 or higher though. To do this, type `python3 --version`
+   
+ 
+   After you have installed python on your OS, check if you have pip (The package manager installed) 
+ 
+ 	If not, simply run: `curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10` in your terminal, ensuring that you change the python version after the last pipe.
  
  ## Installing Github Desktop
  
