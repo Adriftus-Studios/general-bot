@@ -86,15 +86,15 @@ Type "help", "copyright", "credits" or "license" for more information.
 	
    You need to add the following line to your ``~/.bash_profile`` or ``~/.bashrc file.``
 
- 	`export PATH="/usr/local/bin:$PATH"`
+ 	export PATH="/usr/local/bin:$PATH"
 	
    You will then need to profile the path, do this by either running the command:
 
-	`source ~/.bash_profile`
+	source ~/.bash_profile
 	
    Or by simply closing your terminal and opening a new session. You should continue to check your PATH to make sure it includes the path.
 
-	`echo $PATH`
+	echo $PATH
  
  ## Installing Github Desktop
  
