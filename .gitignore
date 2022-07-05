@@ -30,7 +30,7 @@ coverage.xml
 cover/
 
 # Specific Files
-ignored/
+/ignored
 banned_reply.txt
 secrets.py
 
