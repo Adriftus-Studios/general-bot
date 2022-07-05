@@ -1,5 +1,5 @@
-#!/usr/bin/env python3
-import secrets
+#!/usr/bin/python3
+from secrets import TOKEN
 import discord
 from discord.ext import commands
 import os
@@ -75,4 +75,4 @@ async def on_app_command_error(itx: Interaction, error: AppCommandError):
     )
     await itx.response.send_message(embed=embed)
 
-bot.run(secrets.TOKEN)
+bot.run(TOKEN)
