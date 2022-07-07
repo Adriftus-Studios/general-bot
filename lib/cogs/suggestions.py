@@ -21,6 +21,11 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         style=discord.TextStyle.paragraph,
         max_length=1000,
         required=True)
+    title = ui.TextInput(
+        label="Set the title of your thread",
+        style=discord.TextStyle.paragraph,
+        max_length=30,
+        required=True)
 
     async def on_submit(self, itx: discord.Interaction):
         embed = discord.Embed(
@@ -41,7 +46,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         await message.add_reaction("<:knightup:548680151882399745>")
         await message.add_reaction("<:knightdown:550025111235985410>")
         # TODO: Change to private thread
-        await message.create_thread(name="Submission Discussion", slowmode_delay=None, reason="Suggestion Created")
+        await message.create_thread(name=f"{self.title}", slowmode_delay=None, reason="Suggestion Created")
 
 
 class Suggest(commands.Cog, name="suggest"):
