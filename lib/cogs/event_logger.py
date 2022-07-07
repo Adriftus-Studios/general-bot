@@ -114,7 +114,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
             message_content = f"""
             *** Command Log Entry - {time.ctime(time.time())} ***
                   **__Command Executed__**: **{executed_command}**
-                  **__Executed By__**: {itx}
+                  **__Executed By__**: {itx.user}
                   **__User ID__**: {itx.user.id}
                   **__Channel Info__**: {itx.channel.name}
                   **__Server Name__**: {itx.guild}
