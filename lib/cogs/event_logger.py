@@ -56,6 +56,8 @@ class EventLogger(commands.Cog, name="Event Logger"):
         try:
             await self.serialize_to_db(message)
 
+        except ValueError:
+            print("Was not able to serialize message. Contents empty")
         except Exception as err:
             print(f"An error has occurred: {err}")
 
