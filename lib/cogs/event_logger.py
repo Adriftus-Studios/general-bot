@@ -121,8 +121,6 @@ class EventLogger(commands.Cog, name="Event Logger"):
 
             ----------------------------------------------------------------\n
             """
-            # async with aiofiles.open("message_log.txt", "a") as f:
-            #     await f.writelines(message_content)
 
             if len(message_content) > 1000:
                 message_content = f"{message_content[:1000]}...[Continued]"
@@ -140,8 +138,8 @@ class EventLogger(commands.Cog, name="Event Logger"):
             except Exception as err:
                 print(f'An error has occurred: {err}')
             print(
-                f"Executed {executed_command} command in {ctx.guild}"
-                f"(ID: {ctx.guild.id}) by {ctx.user} (ID: {ctx.user.id})")
+                f"Executed {executed_command} command in {itx.guild}"
+                f"(ID: {itx.guild.id}) by {itx.user} (ID: {itx.user.id})")
         except Exception as err:
             print(err)
 
