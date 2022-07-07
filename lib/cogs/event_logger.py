@@ -106,12 +106,17 @@ class EventLogger(commands.Cog, name="Event Logger"):
         print(f"Channel Deleted - {channel}")
 
     @commands.Cog.listener()
-    async def on_interaction(self, ctx: discord.Interaction):
+    async def on_interaction(self, itx: discord.Interaction):
         try:
-            executed_command = ctx.command.name
+            executed_command = itx.command.name
             message_content = f"""
-            - Executed **{executed_command}** command in {ctx.guild} 
-            - (ID: {ctx.guild.id}) by {ctx.user} (ID: {ctx.user.id})\n
+            *** Command Log Entry - {time.ctime(time.time())} ***
+                  **__Command Executed__**: **{executed_command}**
+                  **__Executed By__**: {itx}
+                  **__User ID__**: {itx.user.id}
+                  **__Channel Info__**: {itx.channel.name}
+                  **__Server Name__**: {itx.guild}
+
             ----------------------------------------------------------------\n
             """
             # async with aiofiles.open("message_log.txt", "a") as f:

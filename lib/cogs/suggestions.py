@@ -16,15 +16,15 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         placeholder="ex: Notch",
         max_length=25,
         required=True)
+    title = ui.TextInput(
+        label="Set the title of your thread",
+        style=discord.TextStyle.short,
+        max_length=25,
+        required=True)
     suggestion = ui.TextInput(
         label="Describe your suggestion",
         style=discord.TextStyle.paragraph,
         max_length=1000,
-        required=True)
-    title = ui.TextInput(
-        label="Set the title of your thread",
-        style=discord.TextStyle.paragraph,
-        max_length=30,
         required=True)
 
     async def on_submit(self, itx: discord.Interaction):
@@ -33,7 +33,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
             description=f"○○ {itx.user.mention} has dropped a suggestion! ○○",
             color=config.success)
         embed.set_thumbnail(url=itx.user.avatar)
-        embed.add_field(name=f"Submitter ", value=f"{itx.user}", inline=False)
+        embed.add_field(name=f"Submitter ", value=f"Discord: {itx.user}| IGN: {self.name}", inline=False)
         embed.add_field(name=f"Suggestion", value=f"{self.suggestion}", inline=False)
         embed.set_footer(text=f"User ID: {itx.user.id} | sID: /suggest to make your own • \n{time.ctime(time.time())}")
 
