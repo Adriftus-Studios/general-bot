@@ -20,11 +20,13 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
     sug_title = ui.TextInput(
         label="Set the title of your thread",
         style=discord.TextStyle.short,
+        placeholder="Brief 25 char description",
         max_length=25,
         required=True)
     suggestion = ui.TextInput(
         label="Describe your suggestion",
         style=discord.TextStyle.paragraph,
+        placeholder="Please be as descriptive as possible. Once you send your suggestion, staff will discuss the viability of this suggestion.",
         max_length=1000,
         required=True)
 
