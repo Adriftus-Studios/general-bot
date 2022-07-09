@@ -17,7 +17,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         placeholder="ex: Notch",
         max_length=25,
         required=True)
-    title = ui.TextInput(
+    sug_title = ui.TextInput(
         label="Set the title of your thread",
         style=discord.TextStyle.short,
         max_length=25,
@@ -47,7 +47,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         await message.add_reaction("<:knightup:548680151882399745>")
         await message.add_reaction("<:knightdown:550025111235985410>")
         # TODO: Change to private thread
-        await message.create_thread(name=f"{self.title}", slowmode_delay=None, reason="Suggestion Created")
+        await message.create_thread(name=f"{self.sug_title}", slowmode_delay=None, reason="Suggestion Created")
 
 
 class Suggest(commands.Cog, name="suggest"):
