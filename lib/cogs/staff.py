@@ -101,8 +101,7 @@ class Staff(commands.Cog, name="staff"):
             for s in synced_guilds:
                 embed.add_field(name=f"Guild:", value=f"{s}", inline=True)
 
-            await itx.response.defer()
-            await itx.followup.send(embed=embed)
+            await itx.response.send(embed=embed)
         except Exception as err:
             traceback.print_exc()
             await itx.response.send_message(f'An error has occurred: {err}')
