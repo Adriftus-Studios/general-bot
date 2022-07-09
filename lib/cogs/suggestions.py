@@ -58,7 +58,7 @@ class Suggest(commands.Cog, name="suggest"):
     Make a suggestion, and get it approved, or denied! Votes are final.
     """
     # @app_commands.check(check_if_suggestion_channel)
-    @app_commands.checks.cooldown(1, 3600.0, key=lambda i: (i.guild_id, i.user.id))
+    @app_commands.checks.cooldown(1, 1200.0, key=lambda i: (i.guild_id, i.user.id))
     @app_commands.command(
         name="suggest",
         description="Create any suggestion that you would like to see on our server")
