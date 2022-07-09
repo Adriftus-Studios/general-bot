@@ -47,7 +47,7 @@ class Fun(commands.Cog, name="fun"):
     # Inspire Command
     @app_commands.command(
         name="inspire",
-        description="Be Inspired!")
+        description="Be Inspired! Random quotes provided by ZenQuotes.")
     async def _inspire(
             self,
             itx: discord.Interaction):
@@ -113,7 +113,7 @@ class Fun(commands.Cog, name="fun"):
     # Dad Joke Command
     @app_commands.command(
         name="joke",
-        description="The worlds FINEST Dad Jokes!")
+        description="Not a dad? Can't think of something this funny? Don't worry, we've got you covered!")
     async def _joke(
             self,
             itx: discord.Interaction):
