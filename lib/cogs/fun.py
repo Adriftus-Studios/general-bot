@@ -1,4 +1,3 @@
-import traceback
 
 import aiohttp
 import json

@@ -1,16 +1,9 @@
-import aiohttp
-import json
-import os
-import platform
-import random
-import sys
 
-import requests
 import discord
 from discord import app_commands, ui
 from discord.ui import Select, View
 from discord.ext import commands
-from discord.app_commands import Choice
+
 
 import config
 

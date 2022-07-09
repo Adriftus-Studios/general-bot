@@ -1,4 +1,3 @@
-import traceback
 
 import discord
 import config

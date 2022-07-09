@@ -1,3 +1,4 @@
+
 import os
 import traceback
 
@@ -89,6 +90,7 @@ class Staff(commands.Cog, name="staff"):
                 except Exception as err:
                     traceback.format_exc()
                     print(f"Skipped {g} for error: {err}")
+                    return
             print(f"Guilds have been synced")
             embed = discord.Embed(
                 title=f"Success!  -",
