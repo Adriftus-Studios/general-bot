@@ -86,7 +86,6 @@ class Staff(commands.Cog, name="staff"):
                     await itx.client.tree.sync(guild=discord.Object(id=g))
                     print(f"{g} was synced....")
                     synced_guilds.append(g)
-                    await asyncio.sleep(5)
                 except Exception as err:
                     traceback.print_exc()
                     print(f"Skipped {g} for error: {err}")
