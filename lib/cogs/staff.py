@@ -1,7 +1,6 @@
 
 import os
 import traceback
-import pretty_errors
 
 import discord
 from discord import app_commands, ui
@@ -102,9 +101,9 @@ class Staff(commands.Cog, name="staff"):
             for s in synced_guilds:
                 embed.add_field(name=f"Guild:", value=f"{s}", inline=True)
 
-            await itx.response.send(embed=embed)
+            await itx.response.send_message(embed=embed)
         except Exception as err:
-            pretty_errors.replace_stderr()
+            traceback.print_exc()
             await itx.response.send_message(f'An error has occurred: {err}')
 
     # TODO: Remove boilerplate error handling, and move into main.py
