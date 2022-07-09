@@ -53,7 +53,8 @@ class EventLogger(commands.Cog, name="Event Logger"):
             return
         if message.channel.id in remove_channels:
             await message.delete()
-        if not message.channel.get_id(995071363301773394):
+        advert_channel = [995071363301773394]
+        if message.channel.id not in advert_channel:
             if "discord.gg" in message.content:
                 await message.delete()
         try:
