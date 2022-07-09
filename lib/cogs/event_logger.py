@@ -53,8 +53,9 @@ class EventLogger(commands.Cog, name="Event Logger"):
             return
         if message.channel.id in remove_channels:
             await message.delete()
-        if "discord.gg" in message.content:
-            await message.delete()
+        if not message.channel.get_id(995071363301773394):
+            if "discord.gg" in message.content:
+                await message.delete()
         try:
             await self.serialize_to_db(message)
 
