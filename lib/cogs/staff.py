@@ -88,8 +88,9 @@ class Staff(commands.Cog, name="staff"):
                     synced_guilds.append(g)
                     await asyncio.wait(5)
                 except Exception as err:
-                    traceback.format_exc()
+                    traceback.print_exc()
                     print(f"Skipped {g} for error: {err}")
+                    await itx.response.send_message(f'An error has occurred: {err}')
                     return
             print(f"Guilds have been synced")
             embed = discord.Embed(
@@ -103,7 +104,7 @@ class Staff(commands.Cog, name="staff"):
             await itx.response.defer()
             await itx.followup.send(embed=embed)
         except Exception as err:
-            traceback.format_exc()
+            traceback.print_exc()
             await itx.response.send_message(f'An error has occurred: {err}')
 
     # TODO: Remove boilerplate error handling, and move into main.py
