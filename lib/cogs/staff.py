@@ -82,6 +82,7 @@ class Staff(commands.Cog, name="staff"):
         synced_guilds = []
         try:
             for g in guilds:
+                await asyncio.sleep(0.1)
                 try:
                     await itx.client.tree.sync(guild=discord.Object(id=g))
                     print(f"{g} was synced....")
