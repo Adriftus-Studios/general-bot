@@ -13,8 +13,7 @@ from discord.ext import commands
 def get_quote():
     res = requests.get("https://zenquotes.io/api/random")
     json_data = json.loads(res.text)
-    quote = f"{json_data[0]['q']}\n "
-    return quote
+    return json_data
 
 
 def dad_joke():
@@ -55,8 +54,9 @@ class Fun(commands.Cog, name="fun"):
         """
         Be inspired. random quotes provided by ZenQuotes.
         """
-        quote = get_quote()
-        author = json_data[0]['a']
+        json_data = get_quote()
+        quote = f"{json_data[0]['q']}"
+        author = f"{json_data[0]['a']}"
         embed = discord.Embed(title="Inspirational Message for " + itx.user.display_name, color=config.success)
         embed.add_field(name="Inspire Others", value=quote, inline=False)
         embed.set_footer(text=f" - {author}")
