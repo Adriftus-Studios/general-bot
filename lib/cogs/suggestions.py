@@ -26,7 +26,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
     suggestion = ui.TextInput(
         label="Describe your suggestion",
         style=discord.TextStyle.paragraph,
-        placeholder="Please be as descriptive as possible. Once you send your suggestion, staff will discuss the viability of this suggestion.",
+        placeholder="Please be as descriptive as possible. Staff will then discuss the suggestion.",
         max_length=1000,
         required=True)
 
