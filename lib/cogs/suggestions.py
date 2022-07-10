@@ -11,8 +11,9 @@ from discord.app_commands import Choice
 
 class ButtonView1(View):
 
-    def __init__(self):
+    def __init__(self, suggestion_title):
         super().__init__(timeout=None)
+        self.suggestion_title = suggestion_title
 
     overwrites = discord.PermissionOverwrite(
         manage_messages=True,
@@ -36,7 +37,7 @@ class ButtonView1(View):
         if interaction.user.get_role(992672581415084032).id in roles:
             await interaction.response.edit_message(view=self)
             await interaction.channel.edit(
-                name=f"[Under Review] - {SuggestionForm.sug_title}",
+                name=f"[Under Review] - {self.suggestion_title}",
                 auto_archive_duration=4320)
             await interaction.channel.send('Channel is now under review.')
             return True
@@ -89,7 +90,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         # <@&992672581415084032>
         await thread.send(f"Thank you for the suggestion {itx.user.mention}!\n "
                           f"Members of  will review this suggestion shortly.")
-        await thread.send(view=ButtonView1())
+        await thread.send(view=ButtonView1(suggestion_title=self.sug_title))
 
 
 class Suggest(commands.Cog, name="suggest"):
