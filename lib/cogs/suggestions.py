@@ -68,7 +68,8 @@ class ButtonView2(View):
             auto_archive_duration=60,
             locked=True)
         await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
-        await itx.response.send_modal(DeniedForm(itx.channel))
+        await itx.response.edit_message(view=self)
+        await itx.followup.send(DeniedForm(itx.channel))
 
 
 # In Dev
