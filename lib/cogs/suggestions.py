@@ -18,6 +18,11 @@ class ButtonView1(View):
     async def interaction_check(self, interaction):
         roles = [992672581415084032]
         if interaction.user.get_role(992672581415084032).id in roles:
+            await interaction.response.edit_message(view=self)
+            await interaction.channel.edit(
+                name=f"[Under Review] - {self.suggestion_title}",
+                auto_archive_duration=4320)
+            await interaction.channel.send('Channel is now under review.')
             return True
 
     @discord.ui.button(
@@ -25,13 +30,8 @@ class ButtonView1(View):
         style=discord.ButtonStyle.green,
         emoji="☑️",
         custom_id="0")
-    async def claim_callback(self, interaction: discord.Interaction, button):
+    async def claim_callback(self, itx: discord.Interaction, button):
         self.clear_items()
-        await interaction.response.edit_message(view=self)
-        await interaction.channel.edit(
-            name=f"[Under Review] - {self.suggestion_title}",
-            auto_archive_duration=4320)
-        await interaction.channel.send('Channel is now under review.')
 
 
 # Approve / Deny
@@ -41,26 +41,29 @@ class ButtonView2(View):
         super().__init__(timeout=None)
         self.suggestion_title = suggestion_title
 
-    @discord.ui.button(
-        label="[Approved]",
-        style=discord.ButtonStyle.green,
-        custom_id="1")
-    @discord.ui.button(
-        label="[Denied]",
-        style=discord.ButtonStyle.red,
-        custom_id="2")
     async def interaction_check(self, interaction):
         roles = [992672581415084032]
         if interaction.user.get_role(992672581415084032).id in roles:
             return True
 
-    async def claim_callback(self, interaction: discord.Interaction, button):
+    @discord.ui.button(
+        label="[Approved]",
+        style=discord.ButtonStyle.green,
+        custom_id="1")
+    async def claim_callback(self, itx: discord.Interaction, button):
         self.clear_items()
-        await interaction.response.edit_message(view=self)
-        await interaction.channel.edit(
+
+    @discord.ui.button(
+        label="[Denied]",
+        style=discord.ButtonStyle.red,
+        custom_id="2")
+    async def claim_callback(self, itx: discord.Interaction, button):
+        self.clear_items()
+        await itx.response.edit_message(view=self)
+        await itx.channel.edit(
             name=f"[Under Review] - {self.suggestion_title}",
             auto_archive_duration=4320)
-        await interaction.channel.send('Channel is now under review.')
+        await itx.channel.send('Channel is now under review.')
 
 
 class SuggestionForm(ui.Modal, title="Suggestions Form"):
