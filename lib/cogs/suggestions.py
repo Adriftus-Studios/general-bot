@@ -33,10 +33,10 @@ class ButtonView1(View):
 
     async def interaction_check(self, interaction):
         roles = [992672581415084032]
-        if interaction.user.get_role(992672581415084032) in roles:
+        if interaction.user.get_role(992672581415084032).id in roles:
             await interaction.response.edit_message(view=self.claim_callback)
             interaction.channel.edit(
-                name=f"[Under Review] -{interaction.channel.name.partition('-')[2]}",
+                name=f"[Under Review] -{interaction.channel.name.split('-')[:1]}",
                 auto_archive_duration=4320)
             await interaction.channel.send_message('Channel is now under review.')
             return True
@@ -89,7 +89,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         # <@&992672581415084032>
         await thread.send(f"Thank you for the suggestion {itx.user.mention}!\n "
                           f"Members of  will review this suggestion shortly.")
-        await thread.send(embed=embed, view=ButtonView1())
+        await thread.send(view=ButtonView1())
 
 
 class Suggest(commands.Cog, name="suggest"):
