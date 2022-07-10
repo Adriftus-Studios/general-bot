@@ -26,7 +26,7 @@ class ButtonView1(View):
         style=discord.ButtonStyle.green,
         emoji="☑️",
         custom_id="0")
-    async def claim_callback(self, itx: discord.Interaction, button):
+    async def review_callback(self, itx: discord.Interaction, button):
         self.clear_items()
         await itx.response.edit_message(view=ButtonView2(suggestion_title=self.suggestion_title))
         await itx.channel.edit(
@@ -51,20 +51,15 @@ class ButtonView2(View):
         label="[Approved]",
         style=discord.ButtonStyle.green,
         custom_id="1")
-    async def claim_callback(self, itx: discord.Interaction, button):
+    async def approve_callback(self, itx: discord.Interaction, button):
         self.clear_items()
 
     @discord.ui.button(
         label="[Denied]",
         style=discord.ButtonStyle.red,
         custom_id="2")
-    async def claim_callback(self, itx: discord.Interaction, button):
+    async def denied_callback(self, itx: discord.Interaction, button):
         self.clear_items()
-        await itx.response.edit_message(view=self)
-        await itx.channel.edit(
-            name=f"[Under Review] - {self.suggestion_title}",
-            auto_archive_duration=4320)
-        await itx.channel.send('Channel is now under review.')
 
 
 class SuggestionForm(ui.Modal, title="Suggestions Form"):
@@ -106,13 +101,12 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
 
         await message.add_reaction("<:knightup:548680151882399745>")
         await message.add_reaction("<:knightdown:550025111235985410>")
-        # TODO: Change to private thread
         thread = await message.create_thread(
             name=f"[Pending] - {self.sug_title}",
             slowmode_delay=None,
             reason="Suggestion Created")
         # <@&992672581415084032>
-        await thread.send(f"Thank you for the suggestion {itx.user.mention}!\n "
+        await thread.send(f"Thank you for the suggestion!\n "
                           f"Members of  will review this suggestion shortly.")
         await thread.send(view=ButtonView1(suggestion_title=self.sug_title))
 
