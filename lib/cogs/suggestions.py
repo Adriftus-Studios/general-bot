@@ -52,14 +52,73 @@ class ButtonView2(View):
         style=discord.ButtonStyle.green,
         custom_id="1")
     async def approve_callback(self, itx: discord.Interaction, button):
-        self.clear_items()
+        button.disabled = True
+        await itx.channel.edit(
+            name=f"[In Dev] - {self.suggestion_title}",
+            auto_archive_duration=4320)
+        await itx.response.edit_message(view=ButtonView3(suggestion_title=self.suggestion_title))
 
     @discord.ui.button(
         label="[Denied]",
         style=discord.ButtonStyle.red,
         custom_id="2")
     async def denied_callback(self, itx: discord.Interaction, button):
-        self.clear_items()
+        await itx.channel.edit(
+            name=f"[Denied] - {self.suggestion_title}",
+            auto_archive_duration=60,
+            locked=True)
+        await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
+        await itx.response.send_modal(DeniedForm(itx.channel))
+
+
+# In Dev
+class ButtonView3(View):
+
+    def __init__(self, suggestion_title):
+        super().__init__(timeout=None)
+        self.suggestion_title = suggestion_title
+
+    async def interaction_check(self, interaction):
+        roles = [992672581415084032]
+        if interaction.user.get_role(992672581415084032).id in roles:
+            return True
+
+    @discord.ui.button(
+        label="[Finalize]",
+        style=discord.ButtonStyle.green,
+        custom_id="3")
+    async def dev_callback(self, itx: discord.Interaction, button):
+        button.disabled = True
+        await itx.channel.edit(
+            name=f"[Implemented] - {self.suggestion_title}",
+            auto_archive_duration=4320)
+
+
+class DeniedForm(ui.Modal, title="Denial Form"):
+
+    def __init__(self, suggestion_channel):
+        super(DeniedForm, self).__init__()
+        self.suggestion_channel = suggestion_channel
+
+    deny_reason = ui.TextInput(
+        label="Reason for Denying",
+        style=discord.TextStyle.paragraph,
+        placeholder="Please be as descriptive as possible.",
+        max_length=1000,
+        required=True)
+
+    async def on_submit(self, itx: discord.Interaction):
+        embed = discord.Embed(
+            title=f"Suggestion Denied",
+            description=f"○○ {itx.user.mention} has denied your suggestion. ○○",
+            color=config.error)
+        embed.set_thumbnail(url=itx.user.avatar)
+        embed.add_field(name=f"Reason:", value=f"{self.deny_reason}", inline=False)
+        embed.set_footer(text=f"User ID: {itx.user.id} | sID: • \n{time.ctime(time.time())}")
+
+        message = await self.suggestion_channel.send(embed=embed)
+
+        await message.pin()
 
 
 class SuggestionForm(ui.Modal, title="Suggestions Form"):
@@ -106,8 +165,9 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
             slowmode_delay=None,
             reason="Suggestion Created")
         # <@&992672581415084032>
-        await thread.send(f"Thank you for the suggestion!\n "
-                          f"Members of  will review this suggestion shortly.")
+        welcome_message = await thread.send(f"Thank you for the suggestion {itx.user.mention}!\n "
+                                            f"Members of  will review this suggestion shortly.")
+        await welcome_message.pin()
         await thread.send(view=ButtonView1(suggestion_title=self.sug_title))
 
 
