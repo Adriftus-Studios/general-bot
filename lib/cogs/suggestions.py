@@ -63,12 +63,14 @@ class ButtonView2(View):
         style=discord.ButtonStyle.red,
         custom_id="2")
     async def denied_callback(self, itx: discord.Interaction, button):
+        button.disabled = True
         await itx.channel.edit(
             name=f"[Denied] - {self.suggestion_title}",
             auto_archive_duration=60,
             locked=True)
         await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
         await itx.response.send_modal(DeniedForm(itx.channel))
+        await itx.followup.edit(view=self)
 
 
 # In Dev
@@ -92,6 +94,7 @@ class ButtonView3(View):
         await itx.channel.edit(
             name=f"[Implemented] - {self.suggestion_title}",
             auto_archive_duration=4320)
+        await itx.response.edit_message(view=self)
 
 
 class DeniedForm(ui.Modal, title="Denial Form"):
