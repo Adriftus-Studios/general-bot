@@ -164,9 +164,9 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
             name=f"[Pending] - {self.sug_title}",
             slowmode_delay=None,
             reason="Suggestion Created")
-        # <@&992672581415084032>
+
         welcome_message = await thread.send(f"Thank you for the suggestion {itx.user.mention}!\n "
-                                            f"Members of  will review this suggestion shortly.")
+                                            f"Members of <@&992672581415084032> will review this suggestion shortly.")
         await welcome_message.pin()
         await thread.send(view=ButtonView1(suggestion_title=self.sug_title))
 
