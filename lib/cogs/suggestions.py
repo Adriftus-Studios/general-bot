@@ -38,7 +38,7 @@ class ButtonView1(View):
             interaction.channel.edit(
                 name=f"[Under Review] -{interaction.channel.name.split('-')[:1]}",
                 auto_archive_duration=4320)
-            await interaction.channel.send_message('Channel is now under review.')
+            await interaction.channel.send('Channel is now under review.')
             return True
 
 
