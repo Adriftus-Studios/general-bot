@@ -15,16 +15,16 @@ class ButtonView1(View):
         super().__init__(timeout=None)
         self.suggestion_title = suggestion_title
 
-    @discord.ui.button(
-        label="[Under Review]",
-        style=discord.ButtonStyle.green,
-        emoji="☑️",
-        custom_id="0")
     async def interaction_check(self, interaction):
         roles = [992672581415084032]
         if interaction.user.get_role(992672581415084032).id in roles:
             return True
 
+    @discord.ui.button(
+        label="[Under Review]",
+        style=discord.ButtonStyle.green,
+        emoji="☑️",
+        custom_id="0")
     async def claim_callback(self, interaction: discord.Interaction, button):
         self.clear_items()
         await interaction.response.edit_message(view=self)
@@ -55,7 +55,7 @@ class ButtonView2(View):
             return True
 
     async def claim_callback(self, interaction: discord.Interaction, button):
-        button = self.clear_items()
+        self.clear_items()
         await interaction.response.edit_message(view=self)
         await interaction.channel.edit(
             name=f"[Under Review] - {self.suggestion_title}",
