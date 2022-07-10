@@ -36,7 +36,7 @@ class ButtonView1(View):
         if interaction.user.get_role(992672581415084032).id in roles:
             await interaction.response.edit_message(view=self)
             await interaction.channel.edit(
-                name=f"[Under Review] -{interaction.channel.name.split('-')[:1]}",
+                name=f"[Under Review] - {interaction.channel.name.split('-')[:2]}",
                 auto_archive_duration=4320)
             await interaction.channel.send('Channel is now under review.')
             return True
