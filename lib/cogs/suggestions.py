@@ -34,10 +34,11 @@ class ButtonView1(View):
     async def interaction_check(self, interaction):
         roles = [992672581415084032]
         if interaction.user.get_role(992672581415084032) in roles:
-            if ButtonView1().children[0].options.custom_id == 0:
-                await interaction.response.edit_message(view=self.claim_callback)
-                interaction.channel.edit(auto_archive_duration=4320)
-                await interaction.channel.send_message('Channel is now under review.')
+            await interaction.response.edit_message(view=self.claim_callback)
+            interaction.channel.edit(
+                name=f"[Under Review] -{interaction.channel.name.partition('-')[2]}",
+                auto_archive_duration=4320)
+            await interaction.channel.send_message('Channel is now under review.')
             return True
 
 
@@ -81,14 +82,11 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         await message.add_reaction("<:knightup:548680151882399745>")
         await message.add_reaction("<:knightdown:550025111235985410>")
         # TODO: Change to private thread
-        thread = await channel.create_thread(
-            type=None,
-            invitable=True,
-            slowmode_delay=None,
+        thread = await message.create_thread(
             name=f"[Pending] - {self.sug_title}",
+            slowmode_delay=None,
             reason="Suggestion Created")
-
-        await thread.send(f"Thank you for the suggestion {itx.user}! "
+        await thread.send(f"Thank you for the suggestion {itx.user.mention}!\n "
                           f"Members of <@&992672581415084032> will review this suggestion shortly.")
         await thread.send(embed=embed, view=ButtonView1())
 
