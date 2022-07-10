@@ -15,14 +15,10 @@ class ButtonView1(View):
         super().__init__(timeout=None)
         self.suggestion_title = suggestion_title
 
-    async def interaction_check(self, interaction):
+    async def interaction_check(self, itx):
         roles = [992672581415084032]
-        if interaction.user.get_role(992672581415084032).id in roles:
-            await interaction.response.edit_message(view=self)
-            await interaction.channel.edit(
-                name=f"[Under Review] - {self.suggestion_title}",
-                auto_archive_duration=4320)
-            await interaction.channel.send('Channel is now under review.')
+        if itx.user.get_role(992672581415084032).id in roles:
+
             return True
 
     @discord.ui.button(
@@ -33,6 +29,10 @@ class ButtonView1(View):
     async def claim_callback(self, itx: discord.Interaction, button):
         self.clear_items()
         await itx.response.edit_message(view=ButtonView2(suggestion_title=self.suggestion_title))
+        await itx.channel.edit(
+            name=f"[Under Review] - {self.suggestion_title}",
+            auto_archive_duration=4320)
+        await itx.channel.send('Channel is now under review.')
 
 
 # Approve / Deny
