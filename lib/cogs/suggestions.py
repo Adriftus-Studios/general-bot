@@ -52,7 +52,6 @@ class ButtonView2(View):
         style=discord.ButtonStyle.green,
         custom_id="1")
     async def approve_callback(self, itx: discord.Interaction, button):
-        button.disabled = True
         await itx.channel.edit(
             name=f"[In Dev] - {self.suggestion_title}",
             auto_archive_duration=4320)
@@ -63,15 +62,13 @@ class ButtonView2(View):
         style=discord.ButtonStyle.red,
         custom_id="2")
     async def denied_callback(self, itx: discord.Interaction, button):
-        button.disabled = True
+        self.clear_items()
         await itx.channel.edit(
             name=f"[Denied] - {self.suggestion_title}",
             auto_archive_duration=60,
             locked=True)
         await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
-        await itx.response.defer(ephemeral=True)
         await itx.response.send_modal(DeniedForm(itx.channel))
-        await itx.followup.send(view=self)
 
 
 # In Dev
