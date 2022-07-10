@@ -82,7 +82,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         await message.add_reaction("<:knightdown:550025111235985410>")
         # TODO: Change to private thread
         thread = await channel.create_thread(
-            type=ChannelType("private"),
+            type=ChannelType("Private"),
             invitable=True,
             slowmode_delay=None,
             name=f"[Pending] - {self.sug_title}",
