@@ -3,10 +3,42 @@ import discord
 import config
 import time
 import datetime
-from discord import app_commands, ui
+from discord import app_commands, ui, ChannelType
 from discord.ui import Button, View
 from discord.ext import commands
 from discord.app_commands import Choice
+
+
+class ButtonView1(View):
+
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    overwrites = discord.PermissionOverwrite(
+        manage_messages=True,
+        read_messages=True,
+        add_reactions=True,
+        read_message_history=True,
+        send_messages=True,
+        use_application_commands=False,
+        attach_files=True)
+
+    @discord.ui.button(
+        label="[Under Review]",
+        style=discord.ButtonStyle.green,
+        emoji="☑️",
+        custom_id="0")
+    async def claim_callback(self, itx: discord.Interaction, button):
+        self.clear_items()
+
+    async def interaction_check(self, interaction):
+        roles = [992672581415084032]
+        if interaction.user.get_role(992672581415084032) in roles:
+            if ButtonView1().children[0].options.custom_id == 0:
+                await interaction.response.edit_message(view=self.claim_callback)
+                interaction.channel.edit(auto_archive_duration=4320)
+                await interaction.channel.send_message('Channel is now under review.')
+            return True
 
 
 class SuggestionForm(ui.Modal, title="Suggestions Form"):
@@ -49,7 +81,13 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         await message.add_reaction("<:knightup:548680151882399745>")
         await message.add_reaction("<:knightdown:550025111235985410>")
         # TODO: Change to private thread
-        await message.create_thread(name=f"{self.sug_title}", slowmode_delay=None, reason="Suggestion Created")
+        thread = await channel.create_thread(
+            type=ChannelType("private"),
+            invitable=True,
+            slowmode_delay=None,
+            name=f"[Pending] - {self.sug_title}",
+            reason="Suggestion Created")
+        await thread.send(embed=embed, view=ButtonView1())
 
 
 class Suggest(commands.Cog, name="suggest"):
@@ -60,7 +98,6 @@ class Suggest(commands.Cog, name="suggest"):
     
     Make a suggestion, and get it approved, or denied! Votes are final.
     """
-    # @app_commands.check(check_if_suggestion_channel)
     @app_commands.checks.cooldown(1, 1200.0, key=lambda i: (i.guild_id, i.user.id))
     @app_commands.command(
         name="suggest",

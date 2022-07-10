@@ -1,4 +1,4 @@
-
+import traceback
 import discord
 import config
 import time
@@ -37,18 +37,18 @@ class ButtonView(View):
                 send_messages=True,
                 use_application_commands=False,
                 attach_files=True)
-        role_ids = [992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912]
-        member = itx.user
-        for role_id in role_ids:
-            if member.get_role(role_id):
-                await itx.channel.set_permissions(itx.user, overwrite=overwrites)
-                await itx.response.edit_message(view=self)
-            # else:
-            #     itx.response.send_message("Only a member of staff may claim a ticket.")
 
-    async def interaction_check(self, interaction: claim_callback):
-        # return True to allow the interaction to call the related ui.Item
-        return True
+        await itx.channel.set_permissions(itx.user, overwrite=overwrites)
+        await itx.response.edit_message(view=self)
+
+    async def interaction_check(self, interaction):
+        role_ids = [992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912]
+        for role_id in role_ids:
+            if interaction.user.get_role(role_id):
+                return True
+            else:
+                interaction.response.send_message("Only a member of staff may claim a ticket.")
+                return False
 
     @discord.ui.button(
         label="Close Ticket [Staff]",
