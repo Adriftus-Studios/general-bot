@@ -34,7 +34,7 @@ class ButtonView1(View):
     async def interaction_check(self, interaction):
         roles = [992672581415084032]
         if interaction.user.get_role(992672581415084032).id in roles:
-            await interaction.response.edit_message(view=self.claim_callback)
+            await interaction.response.edit_message(view=self)
             interaction.channel.edit(
                 name=f"[Under Review] -{interaction.channel.name.split('-')[:1]}",
                 auto_archive_duration=4320)
