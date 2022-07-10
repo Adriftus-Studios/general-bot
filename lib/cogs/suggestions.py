@@ -86,8 +86,9 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
             name=f"[Pending] - {self.sug_title}",
             slowmode_delay=None,
             reason="Suggestion Created")
+        # <@&992672581415084032>
         await thread.send(f"Thank you for the suggestion {itx.user.mention}!\n "
-                          f"Members of <@&992672581415084032> will review this suggestion shortly.")
+                          f"Members of  will review this suggestion shortly.")
         await thread.send(embed=embed, view=ButtonView1())
 
 
