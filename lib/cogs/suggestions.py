@@ -32,6 +32,7 @@ class ButtonView1(View):
         custom_id="0")
     async def claim_callback(self, itx: discord.Interaction, button):
         self.clear_items()
+        await itx.response.edit_message(view=ButtonView2(suggestion_title=self.suggestion_title))
 
 
 # Approve / Deny
