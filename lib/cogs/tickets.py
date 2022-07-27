@@ -155,8 +155,8 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
 
         embed = discord.Embed(
             title=f"<:support_ticket:965647477548138566> Support Ticket - [{self.ticket_name}]",
-            description=f"Thank you for opening a support ticket, {itx.user}\n"
-                        f"A member <@&{role_ping[self.ticket_name]}> will be available to help you shortly."
+            description=f"Thank you for opening a support ticket, {itx.user}.\n"
+                        f"A member <@&{role_ping[self.ticket_name]}> will be available to help you shortly.\n"
                         f"These roles have access to view this ticket: {view_roles}",
             color=config.success)
         embed.add_field(name=f"Submitter ", value=f"Discord: {itx.user} | IGN: {self.ign}", inline=False)
