@@ -149,7 +149,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
             description=f"○○ {itx.user.mention} has dropped a suggestion! ○○",
             color=config.success)
         embed.set_thumbnail(url=itx.user.avatar)
-        embed.add_field(name=f"Submitter ", value=f"Discord: {itx.user}| IGN: {self.name}", inline=False)
+        embed.add_field(name=f"Submitter ", value=f"Discord: {itx.user} | IGN: {self.name}", inline=False)
         embed.add_field(name=f"Suggestion", value=f"{self.suggestion}", inline=False)
         embed.set_footer(text=f"User ID: {itx.user.id} | sID: /suggest to make your own • \n{time.ctime(time.time())}")
 
