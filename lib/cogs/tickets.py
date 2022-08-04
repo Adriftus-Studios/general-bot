@@ -17,6 +17,7 @@ user_db = db_client.Users
 # TODO: Send closed ticket modal to logs channel
 # TODO: Set ticket name to be category of ticket. ex dev-name-ticket, mod-name-ticket.
 
+
 class ButtonView(View):
 
     def __init__(self):
@@ -33,24 +34,26 @@ class ButtonView(View):
         button.label = f"Claimed by {itx.user}"
 
         overwrites = discord.PermissionOverwrite(
-                manage_messages=True,
-                read_messages=True,
-                add_reactions=True,
-                read_message_history=True,
-                send_messages=True,
-                use_application_commands=False,
-                attach_files=True)
+            manage_messages=True,
+            read_messages=True,
+            add_reactions=True,
+            read_message_history=True,
+            send_messages=True,
+            use_application_commands=False,
+            attach_files=True)
 
         await itx.channel.set_permissions(itx.user, overwrite=overwrites)
         await itx.response.edit_message(view=self)
 
     async def interaction_check(self, interaction):
-        role_ids = [992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912]
+        role_ids = [992669093545136189, 992670439644090428,
+                    992664721125806191, 992671030143352912]
         for role_id in role_ids:
             if interaction.user.get_role(role_id):
                 return True
             else:
-                interaction.response.send_message("Only a member of staff may claim a ticket.")
+                interaction.response.send_message(
+                    "Only a member of staff may claim a ticket.")
                 return False
 
     @discord.ui.button(
@@ -60,7 +63,8 @@ class ButtonView(View):
         custom_id="1")
     async def close_callback(self, itx: discord.Interaction, button):
 
-        role_ids = [992669093545136189, 992670439644090428, 992664721125806191, 992671030143352912]
+        role_ids = [992669093545136189, 992670439644090428,
+                    992664721125806191, 992671030143352912]
         member = itx.user
         for role_id in role_ids:
             if member.get_role(role_id):
@@ -72,41 +76,41 @@ class ButtonView(View):
 
 class TicketView(View):
     @discord.ui.select(
-            min_values=1,
-            max_values=1,
-            placeholder="Select a Ticket Category",
-            options=[
-                discord.SelectOption(
+        min_values=1,
+        max_values=1,
+        placeholder="Select a Ticket Category",
+        options=[
+            discord.SelectOption(
                     label='Bug',
                     value="Bug",
                     emoji='🐛',
                     description='Server related issue'),
-                discord.SelectOption(
-                    label='Player',
-                    value="Player",
-                    emoji='🧑‍🤝‍🧑',
-                    description='Player conduct issues'),
-                discord.SelectOption(
-                    label='Store',
-                    value="Store",
-                    emoji='🏪',
-                    description='Purchase related issues'),
-                discord.SelectOption(
-                    label='Appeal',
-                    value="Appeal",
-                    emoji='<:banhammer:934732958521241680>',
-                    description='Ban Appeal. Ban # is needed.'),
-                discord.SelectOption(
-                    label='Staff',
-                    value="Staff",
-                    emoji='🧑‍💼',
-                    description='Staff related issues. (This will go to Admins, and Sr. Moderators)'),
-                discord.SelectOption(
-                    label='Other',
-                    value="Other",
-                    emoji='<:other_left:747195307925831710>',
-                    description='Other issues not specified.')
-            ],)
+            discord.SelectOption(
+                label='Player',
+                value="Player",
+                emoji='🧑‍🤝‍🧑',
+                description='Player conduct issues'),
+            discord.SelectOption(
+                label='Store',
+                value="Store",
+                emoji='🏪',
+                description='Purchase related issues'),
+            discord.SelectOption(
+                label='Appeal',
+                value="Appeal",
+                emoji='<:banhammer:934732958521241680>',
+                description='Ban Appeal. Ban # is needed.'),
+            discord.SelectOption(
+                label='Staff',
+                value="Staff",
+                emoji='🧑‍💼',
+                description='Staff related issues. (This will go to Admins, and Sr. Moderators)'),
+            discord.SelectOption(
+                label='Other',
+                value="Other",
+                emoji='<:other_left:747195307925831710>',
+                description='Other issues not specified.')
+        ],)
     async def select_callback(self, itx: discord.Interaction, select: discord.ui.Select):
         select.disabled = True
         label = select.values[0]
@@ -116,7 +120,7 @@ class TicketView(View):
 
 
 class TicketForm(ui.Modal, title="Submit your Ticket"):
-    
+
     def __init__(self, ticket_name):
         super(TicketForm, self).__init__(timeout=None)
         self.ticket_name = ticket_name
@@ -146,9 +150,11 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
             "Other": "992671391289704468"
         }
 
-        dynamic_role = itx.user.guild.get_role(int(role_ping[self.ticket_name]))
+        dynamic_role = itx.user.guild.get_role(
+            int(role_ping[self.ticket_name]))
         # Staff roles in order:          Mod Management, Sr Mod, Mod, Helper, Dev
-        staff_roles = [993412996527300649, 992671030143352912, 992671194186780732, 992671391289704468, 992672222399434822]
+        staff_roles = [993412996527300649, 992671030143352912,
+                       992671194186780732, 992671391289704468, 992672222399434822]
 
         new_overwrites = {}
 
@@ -162,9 +168,11 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
                         f"A member <@&{role_ping[self.ticket_name]}> will be available to help you shortly.\n"
                         f"These roles have access to view this ticket: {view_roles}",
             color=config.success)
-        embed.add_field(name=f"Submitter ", value=f"Discord: {itx.user} | IGN: {self.ign}", inline=False)
+        embed.add_field(
+            name=f"Submitter ", value=f"Discord: {itx.user} | IGN: {self.ign}", inline=False)
         embed.add_field(name=f"Issue", value=f"{self.issue}", inline=False)
-        embed.set_footer(text=f"User ID: {itx.user.id} | Ticket Number • {ticket_number}")
+        embed.set_footer(
+            text=f"User ID: {itx.user.id} | Ticket Number • {ticket_number}")
 
         for role in staff_roles[:staff_roles.index(dynamic_role.id) + 1]:
             appended_role = itx.user.guild.get_role(int(role))
@@ -176,7 +184,7 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
                 send_messages=True,
                 use_application_commands=False,
                 attach_files=True,
-                )
+            )
             })
 
         overwrites = {
@@ -198,7 +206,7 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
                 send_messages=True,
                 use_application_commands=False,
                 attach_files=True,
-                )
+            )
         }
         channel = await itx.user.guild.get_channel(985201287488499752).create_text_channel(f'Ticket - {itx.user.name}', overwrites=overwrites)
 
@@ -227,8 +235,9 @@ class TicketReason(ui.Modal, title="Reason for Closing Ticket"):
             title=f"<:support_ticket:965647477548138566> Support Ticket Closed - [{self.ticket_name}]",
             description=f"Ticket has been successfully closed by {self.admin_name}",
             color=config.success)
-        embed.add_field(name=f"Reason", value=f"{self.reason}", inline=False)
-        embed.set_footer(text=f"User ID: {itx.user.id} | iID:  • {time.ctime(time.time())}")
+        embed.add_field(name=f"Reason", value=f"{reason}", inline=False)
+        embed.set_footer(
+            text=f"User ID: {itx.user.id} | iID:  • {time.ctime(time.time())}")
 
         channel = itx.client.get_channel(965027742154358814)
         await itx.response.defer()
@@ -283,7 +292,8 @@ class Tickets(commands.Cog, name="ticket"):
     @ticket.error
     async def ticket_error_handler(self, itx: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
-            time_remaining = str(datetime.timedelta(seconds=int(error.retry_after)))
+            time_remaining = str(datetime.timedelta(
+                seconds=int(error.retry_after)))
             await itx.response.send_message(
                 f"Please wait `{time_remaining}` to execute this command again.",
                 ephemeral=True)
