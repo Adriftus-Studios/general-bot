@@ -1,4 +1,5 @@
 
+import traceback
 import aiohttp
 import json
 import requests
@@ -156,12 +157,12 @@ async def map(
         title="Map **play.adriftus.net**", color=config.success)
 
     embed.add_field(
-         name=f"Site:", value=f"http://maps.adriftus.net\n", inline=False)
-     embed.set_footer(text=f" - Adriftus server team")
-      embed.set_author(name=itx.user.display_name, icon_url=itx.user.avatar)
+        name=f"Site:", value=f"http://maps.adriftus.net\n", inline=False)
+    embed.set_footer(text=f" - Adriftus server team")
+    embed.set_author(name=itx.user.display_name, icon_url=itx.user.avatar)
 
-       try:
-            await itx.response.send_message(embed=embed)
-        except Exception as err:
-            traceback.format_exc()
-            await itx.response.send_message(f'An error has occured: {err}')
+    try:
+        await itx.response.send_message(embed=embed)
+    except Exception as err:
+        traceback.format_exc()
+        await itx.response.send_message(f'An error has occured: {err}')
