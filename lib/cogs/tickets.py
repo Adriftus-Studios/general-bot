@@ -235,7 +235,7 @@ class TicketReason(ui.Modal, title="Reason for Closing Ticket"):
             title=f"<:support_ticket:965647477548138566> Support Ticket Closed - [{self.ticket_name}]",
             description=f"Ticket has been successfully closed by {self.admin_name}",
             color=config.success)
-        embed.add_field(name=f"Reason", value=f"{reason}", inline=False)
+        embed.add_field(name=f"Reason", value=f"{self.reason}", inline=False)
         embed.set_footer(
             text=f"User ID: {itx.user.id} | iID:  • {time.ctime(time.time())}")
 
