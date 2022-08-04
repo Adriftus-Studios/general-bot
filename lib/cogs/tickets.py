@@ -13,6 +13,9 @@ db_client = MONGO_CLIENT
 message_db = db_client.Messages
 user_db = db_client.Users
 
+# TODO: Add button to tickets channel that calls the TicketView() class.
+# TODO: Send closed ticket modal to logs channel
+# TODO: Set ticket name to be category of ticket. ex dev-name-ticket, mod-name-ticket.
 
 class ButtonView(View):
 

@@ -65,7 +65,7 @@ class Moderation(commands.Cog, name="moderation"):
         else:
             try:
                 role = itx.guild.get_role(602038729443377152)
-                await member.add_roles(role, reason=f"Jailed by an admin: {itx.message.user}")
+                await member.add_roles(role, reason=f"Jailed by an admin: {itx.user}")
 
                 embed = discord.Embed(
                     title="Jailed!",
@@ -76,10 +76,10 @@ class Moderation(commands.Cog, name="moderation"):
                 embed.set_author(name="- Adriftus Moderation Team",
                                  icon_url="https://cdn.discordapp.com/emojis/934732958521241680")
                 await itx.response.send_message(embed=embed)
-                print(f"**{member}** was jailed by **{itx.message.user}**!")
+                print(f"**{member}** was jailed by **{itx.user}**!")
                 try:
                     await member.send(
-                        f"You were jailed by **{itx.message.user}**!\nReason: {reason}"
+                        f"You were jailed by **{itx.user}**!\nReason: {reason}"
                     )
                 except Exception as err:
                     traceback.format_exc()

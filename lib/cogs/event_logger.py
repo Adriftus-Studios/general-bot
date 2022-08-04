@@ -14,7 +14,7 @@ message_db = db_client.Messages
 user_db = db_client.Users
 minecraft_db = db_client.Minecraft
 
-
+# TODO: Copy Carl.
 class EventLogger(commands.Cog, name="Event Logger"):
     """
     A class cog that holds the EventLogger object.
