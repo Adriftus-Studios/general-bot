@@ -16,7 +16,8 @@ def get_quote():
 
 
 def dad_joke():
-    res = requests.get("https://icanhazdadjoke.com/", headers={"Accept": "application/json", "User-Agent": "Adriftus"})
+    res = requests.get("https://icanhazdadjoke.com/",
+                       headers={"Accept": "application/json", "User-Agent": "Adriftus"})
     joke_data = json.loads(res.text)
     joke = f"{joke_data['joke']}\n"
     return joke
@@ -56,7 +57,8 @@ class Fun(commands.Cog, name="fun"):
         json_data = get_quote()
         quote = f"{json_data[0]['q']}"
         author = f"{json_data[0]['a']}"
-        embed = discord.Embed(title="Inspirational Message for " + itx.user.display_name, color=config.success)
+        embed = discord.Embed(
+            title="Inspirational Message for " + itx.user.display_name, color=config.success)
         embed.add_field(name="Inspire Others", value=quote, inline=False)
         embed.set_footer(text=f" - {author}")
         embed.set_author(name=itx.user.display_name, icon_url=itx.user.avatar)
@@ -77,7 +79,8 @@ class Fun(commands.Cog, name="fun"):
         """
         Vote sites for the Adritftus Minecraft server
         """
-        embed = discord.Embed(title="Vote sites for **play.adriftus.net**", color=config.success)
+        embed = discord.Embed(
+            title="Vote sites for **play.adriftus.net**", color=config.success)
         for s in config.vote_sites:
             embed.add_field(name=f"Vote:", value=f"{s}\n", inline=False)
         embed.set_footer(text=f" - Adriftus server team")
@@ -122,7 +125,8 @@ class Fun(commands.Cog, name="fun"):
         joke = dad_joke()
         embed = discord.Embed(title=f"Dad Jokes", color=config.success)
         embed.add_field(name="Fine Joke Incoming!", value=joke, inline=False)
-        embed.set_footer(text=f"Only the best Dad Jokes for {itx.user.display_name}")
+        embed.set_footer(
+            text=f"Only the best Dad Jokes for {itx.user.display_name}")
         embed.set_author(name=itx.user.display_name, icon_url=itx.user.avatar)
 
         try:
@@ -140,3 +144,24 @@ async def setup(bot: commands.Bot):
             discord.Object(id=601677205445279744)
         ]
     )
+
+
+@app_commands.command(
+    name="map",
+    description="View the world of HeroCraft!")
+async def map(
+        self,
+        itx: discord.Interaction):
+    embed = discord.Embed(
+        title="Map **play.adriftus.net**", color=config.success)
+
+    embed.add_field(
+         name=f"Site:", value=f"http://maps.adriftus.net\n", inline=False)
+     embed.set_footer(text=f" - Adriftus server team")
+      embed.set_author(name=itx.user.display_name, icon_url=itx.user.avatar)
+
+       try:
+            await itx.response.send_message(embed=embed)
+        except Exception as err:
+            traceback.format_exc()
+            await itx.response.send_message(f'An error has occured: {err}')
