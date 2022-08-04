@@ -241,6 +241,7 @@ class TicketReason(ui.Modal, title="Reason for Closing Ticket"):
 
         channel = itx.client.get_channel(965027742154358814)
         await itx.response.defer()
+        await itx.followup.send("Complete")
         await channel.send(embed=embed)
 
 
