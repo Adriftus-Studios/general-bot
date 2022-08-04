@@ -136,6 +136,28 @@ class Fun(commands.Cog, name="fun"):
             traceback.format_exc()
             await itx.response.send_message(f'An error has occurred: {err}')
 
+        # Map command
+        @app_commands.command(
+            name="map",
+            description="View the world of HeroCraft!")
+        async def map(
+                self,
+                itx: discord.Interaction):
+            embed = discord.Embed(
+                title="Map **play.adriftus.net**", color=config.success)
+
+            embed.add_field(
+                name=f"Site:", value=f"http://maps.adriftus.net\n", inline=False)
+            embed.set_footer(text=f" - Adriftus server team")
+            embed.set_author(name=itx.user.display_name,
+                             icon_url=itx.user.avatar)
+
+            try:
+                await itx.response.send_message(embed=embed)
+            except Exception as err:
+                traceback.format_exc()
+                await itx.response.send_message(f'An error has occured: {err}')
+
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(
@@ -145,24 +167,3 @@ async def setup(bot: commands.Bot):
             discord.Object(id=601677205445279744)
         ]
     )
-
-
-@app_commands.command(
-    name="map",
-    description="View the world of HeroCraft!")
-async def map(
-        self,
-        itx: discord.Interaction):
-    embed = discord.Embed(
-        title="Map **play.adriftus.net**", color=config.success)
-
-    embed.add_field(
-        name=f"Site:", value=f"http://maps.adriftus.net\n", inline=False)
-    embed.set_footer(text=f" - Adriftus server team")
-    embed.set_author(name=itx.user.display_name, icon_url=itx.user.avatar)
-
-    try:
-        await itx.response.send_message(embed=embed)
-    except Exception as err:
-        traceback.format_exc()
-        await itx.response.send_message(f'An error has occured: {err}')
