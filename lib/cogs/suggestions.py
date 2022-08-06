@@ -68,8 +68,8 @@ class ApproveDeny(View):
             locked=True)
         
         await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
-        await itx.followup.send_modal(DeniedForm(suggestion_channel=itx.channel))
         await itx.edit_original_message(content="This suggestion was denied", view=None)
+        await itx.followup.send_modal(DeniedForm(suggestion_channel=itx.channel))
 
         # await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
         # await itx.response.edit_message(content="This suggestion was denied", view=None)
@@ -174,7 +174,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         welcome_message = await thread.send(f"Thank you for the suggestion {itx.user.mention}!\n "
                                             f"Members of <@&992672581415084032> will review this suggestion shortly.")
         await welcome_message.pin()
-        await thread.send(view=ButtonView1(suggestion_title=self.sug_title))
+        await thread.send(view=UnderReview(suggestion_title=self.sug_title))
 
 
 class Suggest(commands.Cog, name="suggest"):
