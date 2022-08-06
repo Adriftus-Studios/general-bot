@@ -48,7 +48,7 @@ class ButtonView2(View):
             return True
 
     @discord.ui.button(
-        label="[Approve for Dev]",
+        label="[Approved]",
         style=discord.ButtonStyle.green,
         custom_id="1")
     async def approve_callback(self, itx: discord.Interaction, button):
@@ -58,7 +58,7 @@ class ButtonView2(View):
         await itx.response.edit_message(view=ButtonView3(suggestion_title=self.suggestion_title))
 
     @discord.ui.button(
-        label="[Deny Suggestion]",
+        label="[Denied]",
         style=discord.ButtonStyle.red,
         custom_id="2")
     async def denied_callback(self, itx: discord.Interaction, button):
@@ -66,9 +66,14 @@ class ButtonView2(View):
             name=f"[Denied] - {self.suggestion_title}",
             auto_archive_duration=60,
             locked=True)
-        await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
-        await itx.edit_original_message(content="This suggestion was denied", view=None)
-        await itx.response.send_modal(DeniedForm(itx.channel))
+        try:
+            await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
+            await itx.edit_original_message(content="This suggestion was denied", view=None)
+            await itx.response.send_modal(DeniedForm(itx.channel))
+        except discord.errors.NotFound as err:
+            await itx.response.send_message(f'Webhook was not found. {err}', ephimeral=True)
+        except Exception as err:
+            await itx.response.send_message(f'An error has occurred: {err}', ephimeral=True)
 
 
 # In Dev

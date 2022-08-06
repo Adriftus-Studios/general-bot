@@ -70,17 +70,18 @@ bot = GeneralBot()
 # Error handling in chat
 @bot.tree.error
 async def on_app_command_error(itx: Interaction, error: AppCommandError):
-    embed = discord.Embed(
-        title="Error!",
-        description=f"This command raised an error: \n{error}",
-        color=config.error
-    )
-    await itx.response.send_message(embed=embed)
     if isinstance(error, app_commands.CommandOnCooldown):
         time_remaining = str(datetime.timedelta(
             seconds=int(error.retry_after)))
         await itx.response.send_message(
             f"Please wait `{time_remaining}` to execute this command again.",
             ephemeral=True)
+    else:
+        embed = discord.Embed(
+            title="Error!",
+            description=f"This command raised an error: \n{error}",
+            color=config.error
+        )
+        await itx.response.send_message(embed=embed)
 
 bot.run(TOKEN)
