@@ -66,9 +66,14 @@ class ButtonView2(View):
             name=f"[Denied] - {self.suggestion_title}",
             auto_archive_duration=60,
             locked=True)
+        
         await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
-        await itx.response.edit_message(content="This suggestion was denied", view=None)
-        await itx.followup.send_modal(DeniedForm(itx.channel))
+        await itx.response.send_modal(DeniedForm(itx.channel))
+        await itx.edit_original_message(content="This suggestion was denied", view=None)
+
+        # await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
+        # await itx.response.edit_message(content="This suggestion was denied", view=None)
+        # await itx.followup.send_modal(DeniedForm(itx.channel))
 
 
 # In Dev
@@ -117,11 +122,9 @@ class DeniedForm(ui.Modal, title="Denial Form"):
         embed.add_field(name=f"Reason:", value=f"{self.deny_reason}", inline=False)
         embed.set_footer(text=f"User ID: {itx.user.id} | sID: • \n{time.ctime(time.time())}")
 
-        channel = itx.client.get_channel(965027742154358814)
         message = await self.suggestion_channel.send(embed=embed)
         await message.pin()
-        await itx.response.send_message("You have denied this suggestion", ephimeral=True)
-        
+        await itx.response.send_message("You have denied this suggestion", ephemeral=True)
 
 
 class SuggestionForm(ui.Modal, title="Suggestions Form"):
@@ -185,7 +188,7 @@ class Suggest(commands.Cog, name="suggest"):
     @app_commands.checks.cooldown(1, 1200.0, key=lambda i: (i.guild_id, i.user.id))
     @app_commands.command(
         name="suggest",
-        description="Create any suggestion that you would like to see on our server")
+        description="Create any suggestion that you would like to see on our server!")
     async def suggest(
             self,
             itx: discord.Interaction):
@@ -198,13 +201,13 @@ class Suggest(commands.Cog, name="suggest"):
             await itx.response.send_message(f'An error has occurred: {err}')
 
     # TODO: Remove boilerplate error handling, and move into main.py
-    @suggest.error
-    async def suggest_timeout_error(self, itx: discord.Interaction, error: app_commands.AppCommandError):
-        if isinstance(error, app_commands.CommandOnCooldown):
-            time_remaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await itx.response.send_message(
-                f"Please wait `{time_remaining}` to execute this command again.",
-                ephemeral=True)
+    # @suggest.error
+    # async def suggest_timeout_error(self, itx: discord.Interaction, error: app_commands.AppCommandError):
+    #     if isinstance(error, app_commands.CommandOnCooldown):
+    #         time_remaining = str(datetime.timedelta(seconds=int(error.retry_after)))
+    #         await itx.response.send_message(
+    #             f"Please wait `{time_remaining}` to execute this command again.",
+    #             ephemeral=True)
 
 
 async def setup(bot: commands.Bot):

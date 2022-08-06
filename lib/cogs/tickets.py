@@ -296,16 +296,6 @@ class Tickets(commands.Cog, name="ticket"):
                 traceback.format_exc()
                 await itx.response.send_message(f'An error has occurred: {err}')
 
-    # TODO: Remove boilerplate error handling, and move into main.py
-    @ticket.error
-    async def ticket_error_handler(self, itx: discord.Interaction, error: app_commands.AppCommandError):
-        if isinstance(error, app_commands.CommandOnCooldown):
-            time_remaining = str(datetime.timedelta(
-                seconds=int(error.retry_after)))
-            await itx.response.send_message(
-                f"Please wait `{time_remaining}` to execute this command again.",
-                ephemeral=True)
-
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(
