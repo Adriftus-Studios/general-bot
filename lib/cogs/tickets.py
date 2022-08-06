@@ -240,9 +240,13 @@ class TicketReason(ui.Modal, title="Reason for Closing Ticket"):
             text=f"User ID: {itx.user.id} | iID:  • {time.ctime(time.time())}")
 
         channel = itx.client.get_channel(965027742154358814)
-        await itx.response.defer()
-        await channel.send(embed=embed)
-        await itx.followup.send("Complete")
+        try:
+            await itx.response.defer()
+            await channel.send(embed=embed)
+            await itx.followup.send("Complete")
+        except Exception as err:
+            await itx.channel.send(err)
+            traceback.print_exc()
 
 
 class Tickets(commands.Cog, name="ticket"):
