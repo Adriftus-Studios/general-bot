@@ -9,7 +9,7 @@ from discord.ext import commands
 from discord.app_commands import Choice
 
 
-class ButtonView1(View):
+class UnderReview(View):
 
     def __init__(self, suggestion_title):
         super().__init__(timeout=None)
@@ -28,7 +28,7 @@ class ButtonView1(View):
         custom_id="0")
     async def review_callback(self, itx: discord.Interaction, button):
         self.clear_items()
-        await itx.response.edit_message(view=ButtonView2(suggestion_title=self.suggestion_title))
+        await itx.response.edit_message(view=ApproveDeny(suggestion_title=self.suggestion_title))
         await itx.channel.edit(
             name=f"[Under Review] - {self.suggestion_title}",
             auto_archive_duration=4320)
@@ -36,7 +36,7 @@ class ButtonView1(View):
 
 
 # Approve / Deny
-class ButtonView2(View):
+class ApproveDeny(View):
 
     def __init__(self, suggestion_title):
         super().__init__(timeout=None)
@@ -55,7 +55,7 @@ class ButtonView2(View):
         await itx.channel.edit(
             name=f"[In Dev] - {self.suggestion_title}",
             auto_archive_duration=4320)
-        await itx.response.edit_message(view=ButtonView3(suggestion_title=self.suggestion_title))
+        await itx.response.edit_message(view=Finalize(suggestion_title=self.suggestion_title))
 
     @discord.ui.button(
         label="[Denied]",
@@ -68,7 +68,7 @@ class ButtonView2(View):
             locked=True)
         
         await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
-        await itx.response.send_modal(DeniedForm(itx.channel))
+        await itx.followup.send_modal(DeniedForm(suggestion_channel=itx.channel))
         await itx.edit_original_message(content="This suggestion was denied", view=None)
 
         # await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
@@ -77,7 +77,7 @@ class ButtonView2(View):
 
 
 # In Dev
-class ButtonView3(View):
+class Finalize(View):
 
     def __init__(self, suggestion_title):
         super().__init__(timeout=None)
