@@ -68,8 +68,8 @@ class ButtonView(View):
         member = itx.user
         for role_id in role_ids:
             if member.get_role(role_id):
-                await itx.response.send_modal(TicketReason(ticket_name=itx.channel.name, admin_name=itx.user))
-                await itx.channel.delete()
+                await itx.response.send_modal(TicketReason(ticket_name=itx.channel.name, admin_name=itx.user, channel=itx.channel))
+                # await itx.channel.delete()
             # else:
             #     itx.response.send_message("Only a member of staff may lock a ticket.")
 
@@ -217,11 +217,11 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
 
 class TicketReason(ui.Modal, title="Reason for Closing Ticket"):
 
-    def __init__(self, ticket_name, admin_name):
+    def __init__(self, ticket_name, admin_name, channel):
         super(TicketReason, self).__init__(timeout=None)
         self.ticket_name = ticket_name
         self.admin_name = admin_name
-        # self.user_name = user_name
+        self.channel = channel
 
     reason = ui.TextInput(
         label="Describe the Reason for Closure",
@@ -243,9 +243,9 @@ class TicketReason(ui.Modal, title="Reason for Closing Ticket"):
         try:
             await itx.response.defer()
             await channel.send(embed=embed)
-            await itx.followup.send("Complete")
+            await self.channel.delete()
         except Exception as err:
-            await itx.channel.send(err)
+            print(err)
             traceback.print_exc()
 
 
