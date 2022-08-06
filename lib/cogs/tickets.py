@@ -14,7 +14,6 @@ message_db = db_client.Messages
 user_db = db_client.Users
 
 # TODO: Add button to tickets channel that calls the TicketView() class.
-# TODO: Send closed ticket modal to logs channel
 # TODO: Set ticket name to be category of ticket. ex dev-name-ticket, mod-name-ticket.
 
 
@@ -68,10 +67,15 @@ class ButtonView(View):
         member = itx.user
         for role_id in role_ids:
             if member.get_role(role_id):
-                await itx.response.send_modal(TicketReason(ticket_name=itx.channel.name, admin_name=itx.user, channel=itx.channel))
-                # await itx.channel.delete()
-            # else:
-            #     itx.response.send_message("Only a member of staff may lock a ticket.")
+                await itx.response.send_modal(
+                    TicketReason(
+                        ticket_name=itx.channel.name,
+                        admin_name=itx.user,
+                        channel=itx.channel
+                    )
+                )
+            else:
+                itx.response.send_message("Only a member of staff may lock a ticket.")
 
 
 class TicketView(View):
@@ -140,7 +144,6 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
 
     async def on_submit(self, itx: discord.Interaction):
         ticket_number = uuid.uuid1()
-        # Support ticket-Helper+, Player reports-Mod+, Appeal- Sr Mod+
         role_ping = {
             "Bug": "992672222399434822",
             "Player": "992671194186780732",

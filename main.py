@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 from secrets import TOKEN
+
 import discord
 from discord.ext import commands
 import os
 import sys
 import time
+import datetime
 import aiohttp
-from discord import Interaction
+from discord import Interaction, app_commands
 from discord.app_commands import AppCommandError
 
 # Does not allow bot to start without config file
@@ -74,5 +76,11 @@ async def on_app_command_error(itx: Interaction, error: AppCommandError):
         color=config.error
     )
     await itx.response.send_message(embed=embed)
+    if isinstance(error, app_commands.CommandOnCooldown):
+        time_remaining = str(datetime.timedelta(
+            seconds=int(error.retry_after)))
+        await itx.response.send_message(
+            f"Please wait `{time_remaining}` to execute this command again.",
+            ephemeral=True)
 
 bot.run(TOKEN)
