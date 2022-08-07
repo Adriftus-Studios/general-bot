@@ -14,7 +14,6 @@ message_db = db_client.Messages
 user_db = db_client.Users
 
 # TODO: Add button to tickets channel that calls the TicketView() class.
-# TODO: Set ticket name to be category of ticket. ex dev-name-ticket, mod-name-ticket.
 
 
 class ButtonView(View):
@@ -125,7 +124,7 @@ class TicketView(View):
 
 class TicketForm(ui.Modal, title="Submit your Ticket"):
 
-    def __init__(self, ticket_name):
+    def __init__(self, ticket_name: str):
         super(TicketForm, self).__init__(timeout=None)
         self.ticket_name = ticket_name
 
@@ -211,10 +210,14 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
                 attach_files=True,
             )
         }
-        channel = await itx.user.guild.get_channel(985201287488499752).create_text_channel(f'Ticket - {itx.user.name}', overwrites=overwrites)
+        channel = await itx.user.guild.get_channel(985201287488499752).create_text_channel(
+            f'{self.ticket_name.lower()} Ticket - {itx.user.name}', overwrites=overwrites)
 
         await itx.response.send_message(f"Your ticket has been created at {channel.mention}!", ephemeral=True)
-        message = await channel.send(content=f"The <@&{role_ping[self.ticket_name]}> team has been notified, {itx.user}.", embed=embed, view=ButtonView())
+        message = await channel.send(
+            content=f"The <@&{role_ping[self.ticket_name]}> team has been notified, {itx.user}.",
+            embed=embed,
+            view=ButtonView())
         await message.pin(reason="User Created Ticket")
 
 
