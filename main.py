@@ -84,4 +84,6 @@ async def on_app_command_error(itx: Interaction, error: AppCommandError):
         )
         await itx.response.send_message(embed=embed)
 
-bot.run(TOKEN)
+
+if __name__ == '__main__':
+    bot.run(TOKEN)

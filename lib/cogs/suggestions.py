@@ -11,9 +11,10 @@ from discord.app_commands import Choice
 
 class UnderReview(View):
 
-    def __init__(self, suggestion_title):
+    def __init__(self, suggestion_title, suggestion):
         super().__init__(timeout=None)
         self.suggestion_title = suggestion_title
+        self.suggestion = suggestion
 
     async def interaction_check(self, itx):
         roles = [992672581415084032]
@@ -28,7 +29,7 @@ class UnderReview(View):
         custom_id="0")
     async def review_callback(self, itx: discord.Interaction, button):
         self.clear_items()
-        await itx.response.edit_message(view=ApproveDeny(suggestion_title=self.suggestion_title))
+        await itx.response.edit_message(view=ApproveDeny(suggestion_title=self.suggestion_title, suggestion=self.suggestion))
         await itx.channel.edit(
             name=f"[Under Review] - {self.suggestion_title}",
             auto_archive_duration=4320)
@@ -38,9 +39,10 @@ class UnderReview(View):
 # Approve / Deny
 class ApproveDeny(View):
 
-    def __init__(self, suggestion_title):
+    def __init__(self, suggestion_title, suggestion):
         super().__init__(timeout=None)
         self.suggestion_title = suggestion_title
+        self.suggestion = suggestion
 
     async def interaction_check(self, interaction):
         roles = [992672581415084032]
@@ -58,9 +60,39 @@ class ApproveDeny(View):
         await itx.response.edit_message(view=Finalize(suggestion_title=self.suggestion_title))
 
     @discord.ui.button(
+        label="[Internal Design]",
+        style=discord.ButtonStyle.green,
+        custom_id="2")
+    async def design_callback(self, itx: discord.Interaction, button):
+        await itx.channel.edit(
+            name=f"[Internal Design] - {self.suggestion_title}",
+            auto_archive_duration=4320)
+        await itx.response.edit_message(view=Finalize(suggestion_title=self.suggestion_title))
+        embed = discord.Embed(
+            title=f"Adriftus Suggestion Bot",
+            description=f"○○ {itx.user.mention} has moved a suggestion to internal design ○○",
+            color=config.success)
+        embed.set_thumbnail(url=itx.user.avatar)
+        embed.add_field(name=f"Original Channel:", value=f"{itx.message.channel}", inline=False)
+        embed.add_field(name=f"Suggestion", value=f"{self.suggestion}", inline=False)
+        embed.set_footer(text=f"User ID: {itx.user.id} | {time.ctime(time.time())}")
+
+        channel = itx.client.get_guild(626078288556851230).get_channel(669922990435336216)
+        await itx.response.send_message(
+            f"This suggestion has been sent to <#669922990435336216>")
+
+        message = await channel.send(embed=embed)
+
+        thread = await message.create_thread(
+            name=f"[Internal Design] - {self.suggestion}",
+            slowmode_delay=None,
+            reason="Suggestion Created")
+        await thread.send(view=Finalize(suggestion_title=self.suggestion_title))
+
+    @discord.ui.button(
         label="[Denied]",
         style=discord.ButtonStyle.red,
-        custom_id="2")
+        custom_id="3")
     async def denied_callback(self, itx: discord.Interaction, button):
         await itx.channel.edit(
             name=f"[Denied] - {self.suggestion_title}",
@@ -91,7 +123,7 @@ class Finalize(View):
     @discord.ui.button(
         label="[Finalize]",
         style=discord.ButtonStyle.green,
-        custom_id="3")
+        custom_id="4")
     async def dev_callback(self, itx: discord.Interaction, button):
         button.disabled = True
         await itx.channel.edit(
@@ -174,7 +206,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         welcome_message = await thread.send(f"Thank you for the suggestion {itx.user.mention}!\n "
                                             f"Members of <@&992672581415084032> will review this suggestion shortly.")
         await welcome_message.pin()
-        await thread.send(view=UnderReview(suggestion_title=self.sug_title))
+        await thread.send(view=UnderReview(suggestion_title=self.sug_title, suggestion=self.suggestion))
 
 
 class Suggest(commands.Cog, name="suggest"):
@@ -199,15 +231,6 @@ class Suggest(commands.Cog, name="suggest"):
             await itx.response.send_modal(SuggestionForm())
         except Exception as err:
             await itx.response.send_message(f'An error has occurred: {err}')
-
-    # TODO: Remove boilerplate error handling, and move into main.py
-    # @suggest.error
-    # async def suggest_timeout_error(self, itx: discord.Interaction, error: app_commands.AppCommandError):
-    #     if isinstance(error, app_commands.CommandOnCooldown):
-    #         time_remaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-    #         await itx.response.send_message(
-    #             f"Please wait `{time_remaining}` to execute this command again.",
-    #             ephemeral=True)
 
 
 async def setup(bot: commands.Bot):

@@ -129,15 +129,21 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
         self.ticket_name = ticket_name
 
     ign = ui.TextInput(
-        label="What is your in game name?",
+        label="What is Your In-Game Name?",
         style=discord.TextStyle.short,
         placeholder="ex: Notch",
         max_length=25,
         required=True)
     issue = ui.TextInput(
-        label="Describe your issue",
+        label="Describe Your Issue",
         style=discord.TextStyle.paragraph,
         placeholder="Be as descriptive as possible",
+        max_length=1000,
+        required=True)
+    recreate = ui.TextInput(
+        label="Steps to Recreate the Issue",
+        style=discord.TextStyle.paragraph,
+        placeholder="Step-by-Step Instructions (if applicable)",
         max_length=1000,
         required=True)
 
@@ -172,7 +178,8 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
             color=config.success)
         embed.add_field(
             name=f"Submitter ", value=f"Discord: {itx.user} | IGN: {self.ign}", inline=False)
-        embed.add_field(name=f"Issue", value=f"{self.issue}", inline=False)
+        embed.add_field(name=f"Issue:", value=f"{self.issue}\n", inline=False)
+        embed.add_field(name=f'How to Recreate:', value=f'{self.recreate}\n', inline=False)
         embed.set_footer(
             text=f"User ID: {itx.user.id} | Ticket Number • {ticket_number}")
 
