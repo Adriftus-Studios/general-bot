@@ -101,40 +101,31 @@ class Moderation(commands.Cog, name="moderation"):
         Un-jail a user. Removes the jailed role if within the main discord.
         """
 
-        if member.has_role:
+        try:
+            jail_role = itx.guild.get_role(1007407892925788260)
+            member_role = itx.guild.get_role(732771947338793030)
+            await member.add_roles(member_role, reason=f'Jailed by an admin: {itx.user}')
+            await member.remove_roles(jail_role, reason=f"Jailed by an admin: {itx.user}")
+
             embed = discord.Embed(
-                title="Error!",
-                description="You can't jail an admin",
+                title="Jailed!",
+                description=f"{member} has been released!",
                 color=config.error
             )
+            embed.set_author(name="- Adriftus Moderation Team",
+                             icon_url="https://cdn.discordapp.com/emojis/934732958521241680")
             await itx.response.send_message(embed=embed)
-        else:
+            print(f"**{member}** was un-jailed by **{itx.user}**!")
             try:
-                jail_role = itx.guild.get_role(1007407892925788260)
-                member_role = itx.guild.get_role(732771947338793030)
-                await member.remove_roles(member_role, reason=f'Jailed by an admin: {itx.user}')
-                await member.add_roles(jail_role, reason=f"Jailed by an admin: {itx.user}")
-
-                embed = discord.Embed(
-                    title="Jailed!",
-                    description=f"{member} has been jailed!",
-                    color=config.error
+                await member.send(
+                    f"You were released from jail by **{itx.user}**!"
                 )
-                embed.add_field(name="Reason:", value=reason)
-                embed.set_author(name="- Adriftus Moderation Team",
-                                 icon_url="https://cdn.discordapp.com/emojis/934732958521241680")
-                await itx.response.send_message(embed=embed)
-                print(f"**{member}** was jailed by **{itx.user}**!")
-                try:
-                    await member.send(
-                        f"You were jailed by **{itx.user}**!\nReason: {reason}"
-                    )
-                except Exception as err:
-                    traceback.format_exc()
-                    print(f'Error: {err}')
             except Exception as err:
                 traceback.format_exc()
-                await itx.response.send_message(f"Error: {err}")
+                print(f'Error: {err}')
+        except Exception as err:
+            traceback.format_exc()
+            await itx.response.send_message(f"Error: {err}")
 
     # # Kick Command
     @app_commands.command(name='kick',
