@@ -64,8 +64,10 @@ class Moderation(commands.Cog, name="moderation"):
             await itx.response.send_message(embed=embed)
         else:
             try:
-                role = itx.guild.get_role(602038729443377152)
-                await member.add_roles(role, reason=f"Jailed by an admin: {itx.user}")
+                jail_role = itx.guild.get_role(1007407892925788260)
+                member_role = itx.guild.get_role(732771947338793030)
+                await member.remove_roles(member_role, reason=f'Jailed by an admin: {itx.user}')
+                await member.add_roles(jail_role, reason=f"Jailed by an admin: {itx.user}")
 
                 embed = discord.Embed(
                     title="Jailed!",
@@ -88,16 +90,51 @@ class Moderation(commands.Cog, name="moderation"):
                 traceback.format_exc()
                 await itx.response.send_message(f"Error: {err}")
 
-    #  TODO: Remove boilerplate error handling, and move into main.py
-    @jail.error
-    async def jail_error_handler(self, itx: discord.Interaction, error: app_commands.AppCommandError):
-        if isinstance(error, app_commands.CommandOnCooldown):
-            time_remaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await itx.response.send_message(
-                f"Please wait `{time_remaining}` to execute this command again.",
-                ephemeral=True)
-        if isinstance(error, app_commands.MissingRole):
-            await itx.response.send_message("You do not have permission to run this command!", ephemeral=True)
+    @app_commands.command(
+        name="unjail",
+        description="Un-ail a user")
+    @app_commands.describe(
+        member='User you wish to un-jail.')
+    @app_commands.checks.has_permissions(ban_members=True)
+    async def jail(self, itx: discord.Interaction, member: discord.Member):
+        """
+        Un-jail a user. Removes the jailed role if within the main discord.
+        """
+
+        if member.has_role:
+            embed = discord.Embed(
+                title="Error!",
+                description="You can't jail an admin",
+                color=config.error
+            )
+            await itx.response.send_message(embed=embed)
+        else:
+            try:
+                jail_role = itx.guild.get_role(1007407892925788260)
+                member_role = itx.guild.get_role(732771947338793030)
+                await member.remove_roles(member_role, reason=f'Jailed by an admin: {itx.user}')
+                await member.add_roles(jail_role, reason=f"Jailed by an admin: {itx.user}")
+
+                embed = discord.Embed(
+                    title="Jailed!",
+                    description=f"{member} has been jailed!",
+                    color=config.error
+                )
+                embed.add_field(name="Reason:", value=reason)
+                embed.set_author(name="- Adriftus Moderation Team",
+                                 icon_url="https://cdn.discordapp.com/emojis/934732958521241680")
+                await itx.response.send_message(embed=embed)
+                print(f"**{member}** was jailed by **{itx.user}**!")
+                try:
+                    await member.send(
+                        f"You were jailed by **{itx.user}**!\nReason: {reason}"
+                    )
+                except Exception as err:
+                    traceback.format_exc()
+                    print(f'Error: {err}')
+            except Exception as err:
+                traceback.format_exc()
+                await itx.response.send_message(f"Error: {err}")
 
     # # Kick Command
     @app_commands.command(name='kick',

@@ -4,9 +4,13 @@ import discord
 BOT_PREFIX = "!"
 # -- Token moved to secrets file
 GAME_STATUS = "on play.adriftus.net"
+
+# Roles and ID's
 OWNERS = [715674936395694091]
 BLACKLIST = []
 APPLICATION_ID = 604336080589684776
+SUGGESTION_ROLES = [992672581415084032, 992669093545136189]
+
 
 # Bot Colors
 main_color = 0xD75BF4

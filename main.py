@@ -67,22 +67,27 @@ class GeneralBot(commands.Bot):
 bot = GeneralBot()
 
 
+async def error_embed(interaction: Interaction, error: AppCommandError, message: str):
+        embed = discord.Embed(
+            title="Error!",
+            description=f"{message}",
+            color=config.error
+        )
+        embed.add_field(name='Error: ', value=f'{error}')
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+
+
 # Error handling in chat
 @bot.tree.error
 async def on_app_command_error(itx: Interaction, error: AppCommandError):
     if isinstance(error, app_commands.CommandOnCooldown):
         time_remaining = str(datetime.timedelta(
             seconds=int(error.retry_after)))
-        await itx.response.send_message(
-            f"Please wait `{time_remaining}` to execute this command again.",
-            ephemeral=True)
+        await error_embed(itx, error, f'Please wait `{time_remaining}` to execute this command again.')
+    elif isinstance(error, app_commands.MissingRole):
+        await error_embed(itx, error, f'You do not have permission to run this command!')
     else:
-        embed = discord.Embed(
-            title="Error!",
-            description=f"This command raised an error: \n{error}",
-            color=config.error
-        )
-        await itx.response.send_message(embed=embed)
+        await error_embed(itx, error, f'This command has raised an error!')
 
 
 if __name__ == '__main__':

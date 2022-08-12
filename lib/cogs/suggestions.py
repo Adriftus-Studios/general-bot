@@ -17,8 +17,7 @@ class UnderReview(View):
         self.suggestion = suggestion
 
     async def interaction_check(self, itx):
-        roles = [992672581415084032]
-        if itx.user.get_role(992672581415084032).id in roles:
+        if itx.user.get_role(992672581415084032).id in config.SUGGESTION_ROLES:
 
             return True
 
@@ -45,8 +44,7 @@ class ApproveDeny(View):
         self.suggestion = suggestion
 
     async def interaction_check(self, interaction):
-        roles = [992672581415084032]
-        if interaction.user.get_role(992672581415084032).id in roles:
+        if interaction.user.get_role(992672581415084032).id in config.SUGGESTION_ROLES:
             return True
 
     @discord.ui.button(
@@ -115,8 +113,7 @@ class Finalize(View):
         self.suggestion_title = suggestion_title
 
     async def interaction_check(self, interaction):
-        roles = [992672581415084032]
-        if interaction.user.get_role(992672581415084032).id in roles:
+        if interaction.user.get_role(992672581415084032).id in config.SUGGESTION_ROLES:
             return True
 
     @discord.ui.button(
