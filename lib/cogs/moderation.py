@@ -91,12 +91,12 @@ class Moderation(commands.Cog, name="moderation"):
                 await itx.response.send_message(f"Error: {err}")
 
     @app_commands.command(
-        name="unjail",
-        description="Un-ail a user")
+        name="release",
+        description="Un-jail a user")
     @app_commands.describe(
         member='User you wish to un-jail.')
     @app_commands.checks.has_permissions(ban_members=True)
-    async def jail(self, itx: discord.Interaction, member: discord.Member):
+    async def unjail(self, itx: discord.Interaction, member: discord.Member):
         """
         Un-jail a user. Removes the jailed role if within the main discord.
         """
