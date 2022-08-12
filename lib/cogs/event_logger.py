@@ -6,7 +6,7 @@ import time
 import datetime
 import random
 from secrets import MONGO_CLIENT
-
+from discord import errors
 from discord.ext import commands, tasks
 
 db_client = MONGO_CLIENT
@@ -52,7 +52,10 @@ class EventLogger(commands.Cog, name="Event Logger"):
         if message.channel.id in log_channels or message.channel.id in ignore_channels:
             return
         if message.channel.id in remove_channels:
-            await message.delete()
+            try:
+                await message.delete()
+            except discord.errors.NotFound:
+                print(f'Error not found. Is this an ephemeral message?')
         advert_channel = [1001609798875365396]
         if message.channel.id not in advert_channel:
             if "discord.gg" in message.content:

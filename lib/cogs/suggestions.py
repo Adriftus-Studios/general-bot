@@ -78,7 +78,7 @@ class ApproveDeny(View):
         embed.set_footer(text=f"User ID: {itx.user.id} | {time.ctime(time.time())}")
 
         channel = itx.client.get_guild(626078288556851230).get_channel(669922990435336216)
-        await itx.response.send_message(
+        await itx.channel.send_message(
             f"This suggestion has been sent to <#669922990435336216>")
 
         message = await channel.send(embed=embed)
