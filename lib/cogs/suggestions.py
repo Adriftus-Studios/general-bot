@@ -97,7 +97,7 @@ class ApproveDeny(View):
             locked=True)
         
         await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
-        await itx.edit_original_message(content="This suggestion was denied", view=None)
+        await itx.edit_original_response(content="This suggestion was denied", view=None)
         await itx.followup.send_modal(DeniedForm(suggestion_channel=itx.channel))
 
         # await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
