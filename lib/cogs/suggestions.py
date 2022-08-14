@@ -96,14 +96,9 @@ class ApproveDeny(View):
             name=f"[Denied] - {self.suggestion_title}",
             auto_archive_duration=60,
             locked=True)
-        
-        await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
+
         await itx.response.edit_message(view=None)
         await itx.followup.send_modal(DeniedForm(suggestion_channel=itx.channel))
-
-        # await itx.channel.send("The suggestion has been denied. This channel will archive in 1 hour.")
-        # await itx.response.edit_message(content="This suggestion was denied", view=None)
-        # await itx.followup.send_modal(DeniedForm(itx.channel))
 
 
 # In Dev
@@ -148,7 +143,11 @@ class DeniedForm(ui.Modal, title="Denial Form"):
             description=f"○○ {itx.user.mention} has denied your suggestion. ○○",
             color=config.error)
         embed.set_thumbnail(url=itx.user.avatar)
-        embed.add_field(name=f"Reason:", value=f"{self.deny_reason}", inline=False)
+        embed.add_field(
+            name=f"Reason:",
+            value=f"{self.deny_reason}\n\nThis channel will archive in 1 hour.",
+            inline=False)
+
         embed.set_footer(text=f"User ID: {itx.user.id} | sID: • \n{time.ctime(time.time())}")
 
         message = await self.suggestion_channel.send(embed=embed)
