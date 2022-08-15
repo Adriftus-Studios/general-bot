@@ -63,9 +63,6 @@ class ApproveDeny(View):
         style=discord.ButtonStyle.green,
         custom_id="2")
     async def design_callback(self, itx: discord.Interaction, button):
-        await itx.channel.edit(
-            name=f"[Internal Design] - {self.suggestion_title}",
-            auto_archive_duration=4320)
         await itx.response.edit_message(view=Finalize(suggestion_title=self.suggestion_title))
         embed = discord.Embed(
             title=f"Adriftus Suggestion Bot",
@@ -78,7 +75,12 @@ class ApproveDeny(View):
 
         channel = itx.client.get_guild(626078288556851230).get_channel(669922990435336216)
         await itx.channel.send(f"This suggestion has been sent to <#669922990435336216>")
-
+        try:
+            await itx.channel.edit(
+                name=f"[Internal Design] - {self.suggestion_title}",
+                auto_archive_duration=4320)
+        except discord.errors.HTTPException as err:
+            itx.channel.send(f'{err}')
         message = await channel.send(embed=embed)
 
         thread = await message.create_thread(
@@ -92,13 +94,12 @@ class ApproveDeny(View):
         style=discord.ButtonStyle.red,
         custom_id="3")
     async def denied_callback(self, itx: discord.Interaction, button):
+        await itx.response.edit_message(view=None)
+        await itx.followup.send_modal(DeniedForm(suggestion_channel=itx.channel))
         await itx.channel.edit(
             name=f"[Denied] - {self.suggestion_title}",
             auto_archive_duration=60,
             locked=True)
-
-        await itx.response.edit_message(view=None)
-        await itx.followup.send_modal(DeniedForm(suggestion_channel=itx.channel))
 
 
 # In Dev
