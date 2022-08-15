@@ -3,7 +3,7 @@ import discord
 import config
 import time
 import datetime
-from discord import app_commands, ui, ChannelType
+from discord import app_commands, ui
 from discord.ui import Button, View
 from discord.ext import commands
 from discord.app_commands import Choice
@@ -28,7 +28,9 @@ class UnderReview(View):
         custom_id="0")
     async def review_callback(self, itx: discord.Interaction, button):
         self.clear_items()
-        await itx.response.edit_message(view=ApproveDeny(suggestion_title=self.suggestion_title, suggestion=self.suggestion))
+        await itx.response.edit_message(view=ApproveDeny(
+            suggestion_title=self.suggestion_title,
+            suggestion=self.suggestion))
         await itx.channel.edit(
             name=f"[Under Review] - {self.suggestion_title}",
             auto_archive_duration=4320)
@@ -94,8 +96,8 @@ class ApproveDeny(View):
         style=discord.ButtonStyle.red,
         custom_id="3")
     async def denied_callback(self, itx: discord.Interaction, button):
-        await itx.response.edit_message(content='Suggestions has been denied.', view=None)
-        await itx.followup.send_modal(DeniedForm(suggestion_channel=itx.channel))
+        await itx.response.send_modal(DeniedForm(suggestion_channel=itx.channel))
+        await itx.followup.edit_message(content='Suggestions has been denied.', view=None)
         await itx.channel.edit(
             name=f"[Denied] - {self.suggestion_title}",
             auto_archive_duration=60,
@@ -203,7 +205,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         welcome_message = await thread.send(f"Thank you for the suggestion {itx.user.mention}!\n "
                                             f"Members of <@&992672581415084032> will review this suggestion shortly.")
         await welcome_message.pin()
-        await thread.send(view=UnderReview(suggestion_title=self.sug_title, suggestion=self.suggestion))
+        await thread.send(view=UnderReview(suggestion_title=self.sug_title))
 
 
 class Suggest(commands.Cog, name="suggest"):

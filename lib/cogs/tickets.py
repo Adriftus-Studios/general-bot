@@ -119,7 +119,7 @@ class TicketView(View):
         label = select.values[0]
         await itx.response.send_modal(TicketForm(ticket_name=label))
         await TicketForm(ticket_name=label).wait()
-        await itx.edit_original_message(view=None)
+        await itx.edit_original_response(view=None)
 
 
 class TicketForm(ui.Modal, title="Submit your Ticket"):
