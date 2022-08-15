@@ -97,7 +97,7 @@ class ApproveDeny(View):
         custom_id="3")
     async def denied_callback(self, itx: discord.Interaction, button):
         await itx.response.send_modal(DeniedForm(suggestion_channel=itx.channel))
-        await itx.followup.edit_message(content='Suggestions has been denied.', view=None)
+        await itx.followup.edit_message(message_id=itx.message.id, content='Suggestions has been denied.', view=None)
         await itx.channel.edit(
             name=f"[Denied] - {self.suggestion_title}",
             auto_archive_duration=60,
