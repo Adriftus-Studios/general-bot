@@ -205,7 +205,7 @@ class SuggestionForm(ui.Modal, title="Suggestions Form"):
         welcome_message = await thread.send(f"Thank you for the suggestion {itx.user.mention}!\n "
                                             f"Members of <@&992672581415084032> will review this suggestion shortly.")
         await welcome_message.pin()
-        await thread.send(view=UnderReview(suggestion_title=self.sug_title))
+        await thread.send(view=UnderReview(suggestion_title=self.sug_title, suggestion=self.suggestion))
 
 
 class Suggest(commands.Cog, name="suggest"):
