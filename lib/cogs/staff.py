@@ -158,7 +158,7 @@ class ReloadView(View):
                 embed.add_field(name=f"Cog:", value=f"{c}", inline=True)
             traceback.format_exc()
             await itx.followup.send(embed=embed)
-        await itx.edit_original_message(view=None)
+        await itx.edit_original_response(view=None)
 
 
 async def setup(bot: commands.Bot):
