@@ -115,6 +115,14 @@ class EventLogger(commands.Cog, name="Event Logger"):
         print(f"Channel Deleted - {channel}")
 
     @commands.Cog.listener()
+    async def on_user_update(self, before, after):
+        if before.avatar != after.avatar:
+            print(f'{after.username} has changed their avatar!')
+        elif before.username != after.username:
+            print(f'{after.username} as changed their username from {before.username} to {after.username}')
+        # before/after discriminator
+
+    @commands.Cog.listener()
     async def on_interaction(self, itx: discord.Interaction):
         try:
             executed_command = itx.command.name
