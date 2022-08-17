@@ -56,7 +56,7 @@ class ApproveDeny(View):
     async def approve_callback(self, itx: discord.Interaction, button):
         await itx.channel.edit(
             name=f"[In Dev] - {self.suggestion_title}",
-            auto_archive_duration=480,
+            auto_archive_duration=1440,
             locked=True)
         await itx.response.edit_message(view=Finalize(suggestion_title=self.suggestion_title))
 
