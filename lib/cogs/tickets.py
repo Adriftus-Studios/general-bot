@@ -101,7 +101,7 @@ class TicketView(View):
             discord.SelectOption(
                 label='Appeal',
                 value="Appeal",
-                emoji='<:banhammer:934732958521241680>',
+                emoji='<:banhammer:996549617506324632>',
                 description='Ban Appeal. Ban # is needed.'),
             discord.SelectOption(
                 label='Staff',
