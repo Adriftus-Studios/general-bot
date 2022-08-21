@@ -139,11 +139,13 @@ class EventLogger(commands.Cog, name="Event Logger"):
             color=config.success)
 
         for e in removed_emojis:
-            embed.add_field(name=f'Removed: {e} -', value=f'{str(e)}', inline=False)
+            embed.add_field(name=f'Removed: {e}', value=f'`{str(e)}`', inline=False)
             embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
         for e in added_emojis:
-            embed.add_field(name=f'Added: {e} -', value=f'{str(e)}', inline=False)
+            embed.add_field(name=f'Added: {e}', value=f'`{str(e)}`', inline=False)
             embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
+            for o in before:
+                embed.add_field(name='Emoji: ', value=f'{o}', inline=True)
         embed.set_footer(text=f"• {time.ctime(time.time())}")
         await self.bot.get_channel(989509544218611753).send(embed=embed)
 
