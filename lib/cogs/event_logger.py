@@ -117,10 +117,25 @@ class EventLogger(commands.Cog, name="Event Logger"):
     @commands.Cog.listener()
     async def on_user_update(self, before, after):
         if before.avatar != after.avatar:
-            print(f'{after.username} has changed their avatar!')
-        elif before.username != after.username:
-            print(f'{after.username} as changed their username from {before.username} to {after.username}')
+            print(f'{after.user} has changed their avatar!')
+        elif before.user != after.user:
+            print(f'{after.user} as changed their username from {before.user} to {after.user}')
         # before/after discriminator
+
+    @commands.Cog.listener()
+    async def on_guild_emojis_update(self, guild, before, after):
+        removed_emojis = [x for x in before if x not in after]
+        added_emojis = [x for x in after if x not in before]
+        embed = discord.Embed(
+            title=f"*** Emojis Updated in {guild.name}***",
+            description=f"○○○○○○○○○○○○○○○○○○○○○○○○○○○",
+            color=config.success)
+        for e in removed_emojis:
+            embed.add_field(name=f"Removed Emojis - ", value=f"{e}", inline=False)
+        for e in added_emojis:
+            embed.add_field(name=f'Added Emojis - ', value=f'{e}', inline=False)
+        embed.set_footer(text=f"• {time.ctime(time.time())}")
+        await self.bot.get_channel(989509544218611753).send(embed=embed)
 
     @commands.Cog.listener()
     async def on_interaction(self, itx: discord.Interaction):
