@@ -14,6 +14,7 @@ message_db = db_client.Messages
 user_db = db_client.Users
 minecraft_db = db_client.Minecraft
 
+
 # TODO: Copy Carl.
 class EventLogger(commands.Cog, name="Event Logger"):
     """
@@ -115,6 +116,12 @@ class EventLogger(commands.Cog, name="Event Logger"):
         print(f"Channel Deleted - {channel}")
 
     @commands.Cog.listener()
+    async def on_guild_channel_update(self, before, after):
+        if before.id != after.id:
+            channel_col = message_db[f'C_{before.id}']
+            channel_col.rename(f'C_{after.id}')
+
+    @commands.Cog.listener()
     async def on_user_update(self, before, after):
         if before.avatar != after.avatar:
             print(f'{after.user} has changed their avatar!')
@@ -130,10 +137,13 @@ class EventLogger(commands.Cog, name="Event Logger"):
             title=f"*** Emojis Updated in {guild.name}***",
             description=f"○○○○○○○○○○○○○○○○○○○○○○○○○○○",
             color=config.success)
+
         for e in removed_emojis:
             embed.add_field(name=f"Removed Emojis - ", value=f"{e}", inline=False)
+            embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
         for e in added_emojis:
             embed.add_field(name=f'Added Emojis - ', value=f'{e}', inline=False)
+            embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
         embed.set_footer(text=f"• {time.ctime(time.time())}")
         await self.bot.get_channel(989509544218611753).send(embed=embed)
 
