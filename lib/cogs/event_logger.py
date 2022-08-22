@@ -134,37 +134,21 @@ class EventLogger(commands.Cog, name="Event Logger"):
         removed_emojis = [x for x in before if x not in after]
         added_emojis = [x for x in after if x not in before]
         async for entry in guild.audit_logs(limit=1, action=discord.AuditLogAction.emoji_update):
-            emoji_updater = entry
+            emoji_updater = entry.user.name
 
         embed = discord.Embed(
             title=f"*** Emojis Updated in {guild.name}***",
             description=f"○○○○○○○○○○○○○○○○○○○○○○○○○○○",
             color=config.success)
 
-        embed.add_field(name=f'Action', value=f'{emoji_updater}')
-        embed.add_field(name='Before', value=f'{before}', inline=True)
-        # for e in removed_emojis:
-        #     embed.add_field(name=f'{emoji_updater} Removed: {e}', value=f'`{str(e)}`', inline=False)
-        #     embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
-        # for e in added_emojis:
-        #     embed.add_field(name=f'{emoji_updater} Added: {e}', value=f'`{str(e)}`', inline=False)
-        #     embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
-        # embed.set_footer(text=f"• {time.ctime(time.time())}")
-
-        embed2 = discord.Embed(
-            title=f" x",
-            description=f"x",
-            color=config.success)
-        embed2.add_field(name='Before', value=f'{before}', inline=True)
-
-        embed3 = discord.Embed(
-            title=f" x",
-            description=f"x",
-            color=config.success)
-        embed3.add_field(name='After', value=f'{after}', inline=True)
+        for e in removed_emojis:
+            embed.add_field(name=f'{emoji_updater} Removed: {e}', value=f'`{str(e)}`', inline=False)
+            embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
+        for e in added_emojis:
+            embed.add_field(name=f'{emoji_updater} Added: {e}', value=f'`{str(e)}`', inline=False)
+            embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
+        embed.set_footer(text=f"• {time.ctime(time.time())}")
         await self.bot.get_channel(989509544218611753).send(embed=embed)
-        await self.bot.get_channel(989509544218611753).send(embed=embed2)
-        await self.bot.get_channel(989509544218611753).send(embed=embed3)
 
     @commands.Cog.listener()
     async def on_interaction(self, itx: discord.Interaction):
