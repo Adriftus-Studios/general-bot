@@ -134,7 +134,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         removed_emojis = [x for x in before if x not in after]
         added_emojis = [x for x in after if x not in before]
         async for entry in guild.audit_logs(limit=1, action=discord.AuditLogAction.emoji_update):
-            emoji_updater = entry.extra.name
+            emoji_updater = entry.name
 
         embed = discord.Embed(
             title=f"*** Emojis Updated in {guild.name}***",
