@@ -155,9 +155,16 @@ class EventLogger(commands.Cog, name="Event Logger"):
             title=f" x",
             description=f"x",
             color=config.success)
-        embed2.add_field(name='After', value=f'{after}', inline=True)
+        embed2.add_field(name='Before', value=f'{before}', inline=True)
+
+        embed3 = discord.Embed(
+            title=f" x",
+            description=f"x",
+            color=config.success)
+        embed3.add_field(name='After', value=f'{after}', inline=True)
         await self.bot.get_channel(989509544218611753).send(embed=embed)
         await self.bot.get_channel(989509544218611753).send(embed=embed2)
+        await self.bot.get_channel(989509544218611753).send(embed=embed3)
 
     @commands.Cog.listener()
     async def on_interaction(self, itx: discord.Interaction):
