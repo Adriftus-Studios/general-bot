@@ -142,6 +142,8 @@ class EventLogger(commands.Cog, name="Event Logger"):
             color=config.success)
 
         embed.add_field(name=f'Action', value=f'{emoji_updater}')
+        embed.add_field(name='Before', value=f'{before}', inline=True)
+        embed.add_field(name='After', value=f'{after}', inline=True)
         # for e in removed_emojis:
         #     embed.add_field(name=f'{emoji_updater} Removed: {e}', value=f'`{str(e)}`', inline=False)
         #     embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
