@@ -133,19 +133,21 @@ class EventLogger(commands.Cog, name="Event Logger"):
     async def on_guild_emojis_update(self, guild, before, after):
         removed_emojis = [x for x in before if x not in after]
         added_emojis = [x for x in after if x not in before]
+        async for entry in guild.audit_logs(limit=1, action=discord.AuditLogAction.emoji_update):
+            emoji_update = entry
+
         embed = discord.Embed(
             title=f"*** Emojis Updated in {guild.name}***",
             description=f"○○○○○○○○○○○○○○○○○○○○○○○○○○○",
             color=config.success)
 
+        embed.add_field(name=f'Emoji Info: ', value=f'{emoji_update}')
         for e in removed_emojis:
             embed.add_field(name=f'Removed: {e}', value=f'`{str(e)}`', inline=False)
             embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
         for e in added_emojis:
             embed.add_field(name=f'Added: {e}', value=f'`{str(e)}`', inline=False)
             embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
-            for o in before:
-                embed.add_field(name='Emoji: ', value=f'{o}', inline=True)
         embed.set_footer(text=f"• {time.ctime(time.time())}")
         await self.bot.get_channel(989509544218611753).send(embed=embed)
 
