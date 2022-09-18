@@ -156,7 +156,21 @@ class Fun(commands.Cog, name="fun"):
             await itx.response.send_message(embed=embed)
         except Exception as err:
             traceback.format_exc()
-            await itx.response.send_message(f'An error has occured: {err}')
+            await itx.response.send_message(f'An error has occurred: {err}')
+
+    # Status Command
+    @app_commands.command(
+        name='status',
+        description='Shows online player count, and other important information')
+    @app_commands.describe(
+        player='Optional player argument. Return information on a specific player.')
+    # TODO: Add the ability to status [player] This will show information on the player. balance, town, nickname, etc
+    async def status(
+            self,
+            itx: discord.Interaction,
+            player: str):
+        # Query player DB to show this information.
+        print(f'{player} information has been requested.')
 
 
 async def setup(bot: commands.Bot):

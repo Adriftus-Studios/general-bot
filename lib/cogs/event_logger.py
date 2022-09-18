@@ -15,7 +15,7 @@ user_db = db_client.Users
 minecraft_db = db_client.Minecraft
 
 
-# TODO: Copy Carl.
+# TODO: Create collection of channel names with messages in them instead of collections of messages
 class EventLogger(commands.Cog, name="Event Logger"):
     """
     A class cog that holds the EventLogger object.
@@ -36,8 +36,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         """
         Constructs all the necessary attributes for the EventLogger object.
 
-        Parameters
-        ----------
+        Parameters:
             bot : DiscordObject
                 Discord object for the bot class
         """
@@ -50,6 +49,11 @@ class EventLogger(commands.Cog, name="Event Logger"):
         log_channels = [989509544218611753, 712309385019523155]
         ignore_channels = [970208822754963486]
         remove_channels = [992655402825162763]
+        pg_channels = [866445773860372500, 979785769986191380, 979785805524529214]
+        if message.channel.id in pg_channels:
+            with open('bad_words.txt') as b:
+                if message.content.contains(i for i in b):
+                    message.delete()
         if message.channel.id in log_channels or message.channel.id in ignore_channels:
             return
         if message.channel.id in remove_channels:
@@ -142,12 +146,15 @@ class EventLogger(commands.Cog, name="Event Logger"):
             description=f"○○○○○○○○○○○○○○○○○○○○○○○○○○○",
             color=config.success)
 
-        for e in removed_emojis:
-            embed.add_field(name=f'{emoji_updater} Removed: {e}', value=f'`{str(e)}`', inline=False)
-            embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
-        for e in added_emojis:
-            embed.add_field(name=f'{emoji_updater} Added: {e}', value=f'`{str(e)}`', inline=False)
-            embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
+        try:
+            for e in removed_emojis:
+                embed.add_field(name=f'{emoji_updater} Removed: {e}', value=f'`{str(e)}`', inline=False)
+                embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
+            for e in added_emojis:
+                embed.add_field(name=f'{emoji_updater} Added: {e}', value=f'`{str(e)}`', inline=False)
+                embed.add_field(name='ID: ', value=f'{e.id}', inline=True)
+        except Exception as err:
+            print(err)
         embed.set_footer(text=f"• {time.ctime(time.time())}")
 
         await self.bot.get_channel(989509544218611753).send(embed=embed)
@@ -251,7 +258,6 @@ class EventLogger(commands.Cog, name="Event Logger"):
     async def serialize_to_db(self, message):
         """
         Parameters
-        ----------
             message : https://discordpy.readthedocs.io/en/latest/api.html?highlight=message#discord.Message
                 The message object being passed to serialize_to_db().
                     author [Member, abc.User]
@@ -274,7 +280,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         }
 
         # user_data = {"_id": f"{message.author.id}"}, {'$push': {"message_ids": f"{message.id}"}}, {'upsert': True}
-        user_col = user_db[f"A_{message.author.id}"]
+        user_col = user_db[f"U_{message.author.id}"]
         message_col = message_db[f"A_{message.id}"]
 
         try:
@@ -321,8 +327,16 @@ class EventLogger(commands.Cog, name="Event Logger"):
     #     await channel.edit(name=f'👦 Member Count: {self.bot.get_guild(601677205445279744).member_count}')
     #     print(f"Member count channel updated to: {self.bot.get_guild(601677205445279744).member_count}")
 
+    async def numify(self, number: int):
+        ending = {1: 'st', 2: 'nd', 3: 'rd'}
+        string_num = str(number)
+        return_value = int(string_num[-1])
+        return f'{number}{ending.get(return_value, "th")}'
+
     @commands.Cog.listener()
     async def on_member_join(self, member):
+        member_count: int = self.bot.get_guild(601677205445279744).member_count
+
         user_data = {
             "_id": f"{member.id}",
             "linked_accounts": {
@@ -351,7 +365,7 @@ class EventLogger(commands.Cog, name="Event Logger"):
         ]
 
         embed = discord.Embed(
-            title=f"{member.name} Joined!",
+            title=f"{member.name} is the {self.numify(member_count)} member to join!",
             description=f"{random.choice(welcome_messages)}\n\n- Thank you for joining us {member.mention}",
             color=config.level_up
         )
@@ -374,11 +388,6 @@ class EventLogger(commands.Cog, name="Event Logger"):
             except Exception as err:
                 print(f'An error has occurred: {err}')
 
-            channel = self.bot.get_channel(619175785772875808)
-            try:
-                await channel.edit(name=f'👦 Member Count: {self.bot.get_guild(601677205445279744).member_count}')
-            except Exception as err:
-                print(f"There was an error changing member count: {err}")
             print(f'{member} joined {member.guild.name} ( Current Members: {member.guild.member_count} )')
 
         else:
@@ -387,13 +396,14 @@ class EventLogger(commands.Cog, name="Event Logger"):
     @commands.Cog.listener()
     async def on_member_remove(self, member):
         embed = discord.Embed(
-            title=f"{member} Has left!",
+            title=f"{member} Has left {member.guild.name}!",
             description=f"The door hit {member} on the ass on the way out!",
             color=config.error
         )
         embed.set_author(name=member.name, icon_url=member.avatar)
         try:
-            await self.bot.get_channel(743476824763269150).send(embed=embed)
+            if not member.guild.id == 771099589713199145:
+                await self.bot.get_channel(743476824763269150).send(embed=embed)
         except Exception as err:
             print(f'An error has occurred: {err}')
 
