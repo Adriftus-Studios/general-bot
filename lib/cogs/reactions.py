@@ -53,11 +53,23 @@ class Roles(commands.Cog, name="roles"):
         try:
             # Add new roles here  <--
             role_info = [{
-                "role_id": 732771947338793030,
-                "role_emoji": "<a:MineDragon:866449238271852544>"
+                "role_id": 998003246171967589,
+                "role_emoji": "📣"
             }, {
-                "role_id": 732777026842263582,
-                "role_emoji": "<a:MineDiamond:866448782001438720>"
+                "role_id": 998004575053291540,
+                "role_emoji": "👀"
+            }, {
+                "role_id": 998004676534476840,
+                "role_emoji": "📕"
+            }, {
+                "role_id": 997995099189432340,
+                "role_emoji": "📊"
+            }, {
+                "role_id": 997991924038389780,
+                "role_emoji": "🎉"
+            }, {
+                "role_id": 998005359669170267,
+                "role_emoji": "💎"
             }
             ]
             if len(view.children[0].options) == 0:
@@ -77,18 +89,58 @@ class Roles(commands.Cog, name="roles"):
         except Exception as err:
             await ctx.response.send_message(f'An error has occurred: {err}')
 
-    @roles.error
-    async def sync_error_handler(self, itx: discord.Interaction, error: app_commands.AppCommandError):
-        if isinstance(error, app_commands.CommandOnCooldown):
-            time_remaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await itx.response.send_message(
-                f"Please wait `{time_remaining}` to execute this command again.",
-                ephemeral=True)
-        if isinstance(error, app_commands.MissingRole):
-            await itx.response.send_message("You do not have permission to run this command!", ephemeral=True)
+    @app_commands.checks.cooldown(1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+    @app_commands.checks.has_any_role(992669093545136189)
+    @app_commands.command(
+        name="role_setup",
+        description="Set up the role menu")
+    async def role_setup(
+            self,
+            ctx: discord.Interaction):
+        index = {
+            'Announcements': 0,
+            'Spoilers': 1,
+            'Changelog': 2,
+            'Polls': 3,
+            'Events': 4,
+            'Highlights': 5}
+        role_info = [{
+            "role_id": 998003246171967589,
+            "role_emoji": "📣"
+        }, {
+            "role_id": 998004575053291540,
+            "role_emoji": "👀"
+        }, {
+            "role_id": 998004676534476840,
+            "role_emoji": "📕"
+        }, {
+            "role_id": 997995099189432340,
+            "role_emoji": "📊"
+        }, {
+            "role_id": 997991924038389780,
+            "role_emoji": "🎉"
+        }, {
+            "role_id": 998005359669170267,
+            "role_emoji": "💎"
+        }
+        ]
+        role_channel = 998931403225972746
+        try:
+            embed = discord.Embed(
+                title=f"*Adriftus Reaction Roles!*",
+                description=f"Stay up to date with **Adriftus** related content!\n"
+                            f"Get your __**Notification Roles**__ Now!"
+                            f"*For more information check #rules-and-info*",
+                color=config.success)
+            embed.add_field(
+                name=f"", value=f"", inline=False)
+            embed.set_footer(
+                text=f"Adriftus Staff")
+            embed.set_image(url=
+                            'https://cdn.discordapp.com/attachments/642764810001448980/734880181008728094/logoHalf.png')
 
-        else:
-            await itx.response.send_message(f"An internal error has occurred: {error}")
+        except Exception as err:
+            print(err)
 
 
 async def setup(bot: commands.Bot):
