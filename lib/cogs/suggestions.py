@@ -305,7 +305,7 @@ class Suggest(commands.Cog, name="suggest"):
 
     Returns: discord.Modal()
     """
-    @app_commands.checks.cooldown(1, 1200.0, key=lambda i: (i.guild_id, i.user.id))
+    @app_commands.checks.cooldown(1, 300.0, key=lambda i: (i.guild_id, i.user.id))
     @app_commands.command(
         name="suggest",
         description="Create any suggestion that you would like to see on our server!")
