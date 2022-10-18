@@ -252,10 +252,10 @@ class TicketReason(ui.Modal, title="Reason for Closing Ticket"):
         embed.set_footer(
             text=f"User ID: {itx.user.id} | iID:  • {time.ctime(time.time())}")
 
-        channel = itx.client.get_channel(626086306606350366)
+        admin_channel = itx.client.get_channel(626086306606350366)
         try:
             await itx.response.defer()
-            await channel.send(embed=embed)
+            await admin_channel.send(embed=embed)
             await self.channel.delete()
         except Exception as err:
             print(err)
