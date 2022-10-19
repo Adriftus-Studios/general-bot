@@ -179,7 +179,7 @@ class Fun(commands.Cog, name="fun"):
         action='Action to perform. (give/take)',
         member='User to give a cookie to.')
     @app_commands.checks.has_permissions(ban_members=True)
-    async def cookie(self, itx: discord.Interaction, action: str, *, member: discord.Member):
+    async def cookie(self, itx: discord.Interaction, action: str, member: discord.Member):
         embed_give = discord.Embed(
             title="You've just been given a cookie!", color=config.success)
 
@@ -189,7 +189,7 @@ class Fun(commands.Cog, name="fun"):
                               icon_url=member.avatar)
 
         embed_take = discord.Embed(
-            title="You've just been given a cookie!", color=config.error)
+            title="You've just lost a cookie!", color=config.error)
 
         embed_take.add_field(
             name=f"Awww!", value=f"You just lost a cookie, {member.mention}!\n", inline=False)
