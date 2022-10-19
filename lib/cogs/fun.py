@@ -172,6 +172,39 @@ class Fun(commands.Cog, name="fun"):
         # Query player DB to show this information.
         print(f'{player} information has been requested.')
 
+    @app_commands.command(
+        name="cookie",
+        description="Give a member a cookie!")
+    @app_commands.describe(
+        action='Action to perform. (give/take)',
+        member='User to give a cookie to.')
+    @app_commands.checks.has_permissions(ban_members=True)
+    async def cookie(self, itx: discord.Interaction, action: str, *, member: discord.Member):
+        embed_give = discord.Embed(
+            title="You've just been given a cookie!", color=config.success)
+
+        embed_give.add_field(
+            name=f"Congrats!", value=f"Enjoy your fresh cookie, {member.mention}\n", inline=False)
+        embed_give.set_author(name=member.name,
+                              icon_url=member.avatar)
+
+        embed_take = discord.Embed(
+            title="You've just been given a cookie!", color=config.error)
+
+        embed_take.add_field(
+            name=f"Awww!", value=f"You just lost a cookie, {member.mention}!\n", inline=False)
+        embed_take.set_author(name=member.name,
+                              icon_url=member.avatar)
+
+        try:
+            if action.lower() == 'give':
+                await itx.response.send_message(embed=embed_give)
+            elif action.lower() == 'take':
+                await itx.response.send_message(embed=embed_take)
+        except Exception as err:
+            traceback.format_exc()
+            await itx.response.send_message(f'An error has occurred: {err}')
+
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(

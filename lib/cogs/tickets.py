@@ -193,8 +193,7 @@ class TicketForm(ui.Modal, title="Submit your Ticket"):
                 send_messages=True,
                 use_application_commands=False,
                 attach_files=True,
-            )
-            })
+            )})
 
         overwrites = {
             itx.user.guild.default_role: discord.PermissionOverwrite(read_messages=False),
