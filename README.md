@@ -6,7 +6,7 @@
 </p>
 <p align=center>
     <!--- Discord Activity ---->
-    <a href=https://discord.gg/c6P9Z2Vxsz>
+    <a href=https://discord.gg/4q8MsMZseT>
         <img src=https://img.shields.io/discord/481711026962694146?logo=discord>
     </a>
 	<!--- Commit Activity ---->
